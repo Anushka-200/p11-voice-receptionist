@@ -26,6 +26,8 @@ Wall-clock hours below are start to end on the clock and include reading and wai
 | 4 Post-call | not given | pending | n/a | built on the three real calls |
 | 5 Packaging | not given | pending | n/a | measurements wait for live calls |
 
+Scope note: the live evaluation (15 scripted calls, five experiments, demo video) was deferred by the owner on 2026-10-13 and is not in these hours.
+
 Three biggest estimation lessons so far:
 1. **"Acceptance" is where the time goes.** Building the eval harness took a fraction of the time spent making the numbers mean something.
 2. **A plan that depends on a platform's undocumented behaviour needs a timeboxed spike first** (the Vapi spike answered four open questions in one call).

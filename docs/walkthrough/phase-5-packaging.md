@@ -6,7 +6,7 @@ repo anyone can run. Analogy: after building the car, the road test (15 scripted
 tuning log (experiments), and the owner's manual (README, runbook).
 
 **Honest status:** the tooling and documents are done; the measurements that need live calls (the 15 scripted calls and the
-five experiments) are **pending**, and every table says so. Nothing was filled in by estimate.
+five experiments) were **deferred by the owner**, and every table says so. Nothing was filled in by estimate.
 
 ## The files and what each does
 | File | Job |
@@ -41,8 +41,8 @@ flowchart LR
 - **A demo that needs no accounts and costs nothing** shows the whole chain; the paid live calls are for the measurements.
 
 ## Limits to be honest about
-- The Docker image build is **unverified**: it failed at BuildKit startup on a low-memory machine before any step ran.
-- Not yet measured: the 15 scripted calls, all five experiments, anything on a real phone line.
+- Docker: all four images build and the migrate container ran against Postgres; the full stack was not started with `docker compose up`.
+- Not measured (deferred by the owner): the 15 scripted calls, all five experiments, anything on a real phone line.
 - Built and mock-tested but NOT yet proven live: the emergency second layer, the Google Calendar adapter, the HubSpot adapter.
 - Not built: a fallback live model, SMS delivery, Pipecat.
 

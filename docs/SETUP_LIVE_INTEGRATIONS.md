@@ -17,6 +17,7 @@ your accounts. **No secret ever goes in chat**: the scripts copy values between 
    its calendar id in `.env` as `GOOGLE_CALENDAR_ID`. Skipping this works too.
 
 ## B. Prove each one against the real account (about 5 minutes)
+**Done on 2026-10-13: both checks passed** (the HubSpot token already had the scope needed to create notes). Kept here to repeat on a new account.
 Real writes need two deliberate switches: `DRY_RUN=false` in `.env` and `--confirm`. Set `DRY_RUN=false` only for these checks, then
 put it back to `true`.
 ```bash

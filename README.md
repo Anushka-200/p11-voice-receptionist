@@ -2,7 +2,9 @@
 
 **13 of 15 scripted scenarios pass all three runs on the real tools (text eval, $0.03 per full run) · about $0.086 per call minute · 1.4 s median turn latency (target 0.8 s, experiments pending).**
 
-▶ Demo video: *to be recorded* (script in [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md)) · fake clinic, fake patients, browser calls only
+▶ Demo video: *deferred* (script in [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md)) · fake clinic, fake patients, browser calls only
+
+> **Status:** Deferred by the owner on 2026-10-13 (short on time): the 15 scripted live calls, experiments E1/E3/E4/E5/E7 and the demo video. The tooling is ready (runbook, results sheet, variants, bench); nothing below was estimated in their place.
 
 ## Problem
 A small dental clinic misses calls after hours and at lunch, and every missed call is a lost booking. A voice agent has to be
@@ -39,7 +41,7 @@ Full diagram: [docs/architecture.mmd](docs/architecture.mmd).
 | Turn latency p50 / p95 (3 live calls, 15 turns) | < 800 ms | **1,370 ms / 1,988 ms** | **not met**; experiments E1, E3, E4 planned |
 | Cost per call minute | report | **$0.0857** (Vapi $0.050, LLM $0.024, TTS $0.008, STT $0.004) | reported |
 | AI disclosure in the stored transcripts (3 live calls) | 100% | **2/3**: one transcript reads "I'm an. Assistant". The owner heard the greeting correctly on every call, so this is probably a transcription artifact, not a voice fault | check flags it; E7 is a cheap test |
-| Task success on 15 live scripted calls | >= 13/15 | pending (runbook ready: [docs/TEST_CALLS.md](docs/TEST_CALLS.md)) | pending |
+| Task success on 15 live scripted calls | >= 13/15 | deferred by the owner (runbook ready: [docs/TEST_CALLS.md](docs/TEST_CALLS.md)) | deferred |
 
 ## Key design decisions
 - [ADR 001](docs/adr/001-platform-choice.md): Vapi first, browser calls only ($0 budget); Pipecat + Sarvam is the v1.5 plan
@@ -73,15 +75,16 @@ make sync-assistant             # dry run: shows exactly what would be pushed
 make sync-assistant-apply       # push the tools and assistant to Vapi; then make check-assistant
 make bench && make dashboard    # numbers from the stored calls, and http://localhost:8511
 ```
-`docker compose up` is written (api, worker, dashboard, migrations) and the compose file validates, but **the image build is
-unverified**: it failed at BuildKit startup on a low-memory machine before running any step. Please run `docker compose build`.
+`docker compose build` builds all four images (api, worker, dashboard, migrate); the migrate container ran against the compose Postgres and the
+api image loads the app and assistant config. The whole stack has not been started with `docker compose up` (a local server held port 8011).
 
 ## Limitations (what this is not)
 - Browser calls only: no phone line, so no 8 kHz audio, no real transfer, and no caller-ID. Transfers are verified by the tool
   call, not by a ring.
-- SMS is a dry-run outbox. The Google Calendar and HubSpot adapters are built and tested against fake servers (retries, circuit
-  breaker, dry-run, idempotent event ids), but **have not yet been run against the real accounts**: that live check is yours to run
-  ([docs/SETUP_LIVE_INTEGRATIONS.md](docs/SETUP_LIVE_INTEGRATIONS.md)). The default calendar and CRM are fakes.
+- SMS is a dry-run outbox. The Google Calendar and HubSpot adapters are tested against fake servers (retries, circuit breaker, dry-run,
+  idempotent event ids) **and passed a live round trip on the real accounts on 2026-10-13** (a labelled calendar event created, read back,
+  not counted as busy time, deleted; a HubSpot contact upserted twice without a duplicate, a note created, everything removed). No real
+  booking call has used them yet: the default calendar and CRM are fakes ([setup](docs/SETUP_LIVE_INTEGRATIONS.md)).
 - Identity is weak: an appointment is looked up by phone number alone. A real deployment needs caller-ID matching or date of birth.
 - The text eval runs a Haiku-class model as a proxy for the live GPT-4.1; it tests logic, not the voice, and varies by about one scenario between runs.
 - The emergency second layer (the server forces a transfer if the agent has not within four seconds of an emergency phrase) is built
@@ -89,7 +92,7 @@ unverified**: it failed at BuildKit startup on a low-memory machine before runni
 - Latency target not met; only 3 calls measured so far.
 
 ## What I'd do next
-1. The 15 scripted live calls and experiments E1, E3, E4, E5, E7 ([docs/experiments.md](docs/experiments.md)), then update the table.
-2. Prove emergency layer two and the Google Calendar and HubSpot adapters on the real accounts; add a fallback live model for provider outages.
+1. (Deferred) The 15 scripted live calls and experiments E1, E3, E4, E5, E7 ([docs/experiments.md](docs/experiments.md)), then update the table.
+2. Prove emergency layer two on a real call (the calendar and HubSpot checks already passed); add a fallback live model for provider outages.
 3. US-region hosting to cut tool round-trip time.
 4. v1.5: the same flow on Pipecat with Sarvam speech for Hindi and Hinglish, and a turn-taking lab.

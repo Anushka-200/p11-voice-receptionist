@@ -1,4 +1,4 @@
-# Experiments (each needs live calls; status PENDING until run)
+# Experiments (each needs live calls; DEFERRED by the owner on 2026-10-13, short on time)
 
 Budget: Vapi free credit was $5.00; the three first calls cost about $0.24 and the two earlier test calls about $0.03.
 At about $0.086 per minute and about 1.3 minutes per scripted call: 15 baseline calls about $1.7, three variants of

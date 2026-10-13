@@ -33,6 +33,8 @@ GPT-4.1 through Vapi; this text eval uses a Haiku-class model as a proxy (ADR 00
   empty string silently. Now it logs and raises.
 - Voice answers read whole FAQ entries aloud (46 words): entries shortened.
 
+> **Deferred by the owner (2026-10-13, short on time):** the 15 scripted live calls and the experiments. Cells marked pending stay empty until they are run.
+
 ## 2. Live calls: latency and cost (measured 2026-10-13, 3 calls, preliminary)
 Source: Vapi end-of-call reports through our post-call pipeline (`make bench`). Stack: Soniox STT, GPT-4.1, Vapi voice
 "Elliot", browser calls (no phone-line hop). Three calls (FAQ 52 s, emergency 23 s, booking 90 s), 15 turns, 2.75 minutes.
