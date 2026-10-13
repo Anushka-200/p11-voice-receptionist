@@ -15,7 +15,6 @@ COPY migrations ./migrations
 COPY dashboard ./dashboard
 COPY evals ./evals
 COPY scripts ./scripts
-COPY tests/fixtures ./tests/fixtures
 RUN useradd --system --uid 10001 --no-create-home p11  # the app only reads /srv, so no slow chown of the virtualenv
 USER p11
 ENV PATH="/srv/.venv/bin:$PATH" PYTHONPATH=/srv
