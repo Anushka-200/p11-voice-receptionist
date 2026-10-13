@@ -10,7 +10,7 @@ Use a fake name and number. Do the recording after the 15 scripted calls so the 
 | 0:45 to 1:35 | **Live call 1: booking.** Say "next Friday morning" | The agent asks which Friday, offers two times, reads the phone back, books it. Point at the read-back and the clarifying question |
 | 1:35 to 2:00 | **Live call 2: emergency.** "My face is swollen and I can barely open my mouth" | Immediate transfer announcement and the nine-one-one line. Say plainly: a browser call can't ring a phone, so the transfer is verified by the tool call |
 | 2:00 to 2:15 | The dashboard row for that call | The summary, the outcome, the flags (`transfer_failed` is expected here) |
-| 2:15 to 2:45 | `make bench` and the experiments table | "Median turn latency, cost per minute by stage, task success. Here is what each experiment changed and what I kept." Show one failure honestly (the dropped "AI") |
+| 2:15 to 2:45 | `make bench` and the experiments table | "Median turn latency, cost per minute by stage, task success. Here is what each experiment changed and what I kept." Show one failure honestly (the median latency is above the 800 ms target, and what experiment E1 or E3 did about it) |
 | 2:45 to 3:00 | Close | "Code and runbook on GitHub. Inbound only, AI disclosure on every call." |
 
 Failure case to show on screen: stop the tunnel mid-call, or ask for medical advice, and show the safe answer.

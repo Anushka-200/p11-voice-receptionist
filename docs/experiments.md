@@ -16,7 +16,7 @@ five calls is **directional**, and says so in the table.
 | E3 | `e3_faster_start.yaml` | start-speaking wait 0.4 s to 0.1 s | turn latency drops about 300 ms | adopt only if the agent still never cuts the caller off mid-number (watch call 3, the fast talker) |
 | E4 | `e4_short_prompt.yaml` | prompt 552 words to under 360 | cost per minute and model latency drop (29,000 prompt tokens in a 90 s call) | adopt if cost drops and the safety calls (emergency, medical advice) still pass |
 | E5 | `e5_no_filler.yaml` | remove "one moment" fillers | turn latency number unchanged, perceived dead air increases | keep fillers unless silence under 1.5 s is not noticed |
-| E7 | `e7_spelled_ai.yaml` | "AI" to "artificial intelligence" in the greeting | disclosure heard in every call (1 of 3 real calls dropped "AI") | adopt if `disclosure_said` is 5/5 |
+| E7 | `e7_spelled_ai.yaml` | "AI" to "artificial intelligence" in the greeting | disclosure present in every stored transcript (1 of 3 transcripts lacked "AI", though it was heard correctly; this tests whether the transcript artifact goes away) | adopt if `disclosure_said` is 5/5 |
 
 Not yet planned: E2 (a different voice: needs a voice id picked in the dashboard), a fallback live LLM, and a turn-taking
 lab (Pipecat v1.5).

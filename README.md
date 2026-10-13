@@ -38,7 +38,7 @@ Full diagram: [docs/architecture.mmd](docs/architecture.mmd).
 | AI + recording disclosure said (text eval) | 100% | **15/15** scenarios | met |
 | Turn latency p50 / p95 (3 live calls, 15 turns) | < 800 ms | **1,370 ms / 1,988 ms** | **not met**; experiments E1, E3, E4 planned |
 | Cost per call minute | report | **$0.0857** (Vapi $0.050, LLM $0.024, TTS $0.008, STT $0.004) | reported |
-| AI disclosure actually heard (3 live calls) | 100% | **2/3**: the voice once dropped the word "AI" | **not met**; E7 planned |
+| AI disclosure in the stored transcripts (3 live calls) | 100% | **2/3**: one transcript reads "I'm an. Assistant". The owner heard the greeting correctly on every call, so this is probably a transcription artifact, not a voice fault | check flags it; E7 is a cheap test |
 | Task success on 15 live scripted calls | >= 13/15 | pending (runbook ready: [docs/TEST_CALLS.md](docs/TEST_CALLS.md)) | pending |
 
 ## Key design decisions

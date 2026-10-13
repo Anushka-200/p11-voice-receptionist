@@ -11,7 +11,7 @@ First, always: `make check-assistant` (is what Vapi holds the same as the repo?)
 | Calls stay `pending` on the dashboard | No `ANTHROPIC_API_KEY`, or the provider is down | Calls are already saved. `make worker` retries; nothing is lost |
 | `needs_review` calls | The model failed to produce valid analysis twice | Read the transcript on the dashboard; `analysis_error` has the reason |
 | `outcome_mismatch` flag | The LLM disagreed with the phone log | The log wins and is stored; read the transcript to see which was wrong |
-| `disclosure_missing` flag | The voice did not say "AI" (seen once in three calls) | Try variant E7 ("artificial intelligence"); this is a compliance item, not cosmetic |
+| `disclosure_missing` flag | The stored transcript lacks "AI" (seen once in three calls, heard correctly by the owner: probably a transcription artifact) | Listen to the recording to confirm; if it was really missing, try variant E7 ("artificial intelligence"). It is a compliance item, so verify, do not ignore |
 | CRM notes stuck | CRM down (fake CRM only in v1) | They stay `pending` with attempts counted; after 5 failures they are `failed` with the error |
 | Booking says "just taken" often | Two callers racing for one slot | Working as designed (per-provider lock plus a database constraint); no double bookings are possible |
 | Cost spike | Long calls or long prompts | Calls are capped at 300 s and 200 output tokens per reply; E4 shortens the prompt |

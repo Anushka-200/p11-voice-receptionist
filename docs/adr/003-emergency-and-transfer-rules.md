@@ -44,4 +44,4 @@ failure this system can have. A receptionist must also never give medical advice
   plus `artifact.transfers[].status`. The post-call code maps number to `on_call` / `front_desk`. On a browser call the status
   is `failed` and `endedReason` is `call.in-progress.error-transfer-failed`: expected, and flagged `transfer_failed`.
 - **The transfer tool announces itself** ("Connecting you to our on-call dentist now."), so the prompt tells the model never to say it.
-- **Found:** the voice dropped the word "AI" in the greeting once in three calls. The disclosure is checked on every call.
+- **Found:** one of three stored transcripts reads "I'm an. Assistant" (no "AI"). The owner heard the greeting correctly on every call, so this is probably a transcription artifact. The disclosure check can only read the transcript, so it flags such a call (`disclosure_missing`); treat that flag as "verify by listening", not as proof.

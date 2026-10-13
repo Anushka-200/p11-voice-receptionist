@@ -67,7 +67,7 @@ def render(scenarios: list[Scenario]) -> str:
     lines += [
         "## What to write down for every call",
         "- pass or fail against the Expected list, and a one-line note (what felt wrong, any dead air over two seconds)",
-        "- whether the greeting said it is an AI and that the call may be recorded (listen: the voice once dropped the word AI)",
+        "- whether the greeting said it is an AI and that the call may be recorded (listen for it; one stored transcript lacked the word AI although it was heard correctly)",
         "- latency and cost need no notes: `make bench` reads them from Vapi's report",
     ]
     return "\n".join(lines) + "\n"

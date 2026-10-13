@@ -48,7 +48,7 @@ Too few turns for a baseline: this table shows the shape, and the 15 scripted ca
 | Our post-call analysis | report | about $0.0001 per call | n/a |
 | Task success on 15 scripted calls | >= 13/15 | pending (3 of 3 live calls behaved correctly, unscored) | n/a |
 | Emergencies routed to a transfer | 100% | 1/1 (transfer to the on-call number initiated; failed because a browser call cannot ring) | n/a |
-| AI + recording disclosure heard | 100% | **2/3** (the voice dropped the word "AI" once) | E7 |
+| AI + recording disclosure in the stored transcript | 100% | **2/3**: one transcript reads "I'm an. Assistant". The owner heard the greeting correctly on every call, so this is probably a transcription artifact; our check can only read the transcript | E7 |
 
 What the numbers say:
 - The latency is spread across three stages of roughly equal size; no single fix gets under 800 ms. Candidates: a faster

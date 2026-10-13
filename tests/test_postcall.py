@@ -79,7 +79,7 @@ def test_booking_call_found_the_booking_even_though_the_phone_was_typed_by_speec
 
 def test_the_disclosure_check_reads_what_was_actually_spoken():
     assert disclosure_said(extract_facts(load("report_faq")))
-    # In the real emergency call the voice said "I'm an. Assistant": the word AI never made it out.
+    # The real emergency call's transcript reads "I'm an. Assistant": no AI in the stored text (heard fine by the owner).
     assert not disclosure_said(extract_facts(load("report_emergency")))
 
 
@@ -282,7 +282,9 @@ def test_analytics_computes_latency_cost_and_check_rates_from_the_stored_calls(c
     assert s["latency_ms"]["p50"] and s["latency_ms"]["p95"] >= s["latency_ms"]["p50"]
     assert s["cost_usd"]["total"] == pytest.approx(0.0693 + 0.0278 + 0.1384, abs=1e-3)
     assert s["cost_per_minute"]["vapi"] > s["cost_per_minute"]["stt"]
-    assert s["checks"]["disclosure_said"] == "2/3"  # the emergency call's voice dropped the word AI
+    assert (
+        s["checks"]["disclosure_said"] == "2/3"
+    )  # the emergency call's transcript lacks the word AI (a transcription artifact; the check can only read the transcript)
     assert "transfer_failed" in s["flags"] and "disclosure_missing" in s["flags"]
     assert "p50" not in render(s, "pending") or "ms" in render(s, "pending")
     assert task_success(Path("/nonexistent.csv")).startswith("pending")
