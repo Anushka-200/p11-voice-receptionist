@@ -1,0 +1,26 @@
+# Local dev services. Ports are bound to 127.0.0.1 only and differ from P01 (5433, 8000, 8501, 5678),
+# P02 (5434, 6380, 8001, 8502) and P03 (5435, 8003, 8503). P11: Postgres 5441, API 8011, dashboard 8511.
+# Phase 0 only has `postgres`; `api`, `worker` and `dashboard` are added in the phases that create them.
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres     # bootstrap superuser: used only by the init script, never by the app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: p11
+      P11_MIGRATOR_PASSWORD: ${P11_MIGRATOR_PASSWORD}
+      P11_APP_PASSWORD: ${P11_APP_PASSWORD}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5441}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    mem_limit: 512m               # small shared laptop: a runaway query can't starve the other projects
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d p11"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

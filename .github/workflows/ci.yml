@@ -1,0 +1,40 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: p11
+          POSTGRES_HOST_AUTH_METHOD: trust   # CI database only: no passwords to manage, nothing real inside
+        ports:
+          - 5441:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d p11"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      PHONE_HASH_KEY: ci-test-key
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+      - name: Create the database roles (same script docker compose uses)
+        run: bash docker/postgres/init/01-roles.sh
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: "5441"
+          PGPASSWORD: ci
+          P11_MIGRATOR_PASSWORD: ci
+          P11_APP_PASSWORD: ci
+      - name: Migrate
+        run: uv run python -m app.db.migrate
+      - run: uv run pytest -q

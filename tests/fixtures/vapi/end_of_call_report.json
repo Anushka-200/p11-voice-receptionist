@@ -1,0 +1,606 @@
+{
+ "message": {
+  "timestamp": 1791882204315,
+  "type": "end-of-call-report",
+  "analysis": {},
+  "artifact": {
+   "messages": [
+    {
+     "role": "system",
+     "message": "You are a test bot. When the caller says their name, call the hello tool with it, then say the result in one short sentence. Keep every reply under two sentences.",
+     "time": 1791882142404,
+     "secondsFromStart": 0
+    },
+    {
+     "role": "bot",
+     "message": "Hi, this is a test call. What's your name?",
+     "time": 1791882144246,
+     "endTime": 1791882145686,
+     "secondsFromStart": 1.476,
+     "duration": 1440,
+     "source": "",
+     "assistantName": "p11-spike",
+     "assistantId": "454bb356-8e65-41d2-b693-84f679ea7e1a"
+    },
+    {
+     "role": "user",
+     "message": "Hi, my name is Anu.",
+     "time": 1791882149970,
+     "endTime": 1791882150690,
+     "secondsFromStart": 7.2,
+     "duration": 720,
+     "metadata": {
+      "wordLevelConfidence": [
+       {
+        "word": "H",
+        "start": 7.2,
+        "end": 7.26,
+        "confidence": 0.986,
+        "punctuated_word": "H",
+        "language": "en"
+       },
+       {
+        "word": "i,",
+        "start": 7.32,
+        "end": 7.38,
+        "confidence": 0.924,
+        "punctuated_word": "i,",
+        "language": "en"
+       },
+       {
+        "word": "my",
+        "start": 7.44,
+        "end": 7.5,
+        "confidence": 1,
+        "punctuated_word": "my",
+        "language": "en"
+       },
+       {
+        "word": "name",
+        "start": 7.56,
+        "end": 7.62,
+        "confidence": 1,
+        "punctuated_word": "name",
+        "language": "en"
+       },
+       {
+        "word": "is",
+        "start": 7.74,
+        "end": 7.8,
+        "confidence": 0.997,
+        "punctuated_word": "is",
+        "language": "en"
+       },
+       {
+        "word": "An",
+        "start": 7.86,
+        "end": 7.92,
+        "confidence": 0.814,
+        "punctuated_word": "An",
+        "language": "en"
+       },
+       {
+        "word": "u.",
+        "start": 7.92,
+        "end": 7.92,
+        "confidence": 0.191,
+        "punctuated_word": "u.",
+        "language": "en"
+       }
+      ]
+     },
+     "confidence": 0.8445714285714285,
+     "confidenceSource": "derived"
+    },
+    {
+     "role": "bot",
+     "message": "One moment. Hello, Anu, nice to meet you.",
+     "time": 1791882152826,
+     "endTime": 1791882155826,
+     "secondsFromStart": 10.056,
+     "duration": 1860,
+     "source": "",
+     "assistantName": "p11-spike",
+     "assistantId": "454bb356-8e65-41d2-b693-84f679ea7e1a"
+    },
+    {
+     "toolCalls": [
+      {
+       "id": "call_P9cUXEs9TOBzA4TLqv8aU7M2",
+       "type": "function",
+       "function": {
+        "name": "hello",
+        "arguments": "{\"name\": \"Anu\"}"
+       }
+      }
+     ],
+     "role": "tool_calls",
+     "message": "",
+     "time": 1791882158138,
+     "secondsFromStart": 15.368
+    },
+    {
+     "role": "tool_call_result",
+     "time": 1791882159399,
+     "secondsFromStart": 16.629,
+     "name": "hello",
+     "result": "Hello Anu, nice to meet you.",
+     "metadata": {},
+     "toolCallId": "call_P9cUXEs9TOBzA4TLqv8aU7M2"
+    },
+    {
+     "role": "user",
+     "message": "Goodbye.",
+     "time": 1791882160710,
+     "endTime": 1791882160770,
+     "secondsFromStart": 17.94,
+     "duration": 60,
+     "metadata": {
+      "wordLevelConfidence": [
+       {
+        "word": "Good",
+        "start": 17.94,
+        "end": 18,
+        "confidence": 0.92,
+        "punctuated_word": "Good",
+        "language": "en"
+       },
+       {
+        "word": "by",
+        "start": 18,
+        "end": 18,
+        "confidence": 0.997,
+        "punctuated_word": "by",
+        "language": "en"
+       },
+       {
+        "word": "e.",
+        "start": 18,
+        "end": 18,
+        "confidence": 0.999,
+        "punctuated_word": "e.",
+        "language": "en"
+       }
+      ]
+     },
+     "confidence": 0.972,
+     "confidenceSource": "derived"
+    },
+    {
+     "role": "bot",
+     "message": "Goodbye. Have a great day.",
+     "time": 1791882162186,
+     "endTime": 1791882163326,
+     "secondsFromStart": 19.416,
+     "duration": 1140,
+     "source": "",
+     "assistantName": "p11-spike",
+     "assistantId": "454bb356-8e65-41d2-b693-84f679ea7e1a"
+    }
+   ],
+   "messagesOpenAIFormatted": [
+    {
+     "role": "system",
+     "content": "You are a test bot. When the caller says their name, call the hello tool with it, then say the result in one short sentence. Keep every reply under two sentences."
+    },
+    {
+     "role": "assistant",
+     "content": "Hi, this is a test call. What's your name?"
+    },
+    {
+     "role": "user",
+     "content": "Hi, my name is Anu."
+    },
+    {
+     "role": "assistant",
+     "content": "One moment. Hello, Anu, nice to meet you.",
+     "tool_calls": [
+      {
+       "id": "call_P9cUXEs9TOBzA4TLqv8aU7M2",
+       "type": "function",
+       "function": {
+        "name": "hello",
+        "arguments": "{\"name\": \"Anu\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "call_P9cUXEs9TOBzA4TLqv8aU7M2",
+     "content": "Hello Anu, nice to meet you."
+    },
+    {
+     "role": "user",
+     "content": "Goodbye."
+    },
+    {
+     "role": "assistant",
+     "content": "Goodbye. Have a great day."
+    }
+   ],
+   "transcript": "AI: Hi, this is a test call. What's your name?\nUser: Hi, my name is Anu.\nAI: One moment. Hello, Anu, nice to meet you.\nUser: Goodbye.\nAI: Goodbye. Have a great day.\n",
+   "nodes": [],
+   "assistantActivations": [
+    {
+     "assistantName": "p11-spike",
+     "assistantId": "454bb356-8e65-41d2-b693-84f679ea7e1a",
+     "assistantVersion": "v4"
+    }
+   ],
+   "variables": {
+    "now": "Oct 13, 2026, 9:02 AM UTC",
+    "currentDateTime": "Tuesday, October 13, 2026 at 9:02 AM UTC",
+    "date": "Oct 13, 2026 UTC",
+    "time": "9:02 AM UTC",
+    "year": "2026",
+    "month": "October",
+    "day": "13",
+    "transport": {
+     "conversationType": "voice",
+     "provider": "daily",
+     "videoRecordingEnabled": false,
+     "assistantVideoEnabled": false,
+     "roomDeleteOnUserLeaveEnabled": true,
+     "callUrl": "<url>"
+    },
+    "call": {
+     "id": "01a1347f-a1eb-7997-971e-d6cc56c38c66",
+     "type": "webCall",
+     "status": "queued",
+     "createdAt": "2026-10-13T09:02:22.187Z",
+     "transport": {
+      "conversationType": "voice",
+      "provider": "daily",
+      "videoRecordingEnabled": false,
+      "assistantVideoEnabled": false,
+      "roomDeleteOnUserLeaveEnabled": true,
+      "callUrl": "<url>"
+     }
+    }
+   },
+   "variableValues": {
+    "now": "Oct 13, 2026, 9:02 AM UTC",
+    "currentDateTime": "Tuesday, October 13, 2026 at 9:02 AM UTC",
+    "date": "Oct 13, 2026 UTC",
+    "time": "9:02 AM UTC",
+    "year": "2026",
+    "month": "October",
+    "day": "13",
+    "transport": {
+     "conversationType": "voice",
+     "provider": "daily",
+     "videoRecordingEnabled": false,
+     "assistantVideoEnabled": false,
+     "roomDeleteOnUserLeaveEnabled": true,
+     "callUrl": "<url>"
+    },
+    "call": {
+     "id": "01a1347f-a1eb-7997-971e-d6cc56c38c66",
+     "type": "webCall",
+     "status": "queued",
+     "createdAt": "2026-10-13T09:02:22.187Z",
+     "transport": {
+      "conversationType": "voice",
+      "provider": "daily",
+      "videoRecordingEnabled": false,
+      "assistantVideoEnabled": false,
+      "roomDeleteOnUserLeaveEnabled": true,
+      "callUrl": "<url>"
+     }
+    }
+   },
+   "performanceMetrics": {
+    "turnLatencies": [
+     {
+      "modelLatency": 0,
+      "voiceLatency": 0,
+      "transcriberLatency": 945,
+      "endpointingLatency": 5,
+      "turnLatency": 1829
+     },
+     {
+      "modelLatency": 353,
+      "voiceLatency": 412,
+      "transcriberLatency": 390,
+      "endpointingLatency": 6,
+      "turnLatency": 1190
+     }
+    ],
+    "modelLatencyAverage": 176.5,
+    "voiceLatencyAverage": 206,
+    "transcriberLatencyAverage": 667.5,
+    "endpointingLatencyAverage": 5.5,
+    "turnLatencyAverage": 1509.5,
+    "fromTransportLatencyAverage": 20,
+    "toTransportLatencyAverage": 46
+   },
+   "scorecards": {},
+   "transfers": []
+  },
+  "startedAt": "2026-10-13T09:02:22.770Z",
+  "endedAt": "2026-10-13T09:02:53.326Z",
+  "endedReason": "customer-ended-call",
+  "cost": 0.0297,
+  "costBreakdown": {
+   "stt": 0.0022,
+   "llm": 0.0012,
+   "tts": 0.0008,
+   "vapi": 0.0255,
+   "chat": 0,
+   "transport": 0,
+   "total": 0.0297,
+   "llmPromptTokens": 510,
+   "llmCompletionTokens": 19,
+   "llmCachedPromptTokens": 0,
+   "ttsCharacters": 54,
+   "voicemailDetectionCost": 0,
+   "knowledgeBaseCost": 0,
+   "analysisCostBreakdown": {
+    "summary": 0,
+    "summaryPromptTokens": 0,
+    "summaryCompletionTokens": 0,
+    "summaryCachedPromptTokens": 0,
+    "structuredData": 0,
+    "structuredDataPromptTokens": 0,
+    "structuredDataCompletionTokens": 0,
+    "structuredDataCachedPromptTokens": 0,
+    "successEvaluation": 0,
+    "successEvaluationPromptTokens": 0,
+    "successEvaluationCompletionTokens": 0,
+    "successEvaluationCachedPromptTokens": 0,
+    "structuredOutput": 0,
+    "structuredOutputPromptTokens": 0,
+    "structuredOutputCompletionTokens": 0,
+    "structuredOutputCachedPromptTokens": 0
+   }
+  },
+  "costs": [
+   {
+    "type": "transcriber",
+    "transcriber": {
+     "provider": "soniox",
+     "model": "stt-rt-v5"
+    },
+    "minutes": 0.4428,
+    "cost": 0.0022091333333333334
+   },
+   {
+    "type": "model",
+    "model": {
+     "provider": "openai",
+     "model": "gpt-4.1"
+    },
+    "promptTokens": 510,
+    "completionTokens": 19,
+    "cachedPromptTokens": 0,
+    "reasoningTokens": 0,
+    "cost": 0.001172
+   },
+   {
+    "type": "voice",
+    "voice": {
+     "provider": "vapi",
+     "voiceId": "Elliot",
+     "model": "vapi-v2"
+    },
+    "characters": 54,
+    "cost": 0.00081
+   },
+   {
+    "type": "vapi",
+    "subType": "normal",
+    "minutes": 0.5093,
+    "cost": 0.025465
+   },
+   {
+    "type": "knowledge-base",
+    "model": {
+     "provider": "google",
+     "model": "gemini-2.5-flash"
+    },
+    "promptTokens": 0,
+    "completionTokens": 0,
+    "cost": 0
+   }
+  ],
+  "durationMs": 30556,
+  "durationSeconds": 30.556,
+  "durationMinutes": 0.5093,
+  "summary": "",
+  "transcript": "AI: Hi, this is a test call. What's your name?\nUser: Hi, my name is Anu.\nAI: One moment. Hello, Anu, nice to meet you.\nUser: Goodbye.\nAI: Goodbye. Have a great day.\n",
+  "messages": [
+   {
+    "role": "system",
+    "message": "You are a test bot. When the caller says their name, call the hello tool with it, then say the result in one short sentence. Keep every reply under two sentences.",
+    "time": 1791882142404,
+    "secondsFromStart": 0
+   },
+   {
+    "role": "bot",
+    "message": "Hi, this is a test call. What's your name?",
+    "time": 1791882144246,
+    "endTime": 1791882145686,
+    "secondsFromStart": 1.476,
+    "duration": 1440,
+    "source": "",
+    "assistantName": "p11-spike",
+    "assistantId": "454bb356-8e65-41d2-b693-84f679ea7e1a"
+   },
+   {
+    "role": "user",
+    "message": "Hi, my name is Anu.",
+    "time": 1791882149970,
+    "endTime": 1791882150690,
+    "secondsFromStart": 7.2,
+    "duration": 720,
+    "metadata": {
+     "wordLevelConfidence": [
+      {
+       "word": "H",
+       "start": 7.2,
+       "end": 7.26,
+       "confidence": 0.986,
+       "punctuated_word": "H",
+       "language": "en"
+      },
+      {
+       "word": "i,",
+       "start": 7.32,
+       "end": 7.38,
+       "confidence": 0.924,
+       "punctuated_word": "i,",
+       "language": "en"
+      },
+      {
+       "word": "my",
+       "start": 7.44,
+       "end": 7.5,
+       "confidence": 1,
+       "punctuated_word": "my",
+       "language": "en"
+      },
+      {
+       "word": "name",
+       "start": 7.56,
+       "end": 7.62,
+       "confidence": 1,
+       "punctuated_word": "name",
+       "language": "en"
+      },
+      {
+       "word": "is",
+       "start": 7.74,
+       "end": 7.8,
+       "confidence": 0.997,
+       "punctuated_word": "is",
+       "language": "en"
+      },
+      {
+       "word": "An",
+       "start": 7.86,
+       "end": 7.92,
+       "confidence": 0.814,
+       "punctuated_word": "An",
+       "language": "en"
+      },
+      {
+       "word": "u.",
+       "start": 7.92,
+       "end": 7.92,
+       "confidence": 0.191,
+       "punctuated_word": "u.",
+       "language": "en"
+      }
+     ]
+    },
+    "confidence": 0.8445714285714285,
+    "confidenceSource": "derived"
+   },
+   {
+    "role": "bot",
+    "message": "One moment. Hello, Anu, nice to meet you.",
+    "time": 1791882152826,
+    "endTime": 1791882155826,
+    "secondsFromStart": 10.056,
+    "duration": 1860,
+    "source": "",
+    "assistantName": "p11-spike",
+    "assistantId": "454bb356-8e65-41d2-b693-84f679ea7e1a"
+   },
+   {
+    "toolCalls": [
+     {
+      "id": "call_P9cUXEs9TOBzA4TLqv8aU7M2",
+      "type": "function",
+      "function": {
+       "name": "hello",
+       "arguments": "{\"name\": \"Anu\"}"
+      }
+     }
+    ],
+    "role": "tool_calls",
+    "message": "",
+    "time": 1791882158138,
+    "secondsFromStart": 15.368
+   },
+   {
+    "role": "tool_call_result",
+    "time": 1791882159399,
+    "secondsFromStart": 16.629,
+    "name": "hello",
+    "result": "Hello Anu, nice to meet you.",
+    "metadata": {},
+    "toolCallId": "call_P9cUXEs9TOBzA4TLqv8aU7M2"
+   },
+   {
+    "role": "user",
+    "message": "Goodbye.",
+    "time": 1791882160710,
+    "endTime": 1791882160770,
+    "secondsFromStart": 17.94,
+    "duration": 60,
+    "metadata": {
+     "wordLevelConfidence": [
+      {
+       "word": "Good",
+       "start": 17.94,
+       "end": 18,
+       "confidence": 0.92,
+       "punctuated_word": "Good",
+       "language": "en"
+      },
+      {
+       "word": "by",
+       "start": 18,
+       "end": 18,
+       "confidence": 0.997,
+       "punctuated_word": "by",
+       "language": "en"
+      },
+      {
+       "word": "e.",
+       "start": 18,
+       "end": 18,
+       "confidence": 0.999,
+       "punctuated_word": "e.",
+       "language": "en"
+      }
+     ]
+    },
+    "confidence": 0.972,
+    "confidenceSource": "derived"
+   },
+   {
+    "role": "bot",
+    "message": "Goodbye. Have a great day.",
+    "time": 1791882162186,
+    "endTime": 1791882163326,
+    "secondsFromStart": 19.416,
+    "duration": 1140,
+    "source": "",
+    "assistantName": "p11-spike",
+    "assistantId": "454bb356-8e65-41d2-b693-84f679ea7e1a"
+   }
+  ],
+  "call": {
+   "id": "01a1347f-a1eb-7997-971e-d6cc56c38c66",
+   "createdAt": "2026-10-13T09:02:22.187Z",
+   "updatedAt": "2026-10-13T09:02:22.187Z",
+   "type": "webCall",
+   "cost": 0,
+   "transport": {
+    "conversationType": "voice",
+    "provider": "daily",
+    "videoRecordingEnabled": false,
+    "assistantVideoEnabled": false,
+    "roomDeleteOnUserLeaveEnabled": true,
+    "callUrl": "<url>"
+   },
+   "status": "queued",
+   "assistantId": "454bb356-8e65-41d2-b693-84f679ea7e1a",
+   "assistantVersion": "v4"
+  },
+  "assistantVersion": "v4"
+ }
+}

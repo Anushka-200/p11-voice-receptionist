@@ -1,0 +1,45 @@
+[project]
+name = "p11-voice-receptionist"
+version = "0.1.0"
+description = "Inbound AI voice receptionist for a dental clinic: Vapi + FastAPI tool server, post-call analytics"
+requires-python = ">=3.12"
+# Runtime dependencies are added at the task that first needs them.
+dependencies = [
+    "fastapi>=0.143.0",
+    "httpx>=0.28.1",
+    "langfuse>=4.17.0",
+    "litellm>=1.104.2",
+    "psycopg[binary]>=3.3.6",
+    "pydantic-settings>=2.15.0",
+    "pyyaml>=6.0.3",
+    "tzdata>=2026.5",
+    "uvicorn>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.13",
+    "pytest>=8.3",
+    "ruff>=0.8",
+    "types-pyyaml>=6.0",
+]
+
+[tool.ruff]
+line-length = 110  # SQL and the sentences we send to the model are long on purpose
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["app"]
+ignore_missing_imports = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

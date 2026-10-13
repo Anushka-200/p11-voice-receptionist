@@ -1,0 +1,303 @@
+{
+ "message": {
+  "timestamp": 1791882158150,
+  "type": "tool-calls",
+  "toolCalls": [
+   {
+    "id": "call_P9cUXEs9TOBzA4TLqv8aU7M2",
+    "type": "function",
+    "function": {
+     "name": "hello",
+     "arguments": {
+      "name": "Anu"
+     }
+    }
+   }
+  ],
+  "toolCallList": [
+   {
+    "id": "call_P9cUXEs9TOBzA4TLqv8aU7M2",
+    "type": "function",
+    "function": {
+     "name": "hello",
+     "arguments": {
+      "name": "Anu"
+     }
+    }
+   }
+  ],
+  "toolWithToolCallList": [
+   {
+    "type": "function",
+    "function": {
+     "name": "hello",
+     "parameters": {
+      "type": "object",
+      "required": [
+       "name"
+      ],
+      "properties": {
+       "name": {
+        "type": "string",
+        "default": "",
+        "description": "if it asks: The caller's first name"
+       }
+      }
+     },
+     "description": "Greets the caller by name"
+    },
+    "server": {
+     "url": "<url>",
+     "timeoutSeconds": 20,
+     "staticIpAddressesEnabled": false
+    },
+    "messages": [
+     {
+      "type": "request-start",
+      "content": "One moment.",
+      "contents": [],
+      "conditions": [],
+      "blocking": false
+     }
+    ],
+    "variableExtractionPlan": {
+     "schema": {
+      "type": "object",
+      "required": [],
+      "properties": {}
+     }
+    },
+    "toolCall": {
+     "id": "call_P9cUXEs9TOBzA4TLqv8aU7M2",
+     "type": "function",
+     "function": {
+      "name": "hello",
+      "arguments": {
+       "name": "Anu"
+      }
+     }
+    }
+   }
+  ],
+  "artifact": {
+   "messages": [
+    {
+     "role": "system",
+     "message": "You are a test bot. When the caller says their name, call the hello tool with it, then say the result in one short sentence. Keep every reply under two sentences.",
+     "time": 1791882142404,
+     "secondsFromStart": 0
+    },
+    {
+     "role": "bot",
+     "message": "Hi, this is a test call. What's your name?",
+     "time": 1791882144246,
+     "endTime": 1791882145686,
+     "secondsFromStart": 1.476,
+     "duration": 1440,
+     "source": "",
+     "assistantName": "p11-spike",
+     "assistantId": "454bb356-8e65-41d2-b693-84f679ea7e1a"
+    },
+    {
+     "role": "user",
+     "message": "Hi, my name is Anu.",
+     "time": 1791882149970,
+     "endTime": 1791882150690,
+     "secondsFromStart": 7.2,
+     "duration": 720,
+     "metadata": {
+      "wordLevelConfidence": [
+       {
+        "word": "H",
+        "start": 7.2,
+        "end": 7.26,
+        "confidence": 0.986,
+        "punctuated_word": "H",
+        "language": "en"
+       },
+       {
+        "word": "i,",
+        "start": 7.32,
+        "end": 7.38,
+        "confidence": 0.924,
+        "punctuated_word": "i,",
+        "language": "en"
+       },
+       {
+        "word": "my",
+        "start": 7.44,
+        "end": 7.5,
+        "confidence": 1,
+        "punctuated_word": "my",
+        "language": "en"
+       },
+       {
+        "word": "name",
+        "start": 7.56,
+        "end": 7.62,
+        "confidence": 1,
+        "punctuated_word": "name",
+        "language": "en"
+       },
+       {
+        "word": "is",
+        "start": 7.74,
+        "end": 7.8,
+        "confidence": 0.997,
+        "punctuated_word": "is",
+        "language": "en"
+       },
+       {
+        "word": "An",
+        "start": 7.86,
+        "end": 7.92,
+        "confidence": 0.814,
+        "punctuated_word": "An",
+        "language": "en"
+       },
+       {
+        "word": "u.",
+        "start": 7.92,
+        "end": 7.92,
+        "confidence": 0.191,
+        "punctuated_word": "u.",
+        "language": "en"
+       }
+      ]
+     },
+     "confidence": 0.8445714285714285,
+     "confidenceSource": "derived"
+    },
+    {
+     "toolCalls": [
+      {
+       "id": "call_P9cUXEs9TOBzA4TLqv8aU7M2",
+       "type": "function",
+       "function": {
+        "name": "hello",
+        "arguments": "{\"name\": \"Anu\"}"
+       }
+      }
+     ],
+     "role": "tool_calls",
+     "message": "",
+     "time": 1791882158138,
+     "secondsFromStart": 15.368
+    }
+   ],
+   "messagesOpenAIFormatted": [
+    {
+     "role": "system",
+     "content": "You are a test bot. When the caller says their name, call the hello tool with it, then say the result in one short sentence. Keep every reply under two sentences."
+    },
+    {
+     "role": "assistant",
+     "content": "Hi, this is a test call. What's your name?"
+    },
+    {
+     "role": "user",
+     "content": "Hi, my name is Anu."
+    },
+    {
+     "role": "assistant",
+     "tool_calls": [
+      {
+       "id": "call_P9cUXEs9TOBzA4TLqv8aU7M2",
+       "type": "function",
+       "function": {
+        "name": "hello",
+        "arguments": "{\"name\": \"Anu\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "call_P9cUXEs9TOBzA4TLqv8aU7M2",
+     "content": "Tool Result Still Pending But Proceed Further If Possible."
+    }
+   ],
+   "variables": {
+    "now": "Oct 13, 2026, 9:02 AM UTC",
+    "currentDateTime": "Tuesday, October 13, 2026 at 9:02 AM UTC",
+    "date": "Oct 13, 2026 UTC",
+    "time": "9:02 AM UTC",
+    "year": "2026",
+    "month": "October",
+    "day": "13",
+    "transport": {
+     "conversationType": "voice",
+     "provider": "daily",
+     "videoRecordingEnabled": false,
+     "assistantVideoEnabled": false,
+     "roomDeleteOnUserLeaveEnabled": true,
+     "callUrl": "<url>"
+    },
+    "call": {
+     "id": "01a1347f-a1eb-7997-971e-d6cc56c38c66",
+     "type": "webCall",
+     "status": "queued",
+     "createdAt": "2026-10-13T09:02:22.187Z",
+     "transport": {
+      "conversationType": "voice",
+      "provider": "daily",
+      "videoRecordingEnabled": false,
+      "assistantVideoEnabled": false,
+      "roomDeleteOnUserLeaveEnabled": true,
+      "callUrl": "<url>"
+     }
+    }
+   },
+   "variableValues": {
+    "now": "Oct 13, 2026, 9:02 AM UTC",
+    "currentDateTime": "Tuesday, October 13, 2026 at 9:02 AM UTC",
+    "date": "Oct 13, 2026 UTC",
+    "time": "9:02 AM UTC",
+    "year": "2026",
+    "month": "October",
+    "day": "13",
+    "transport": {
+     "conversationType": "voice",
+     "provider": "daily",
+     "videoRecordingEnabled": false,
+     "assistantVideoEnabled": false,
+     "roomDeleteOnUserLeaveEnabled": true,
+     "callUrl": "<url>"
+    },
+    "call": {
+     "id": "01a1347f-a1eb-7997-971e-d6cc56c38c66",
+     "type": "webCall",
+     "status": "queued",
+     "createdAt": "2026-10-13T09:02:22.187Z",
+     "transport": {
+      "conversationType": "voice",
+      "provider": "daily",
+      "videoRecordingEnabled": false,
+      "assistantVideoEnabled": false,
+      "roomDeleteOnUserLeaveEnabled": true,
+      "callUrl": "<url>"
+     }
+    }
+   }
+  },
+  "call": {
+   "id": "01a1347f-a1eb-7997-971e-d6cc56c38c66",
+   "createdAt": "2026-10-13T09:02:22.187Z",
+   "updatedAt": "2026-10-13T09:02:22.187Z",
+   "type": "webCall",
+   "cost": 0,
+   "transport": {
+    "conversationType": "voice",
+    "provider": "daily",
+    "videoRecordingEnabled": false,
+    "assistantVideoEnabled": false,
+    "roomDeleteOnUserLeaveEnabled": true,
+    "callUrl": "<url>"
+   },
+   "status": "queued",
+   "assistantId": "454bb356-8e65-41d2-b693-84f679ea7e1a",
+   "assistantVersion": "v4"
+  },
+  "assistantVersion": "v4"
+ }
+}
