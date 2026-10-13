@@ -1,4 +1,4 @@
-.PHONY: setup up down migrate test lint typecheck eval bench demo api tunnel sync-assistant sync-assistant-apply eval-live eval-live
+.PHONY: setup up down migrate test lint typecheck eval bench demo api tunnel sync-assistant sync-assistant-apply eval-live check-assistant dashboard worker
 
 setup:  ## Install dependencies
 	uv sync
@@ -37,9 +37,21 @@ eval-live:  ## Same scenarios with the real prompt + tools + a simulated caller 
 sync-assistant:  ## Dry run: show what would be pushed to Vapi (nothing is sent)
 	uv run python -m scripts.sync_assistant
 
+dashboard:  ## Call analytics dashboard on http://localhost:8511 (needs the optional dashboard group)
+	uv run --group dashboard streamlit run dashboard/app.py --server.port 8511
+
+worker:  ## Analyse any pending calls and deliver CRM notes (one pass)
+	uv run python -m app.postcall
+
+check-assistant:  ## Read-only: is what Vapi holds identical to the local prompt and config?
+	uv run python -m scripts.check_assistant
+
 sync-assistant-apply:  ## Really push the tools and assistant to your Vapi account
 	uv run python -m scripts.sync_assistant --apply
 
 # bench and demo arrive with Phase 5.
-bench demo:
+bench:  ## Latency, cost per minute and quality tables from the stored calls
+	uv run python -m app.bench
+
+demo:
 	@echo "not built yet (see PLAN.md phases)"

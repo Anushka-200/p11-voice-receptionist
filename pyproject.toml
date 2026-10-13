@@ -17,6 +17,9 @@ dependencies = [
 ]
 
 [dependency-groups]
+dashboard = [
+    "streamlit>=1.40",
+]
 dev = [
     "mypy>=1.13",
     "pytest>=8.3",

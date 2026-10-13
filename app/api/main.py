@@ -13,11 +13,13 @@ from pathlib import Path
 from typing import Any
 
 import psycopg
-from fastapi import Depends, FastAPI, Request
+from fastapi import BackgroundTasks, Depends, FastAPI, Request
 from fastapi.concurrency import run_in_threadpool
 
+from app.adapters.fakes import FakeCrm
 from app.api.vapi_auth import require_vapi_secret
 from app.log import setup_logging
+from app.postcall import ingest_report, process_call, process_crm_outbox
 from app.settings import get_settings
 from app.tools import execute, make_context
 
@@ -51,10 +53,44 @@ def _run_one(
         return execute(make_context(conn), call_id, name, args)
 
 
-def create_app(connect: Callable[[], psycopg.Connection] | None = None) -> FastAPI:
+Analyze = Callable[[psycopg.Connection, str], None]
+
+
+def _default_analyze(conn: psycopg.Connection, vapi_call_id: str) -> None:
+    """Analyse one stored call and deliver its CRM note. Needs an LLM key; without one the call stays pending."""
+    if not get_settings().anthropic_api_key.get_secret_value():
+        logger.warning("no ANTHROPIC_API_KEY: call left pending for the worker", extra={"call": vapi_call_id})
+        return
+    process_call(conn, vapi_call_id)
+    conn.commit()
+    process_crm_outbox(conn, FakeCrm())  # the fake CRM until a real adapter exists (cut from v1, see PLAN)
+    conn.commit()
+
+
+def _ingest(connect: Callable[[], psycopg.Connection], body: dict[str, Any]) -> tuple[str, bool]:
+    with connect() as conn:
+        result = ingest_report(conn, body)
+        conn.commit()
+        return result
+
+
+def _analyse_in_background(
+    connect: Callable[[], psycopg.Connection], analyze: Analyze, vapi_call_id: str
+) -> None:
+    try:  # never let a failed analysis surface as an error: the report is already saved and the worker retries
+        with connect() as conn:
+            analyze(conn, vapi_call_id)
+    except Exception:
+        logger.exception("post-call analysis failed; the worker will retry", extra={"call": vapi_call_id})
+
+
+def create_app(
+    connect: Callable[[], psycopg.Connection] | None = None, analyze: Analyze | None = None
+) -> FastAPI:
     setup_logging()
     app = FastAPI(title="P11 tool server")
     db = connect or (lambda: psycopg.connect(get_settings().database_url, connect_timeout=5))
+    analyse = analyze or _default_analyze
 
     @app.get("/health")
     def health() -> dict[str, str]:
@@ -74,11 +110,24 @@ def create_app(connect: Callable[[], psycopg.Connection] | None = None) -> FastA
         return {"results": results}
 
     @app.post("/vapi/events", dependencies=[Depends(require_vapi_secret)])
-    async def events(request: Request) -> dict[str, bool]:
+    async def events(request: Request, background: BackgroundTasks) -> dict[str, Any]:
         body = await request.json()
         kind = str(body.get("message", {}).get("type", "unknown"))
         _save_payload(kind, body)
         logger.info("vapi event", extra={"type": kind})
+        if kind == "end-of-call-report":
+            # SAVE FIRST: the raw report is in Postgres before anything else can go wrong; a replay is a no-op.
+            try:
+                vapi_call_id, created = await run_in_threadpool(_ingest, db, body)
+            except (
+                KeyError,
+                TypeError,
+            ):  # a report without a call id cannot be filed; say so instead of a 500
+                logger.warning("end-of-call-report without a call id was ignored")
+                return {"ok": False, "error": "report has no call id"}
+            if created:
+                background.add_task(_analyse_in_background, db, analyse, vapi_call_id)
+            return {"ok": True, "call": vapi_call_id, "stored": created}
         return {"ok": True}
 
     return app

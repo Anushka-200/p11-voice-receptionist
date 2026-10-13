@@ -63,3 +63,27 @@ class OutboxMessaging:
             (patient_id, body, idempotency_key),
         ).fetchone()
         return row[0] if row else None
+
+
+class FakeCrm:
+    """A CRM in memory: contacts and call notes, with a `fail` switch to simulate an outage (HubSpot is not built)."""
+
+    def __init__(self) -> None:
+        self.contacts: dict[str, dict] = {}
+        self.notes: list[tuple[str, str]] = []
+        self.fail = False
+
+    def _check(self) -> None:
+        if self.fail:
+            raise AdapterUnavailable("fake CRM is down")
+
+    def upsert_contact(self, patient: dict) -> str:
+        self._check()
+        contact_id = f"fake-{patient['phone']}"  # the same phone always maps to the same contact
+        self.contacts[contact_id] = patient
+        return contact_id
+
+    def add_call_note(self, crm_contact_id: str, note: str) -> str:
+        self._check()
+        self.notes.append((crm_contact_id, note))
+        return f"note-{len(self.notes)}"

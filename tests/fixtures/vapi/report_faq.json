@@ -1,0 +1,1447 @@
+{
+ "message": {
+  "timestamp": 1791894981289,
+  "type": "end-of-call-report",
+  "analysis": {},
+  "artifact": {
+   "messages": [
+    {
+     "role": "bot",
+     "message": "Thank you for calling BrightSmile Dental. I'm an AI assistant, and this call may be recorded. How can I help you today?",
+     "time": 1791894926763,
+     "endTime": 1791894931983,
+     "secondsFromStart": 1.5,
+     "duration": 5220,
+     "source": "",
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    },
+    {
+     "role": "user",
+     "message": "Welcome to your close on Fridays.",
+     "time": 1791894937940,
+     "endTime": 1791894939620,
+     "secondsFromStart": 12.677,
+     "duration": 1680,
+     "metadata": {
+      "wordLevelConfidence": [
+       {
+        "word": "Wel",
+        "start": 12.6,
+        "end": 12.66,
+        "confidence": 0.581,
+        "punctuated_word": "Wel",
+        "language": "en"
+       },
+       {
+        "word": "com",
+        "start": 12.66,
+        "end": 12.72,
+        "confidence": 1,
+        "punctuated_word": "com",
+        "language": "en"
+       },
+       {
+        "word": "e",
+        "start": 12.72,
+        "end": 12.78,
+        "confidence": 0.997,
+        "punctuated_word": "e",
+        "language": "en"
+       },
+       {
+        "word": "to",
+        "start": 12.9,
+        "end": 12.96,
+        "confidence": 0.998,
+        "punctuated_word": "to",
+        "language": "en"
+       },
+       {
+        "word": "y",
+        "start": 13.14,
+        "end": 13.2,
+        "confidence": 0.597,
+        "punctuated_word": "y",
+        "language": "en"
+       },
+       {
+        "word": "our",
+        "start": 13.2,
+        "end": 13.26,
+        "confidence": 0.487,
+        "punctuated_word": "our",
+        "language": "en"
+       },
+       {
+        "word": "cl",
+        "start": 13.5,
+        "end": 13.56,
+        "confidence": 0.737,
+        "punctuated_word": "cl",
+        "language": "en"
+       },
+       {
+        "word": "ose",
+        "start": 13.68,
+        "end": 13.74,
+        "confidence": 0.866,
+        "punctuated_word": "ose",
+        "language": "en"
+       },
+       {
+        "word": "on",
+        "start": 13.86,
+        "end": 13.92,
+        "confidence": 0.999,
+        "punctuated_word": "on",
+        "language": "en"
+       },
+       {
+        "word": "F",
+        "start": 14.1,
+        "end": 14.16,
+        "confidence": 0.998,
+        "punctuated_word": "F",
+        "language": "en"
+       },
+       {
+        "word": "rid",
+        "start": 14.22,
+        "end": 14.28,
+        "confidence": 1,
+        "punctuated_word": "rid",
+        "language": "en"
+       },
+       {
+        "word": "ay",
+        "start": 14.28,
+        "end": 14.28,
+        "confidence": 0.992,
+        "punctuated_word": "ay",
+        "language": "en"
+       },
+       {
+        "word": "s.",
+        "start": 14.28,
+        "end": 14.28,
+        "confidence": 0.616,
+        "punctuated_word": "s.",
+        "language": "en"
+       }
+      ]
+     },
+     "confidence": 0.8359999999999999,
+     "confidenceSource": "derived"
+    },
+    {
+     "role": "bot",
+     "message": "Thank you. Thank you for letting me know. Is there something I can help you with today?",
+     "time": 1791894942363,
+     "endTime": 1791894945903,
+     "secondsFromStart": 17.1,
+     "duration": 1620,
+     "source": "",
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    },
+    {
+     "role": "user",
+     "message": "What time do you close on Fridays?",
+     "time": 1791894949520,
+     "endTime": 1791894951500,
+     "secondsFromStart": 24.257,
+     "duration": 1980,
+     "metadata": {
+      "wordLevelConfidence": [
+       {
+        "word": "Wh",
+        "start": 24.18,
+        "end": 24.24,
+        "confidence": 0.999,
+        "punctuated_word": "Wh",
+        "language": "en"
+       },
+       {
+        "word": "at",
+        "start": 24.3,
+        "end": 24.36,
+        "confidence": 1,
+        "punctuated_word": "at",
+        "language": "en"
+       },
+       {
+        "word": "time",
+        "start": 24.42,
+        "end": 24.48,
+        "confidence": 1,
+        "punctuated_word": "time",
+        "language": "en"
+       },
+       {
+        "word": "do",
+        "start": 24.6,
+        "end": 24.66,
+        "confidence": 0.999,
+        "punctuated_word": "do",
+        "language": "en"
+       },
+       {
+        "word": "y",
+        "start": 24.78,
+        "end": 24.84,
+        "confidence": 1,
+        "punctuated_word": "y",
+        "language": "en"
+       },
+       {
+        "word": "ou",
+        "start": 24.84,
+        "end": 24.9,
+        "confidence": 0.998,
+        "punctuated_word": "ou",
+        "language": "en"
+       },
+       {
+        "word": "cl",
+        "start": 25.44,
+        "end": 25.5,
+        "confidence": 0.997,
+        "punctuated_word": "cl",
+        "language": "en"
+       },
+       {
+        "word": "ose",
+        "start": 25.56,
+        "end": 25.62,
+        "confidence": 1,
+        "punctuated_word": "ose",
+        "language": "en"
+       },
+       {
+        "word": "on",
+        "start": 25.74,
+        "end": 25.8,
+        "confidence": 0.998,
+        "punctuated_word": "on",
+        "language": "en"
+       },
+       {
+        "word": "F",
+        "start": 25.92,
+        "end": 25.98,
+        "confidence": 1,
+        "punctuated_word": "F",
+        "language": "en"
+       },
+       {
+        "word": "rid",
+        "start": 26.04,
+        "end": 26.1,
+        "confidence": 1,
+        "punctuated_word": "rid",
+        "language": "en"
+       },
+       {
+        "word": "ays",
+        "start": 26.1,
+        "end": 26.16,
+        "confidence": 0.965,
+        "punctuated_word": "ays",
+        "language": "en"
+       },
+       {
+        "word": "?",
+        "start": 26.16,
+        "end": 26.16,
+        "confidence": 0.993,
+        "punctuated_word": "?",
+        "language": "en"
+       }
+      ]
+     },
+     "confidence": 0.9960769230769231,
+     "confidenceSource": "derived"
+    },
+    {
+     "role": "bot",
+     "message": "This will just take a sec.",
+     "time": 1791894952563,
+     "endTime": 1791894953583,
+     "secondsFromStart": 27.3,
+     "duration": 1020,
+     "source": "",
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    },
+    {
+     "toolCalls": [
+      {
+       "id": "call_X0FACbuIUEBSuDnvXprCB749",
+       "type": "function",
+       "function": {
+        "name": "faq_lookup",
+        "arguments": "{\"question\": \"closing time on Fridays\"}"
+       }
+      }
+     ],
+     "role": "tool_calls",
+     "message": "",
+     "time": 1791894954082,
+     "secondsFromStart": 28.819
+    },
+    {
+     "role": "bot",
+     "message": "We are open on Fridays from 8:00 to 1:00. Is there anything else I can help you with?",
+     "time": 1791894954663,
+     "endTime": 1791894958143,
+     "secondsFromStart": 29.4,
+     "duration": 3480,
+     "source": "",
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    },
+    {
+     "role": "tool_call_result",
+     "time": 1791894955314,
+     "secondsFromStart": 30.051,
+     "name": "faq_lookup",
+     "result": "{\"ok\": true, \"topic\": \"hours\", \"say\": \"We are open Monday to Thursday, eight to five, and Friday, eight to one.\"}",
+     "metadata": {},
+     "toolCallId": "call_X0FACbuIUEBSuDnvXprCB749"
+    },
+    {
+     "role": "user",
+     "message": "Do you take Delta Dental?",
+     "time": 1791894960980,
+     "endTime": 1791894962660,
+     "secondsFromStart": 35.717,
+     "duration": 1680,
+     "metadata": {
+      "wordLevelConfidence": [
+       {
+        "word": "Do",
+        "start": 35.64,
+        "end": 35.7,
+        "confidence": 1,
+        "punctuated_word": "Do",
+        "language": "en"
+       },
+       {
+        "word": "y",
+        "start": 35.82,
+        "end": 35.88,
+        "confidence": 1,
+        "punctuated_word": "y",
+        "language": "en"
+       },
+       {
+        "word": "ou",
+        "start": 35.88,
+        "end": 35.94,
+        "confidence": 1,
+        "punctuated_word": "ou",
+        "language": "en"
+       },
+       {
+        "word": "tak",
+        "start": 36.12,
+        "end": 36.18,
+        "confidence": 1,
+        "punctuated_word": "tak",
+        "language": "en"
+       },
+       {
+        "word": "e",
+        "start": 36.24,
+        "end": 36.3,
+        "confidence": 1,
+        "punctuated_word": "e",
+        "language": "en"
+       },
+       {
+        "word": "Del",
+        "start": 36.6,
+        "end": 36.66,
+        "confidence": 0.724,
+        "punctuated_word": "Del",
+        "language": "en"
+       },
+       {
+        "word": "ta",
+        "start": 36.9,
+        "end": 36.96,
+        "confidence": 0.499,
+        "punctuated_word": "ta",
+        "language": "en"
+       },
+       {
+        "word": "D",
+        "start": 37.26,
+        "end": 37.32,
+        "confidence": 0.965,
+        "punctuated_word": "D",
+        "language": "en"
+       },
+       {
+        "word": "ental",
+        "start": 37.32,
+        "end": 37.32,
+        "confidence": 0.991,
+        "punctuated_word": "ental",
+        "language": "en"
+       },
+       {
+        "word": "?",
+        "start": 37.32,
+        "end": 37.32,
+        "confidence": 0.995,
+        "punctuated_word": "?",
+        "language": "en"
+       }
+      ]
+     },
+     "confidence": 0.9174,
+     "confidenceSource": "derived"
+    },
+    {
+     "role": "bot",
+     "message": "Hold on a sec.",
+     "time": 1791894963783,
+     "endTime": 1791894964143,
+     "secondsFromStart": 38.52,
+     "duration": 360,
+     "source": "",
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    },
+    {
+     "toolCalls": [
+      {
+       "id": "call_C3dKHZtUdZizfK2Crsaw63Rb",
+       "type": "function",
+       "function": {
+        "name": "faq_lookup",
+        "arguments": "{\"question\": \"Delta Dental insurance\"}"
+       }
+      }
+     ],
+     "role": "tool_calls",
+     "message": "",
+     "time": 1791894965238,
+     "secondsFromStart": 39.975
+    },
+    {
+     "role": "bot",
+     "message": "Yes, we accept most major plans, including Delta Dental.",
+     "time": 1791894966063,
+     "endTime": 1791894968823,
+     "secondsFromStart": 40.8,
+     "duration": 2760,
+     "source": "",
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    },
+    {
+     "role": "tool_call_result",
+     "time": 1791894966825,
+     "secondsFromStart": 41.562,
+     "name": "faq_lookup",
+     "result": "{\"ok\": true, \"topic\": \"insurance\", \"say\": \"Yes, we accept most major plans, including Delta Dental, Cigna and Aetna.\"}",
+     "metadata": {},
+     "toolCallId": "call_C3dKHZtUdZizfK2Crsaw63Rb"
+    },
+    {
+     "role": "bot",
+     "message": "Is there anything else I can help you with?",
+     "time": 1791894969603,
+     "endTime": 1791894970623,
+     "secondsFromStart": 44.34,
+     "duration": 1020,
+     "source": "",
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    },
+    {
+     "role": "user",
+     "message": "That's all. Goodbye.",
+     "time": 1791894972980,
+     "endTime": 1791894973460,
+     "secondsFromStart": 47.717,
+     "duration": 480,
+     "metadata": {
+      "wordLevelConfidence": [
+       {
+        "word": "That",
+        "start": 47.64,
+        "end": 47.7,
+        "confidence": 1,
+        "punctuated_word": "That",
+        "language": "en"
+       },
+       {
+        "word": "'s",
+        "start": 47.76,
+        "end": 47.82,
+        "confidence": 1,
+        "punctuated_word": "'s",
+        "language": "en"
+       },
+       {
+        "word": "all",
+        "start": 47.88,
+        "end": 47.94,
+        "confidence": 1,
+        "punctuated_word": "all",
+        "language": "en"
+       },
+       {
+        "word": ".",
+        "start": 48.06,
+        "end": 48.12,
+        "confidence": 0.592,
+        "punctuated_word": ".",
+        "language": "en"
+       },
+       {
+        "word": "Good",
+        "start": 48.12,
+        "end": 48.12,
+        "confidence": 0.997,
+        "punctuated_word": "Good",
+        "language": "en"
+       },
+       {
+        "word": "by",
+        "start": 48.12,
+        "end": 48.12,
+        "confidence": 0.999,
+        "punctuated_word": "by",
+        "language": "en"
+       },
+       {
+        "word": "e.",
+        "start": 48.12,
+        "end": 48.12,
+        "confidence": 0.999,
+        "punctuated_word": "e.",
+        "language": "en"
+       }
+      ]
+     },
+     "confidence": 0.941,
+     "confidenceSource": "derived"
+    },
+    {
+     "role": "bot",
+     "message": "Goodbye.",
+     "time": 1791894974643,
+     "endTime": 1791894974703,
+     "secondsFromStart": 49.38,
+     "duration": 60,
+     "source": "",
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    },
+    {
+     "toolCalls": [
+      {
+       "id": "call_ciFzvWkbMrw7UcySmQaa1p11",
+       "type": "function",
+       "function": {
+        "name": "endCall",
+        "arguments": "{}"
+       }
+      }
+     ],
+     "role": "tool_calls",
+     "message": "",
+     "time": 1791894976161,
+     "secondsFromStart": 50.898
+    },
+    {
+     "role": "tool_call_result",
+     "time": 1791894977497,
+     "secondsFromStart": 52.234,
+     "name": "endCall",
+     "result": "Success.",
+     "toolCallId": "call_ciFzvWkbMrw7UcySmQaa1p11"
+    }
+   ],
+   "messagesOpenAIFormatted": [
+    {
+     "role": "assistant",
+     "content": "Thank you for calling BrightSmile Dental. I'm an AI assistant, and this call may be recorded. How can I help you today?"
+    },
+    {
+     "role": "user",
+     "content": "Welcome to your close on Fridays."
+    },
+    {
+     "role": "assistant",
+     "content": "Thank you. Thank you for letting me know. Is there something I can help you with today?"
+    },
+    {
+     "role": "user",
+     "content": "What time do you close on Fridays?"
+    },
+    {
+     "role": "assistant",
+     "content": "This will just take a sec.",
+     "tool_calls": [
+      {
+       "id": "call_X0FACbuIUEBSuDnvXprCB749",
+       "type": "function",
+       "function": {
+        "name": "faq_lookup",
+        "arguments": "{\"question\": \"closing time on Fridays\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "call_X0FACbuIUEBSuDnvXprCB749",
+     "content": "{\"ok\": true, \"topic\": \"hours\", \"say\": \"We are open Monday to Thursday, eight to five, and Friday, eight to one.\"}"
+    },
+    {
+     "role": "assistant",
+     "content": "We are open on Fridays from 8:00 to 1:00. Is there anything else I can help you with?"
+    },
+    {
+     "role": "user",
+     "content": "Do you take Delta Dental?"
+    },
+    {
+     "role": "assistant",
+     "content": "Hold on a sec.",
+     "tool_calls": [
+      {
+       "id": "call_C3dKHZtUdZizfK2Crsaw63Rb",
+       "type": "function",
+       "function": {
+        "name": "faq_lookup",
+        "arguments": "{\"question\": \"Delta Dental insurance\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "call_C3dKHZtUdZizfK2Crsaw63Rb",
+     "content": "{\"ok\": true, \"topic\": \"insurance\", \"say\": \"Yes, we accept most major plans, including Delta Dental, Cigna and Aetna.\"}"
+    },
+    {
+     "role": "assistant",
+     "content": "Yes, we accept most major plans, including Delta Dental. Is there anything else I can help you with?"
+    },
+    {
+     "role": "user",
+     "content": "That's all. Goodbye."
+    },
+    {
+     "role": "assistant",
+     "content": "Goodbye.",
+     "tool_calls": [
+      {
+       "id": "call_ciFzvWkbMrw7UcySmQaa1p11",
+       "type": "function",
+       "function": {
+        "name": "endCall",
+        "arguments": "{}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "call_ciFzvWkbMrw7UcySmQaa1p11",
+     "content": "Success."
+    }
+   ],
+   "transcript": "AI: Thank you for calling BrightSmile Dental. I'm an AI assistant, and this call may be recorded. How can I help you today?\nUser: Welcome to your close on Fridays.\nAI: Thank you. Thank you for letting me know. Is there something I can help you with today?\nUser: What time do you close on Fridays?\nAI: This will just take a sec.\nAI: We are open on Fridays from 8:00 to 1:00. Is there anything else I can help you with?\nUser: Do you take Delta Dental?\nAI: Hold on a sec.\nAI: Yes, we accept most major plans, including Delta Dental.\nAI: Is there anything else I can help you with?\nUser: That's all. Goodbye.\nAI: Goodbye.\n",
+   "nodes": [],
+   "assistantActivations": [
+    {
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    }
+   ],
+   "variables": {
+    "now": "Oct 13, 2026, 12:35 PM UTC",
+    "currentDateTime": "Tuesday, October 13, 2026 at 12:35 PM UTC",
+    "date": "Oct 13, 2026 UTC",
+    "time": "12:35 PM UTC",
+    "year": "2026",
+    "month": "October",
+    "day": "13",
+    "transport": {
+     "conversationType": "voice",
+     "provider": "daily",
+     "videoRecordingEnabled": false,
+     "assistantVideoEnabled": false,
+     "roomDeleteOnUserLeaveEnabled": true,
+     "callUrl": "<url>"
+    },
+    "call": {
+     "id": "01a13542-acd6-7dd6-b537-563838ab2525",
+     "type": "webCall",
+     "status": "queued",
+     "createdAt": "2026-10-13T12:35:24.502Z",
+     "transport": {
+      "conversationType": "voice",
+      "provider": "daily",
+      "videoRecordingEnabled": false,
+      "assistantVideoEnabled": false,
+      "roomDeleteOnUserLeaveEnabled": true,
+      "callUrl": "<url>"
+     }
+    }
+   },
+   "variableValues": {
+    "now": "Oct 13, 2026, 12:35 PM UTC",
+    "currentDateTime": "Tuesday, October 13, 2026 at 12:35 PM UTC",
+    "date": "Oct 13, 2026 UTC",
+    "time": "12:35 PM UTC",
+    "year": "2026",
+    "month": "October",
+    "day": "13",
+    "transport": {
+     "conversationType": "voice",
+     "provider": "daily",
+     "videoRecordingEnabled": false,
+     "assistantVideoEnabled": false,
+     "roomDeleteOnUserLeaveEnabled": true,
+     "callUrl": "<url>"
+    },
+    "call": {
+     "id": "01a13542-acd6-7dd6-b537-563838ab2525",
+     "type": "webCall",
+     "status": "queued",
+     "createdAt": "2026-10-13T12:35:24.502Z",
+     "transport": {
+      "conversationType": "voice",
+      "provider": "daily",
+      "videoRecordingEnabled": false,
+      "assistantVideoEnabled": false,
+      "roomDeleteOnUserLeaveEnabled": true,
+      "callUrl": "<url>"
+     }
+    }
+   },
+   "performanceMetrics": {
+    "turnLatencies": [
+     {
+      "modelLatency": 404,
+      "voiceLatency": 700,
+      "transcriberLatency": 397,
+      "endpointingLatency": 6,
+      "turnLatency": 1563
+     },
+     {
+      "modelLatency": 0,
+      "voiceLatency": 0,
+      "transcriberLatency": 121,
+      "endpointingLatency": 5,
+      "turnLatency": 707
+     },
+     {
+      "modelLatency": 0,
+      "voiceLatency": 0,
+      "transcriberLatency": 394,
+      "endpointingLatency": 6,
+      "turnLatency": 988
+     },
+     {
+      "modelLatency": 390,
+      "voiceLatency": 0,
+      "transcriberLatency": 366,
+      "endpointingLatency": 5,
+      "turnLatency": 1030
+     }
+    ],
+    "modelLatencyAverage": 198.5,
+    "voiceLatencyAverage": 175,
+    "transcriberLatencyAverage": 319.5,
+    "endpointingLatencyAverage": 5.5,
+    "turnLatencyAverage": 1072,
+    "fromTransportLatencyAverage": 21,
+    "toTransportLatencyAverage": 48
+   },
+   "scorecards": {},
+   "transfers": []
+  },
+  "startedAt": "2026-10-13T12:35:25.263Z",
+  "endedAt": "2026-10-13T12:36:17.509Z",
+  "endedReason": "assistant-ended-call",
+  "cost": 0.0693,
+  "costBreakdown": {
+   "stt": 0.0037,
+   "llm": 0.0177,
+   "tts": 0.0044,
+   "vapi": 0.0435,
+   "chat": 0,
+   "transport": 0,
+   "total": 0.0693,
+   "llmPromptTokens": 11700,
+   "llmCompletionTokens": 82,
+   "llmCachedPromptTokens": 4224,
+   "ttsCharacters": 291,
+   "voicemailDetectionCost": 0,
+   "knowledgeBaseCost": 0,
+   "analysisCostBreakdown": {
+    "summary": 0,
+    "summaryPromptTokens": 0,
+    "summaryCompletionTokens": 0,
+    "summaryCachedPromptTokens": 0,
+    "structuredData": 0,
+    "structuredDataPromptTokens": 0,
+    "structuredDataCompletionTokens": 0,
+    "structuredDataCachedPromptTokens": 0,
+    "successEvaluation": 0,
+    "successEvaluationPromptTokens": 0,
+    "successEvaluationCompletionTokens": 0,
+    "successEvaluationCachedPromptTokens": 0,
+    "structuredOutput": 0,
+    "structuredOutputPromptTokens": 0,
+    "structuredOutputCompletionTokens": 0,
+    "structuredOutputCachedPromptTokens": 0
+   }
+  },
+  "costs": [
+   {
+    "type": "transcriber",
+    "transcriber": {
+     "provider": "soniox",
+     "model": "stt-rt-v5"
+    },
+    "minutes": 0.8353333333333333,
+    "cost": 0.0036549666666666667
+   },
+   {
+    "type": "model",
+    "model": {
+     "provider": "openai",
+     "model": "gpt-4.1"
+    },
+    "promptTokens": 11700,
+    "completionTokens": 82,
+    "cachedPromptTokens": 4224,
+    "reasoningTokens": 0,
+    "cost": 0.01772
+   },
+   {
+    "type": "voice",
+    "voice": {
+     "provider": "vapi",
+     "voiceId": "Elliot",
+     "model": "vapi-v2"
+    },
+    "characters": 291,
+    "cost": 0.004365
+   },
+   {
+    "type": "vapi",
+    "subType": "normal",
+    "minutes": 0.8708,
+    "cost": 0.04354
+   },
+   {
+    "type": "knowledge-base",
+    "model": {
+     "provider": "google",
+     "model": "gemini-2.5-flash"
+    },
+    "promptTokens": 0,
+    "completionTokens": 0,
+    "cost": 0
+   }
+  ],
+  "durationMs": 52246,
+  "durationSeconds": 52.246,
+  "durationMinutes": 0.8708,
+  "summary": "",
+  "transcript": "AI: Thank you for calling BrightSmile Dental. I'm an AI assistant, and this call may be recorded. How can I help you today?\nUser: Welcome to your close on Fridays.\nAI: Thank you. Thank you for letting me know. Is there something I can help you with today?\nUser: What time do you close on Fridays?\nAI: This will just take a sec.\nAI: We are open on Fridays from 8:00 to 1:00. Is there anything else I can help you with?\nUser: Do you take Delta Dental?\nAI: Hold on a sec.\nAI: Yes, we accept most major plans, including Delta Dental.\nAI: Is there anything else I can help you with?\nUser: That's all. Goodbye.\nAI: Goodbye.\n",
+  "messages": [
+   {
+    "role": "bot",
+    "message": "Thank you for calling BrightSmile Dental. I'm an AI assistant, and this call may be recorded. How can I help you today?",
+    "time": 1791894926763,
+    "endTime": 1791894931983,
+    "secondsFromStart": 1.5,
+    "duration": 5220,
+    "source": "",
+    "assistantName": "p11-receptionist",
+    "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+   },
+   {
+    "role": "user",
+    "message": "Welcome to your close on Fridays.",
+    "time": 1791894937940,
+    "endTime": 1791894939620,
+    "secondsFromStart": 12.677,
+    "duration": 1680,
+    "metadata": {
+     "wordLevelConfidence": [
+      {
+       "word": "Wel",
+       "start": 12.6,
+       "end": 12.66,
+       "confidence": 0.581,
+       "punctuated_word": "Wel",
+       "language": "en"
+      },
+      {
+       "word": "com",
+       "start": 12.66,
+       "end": 12.72,
+       "confidence": 1,
+       "punctuated_word": "com",
+       "language": "en"
+      },
+      {
+       "word": "e",
+       "start": 12.72,
+       "end": 12.78,
+       "confidence": 0.997,
+       "punctuated_word": "e",
+       "language": "en"
+      },
+      {
+       "word": "to",
+       "start": 12.9,
+       "end": 12.96,
+       "confidence": 0.998,
+       "punctuated_word": "to",
+       "language": "en"
+      },
+      {
+       "word": "y",
+       "start": 13.14,
+       "end": 13.2,
+       "confidence": 0.597,
+       "punctuated_word": "y",
+       "language": "en"
+      },
+      {
+       "word": "our",
+       "start": 13.2,
+       "end": 13.26,
+       "confidence": 0.487,
+       "punctuated_word": "our",
+       "language": "en"
+      },
+      {
+       "word": "cl",
+       "start": 13.5,
+       "end": 13.56,
+       "confidence": 0.737,
+       "punctuated_word": "cl",
+       "language": "en"
+      },
+      {
+       "word": "ose",
+       "start": 13.68,
+       "end": 13.74,
+       "confidence": 0.866,
+       "punctuated_word": "ose",
+       "language": "en"
+      },
+      {
+       "word": "on",
+       "start": 13.86,
+       "end": 13.92,
+       "confidence": 0.999,
+       "punctuated_word": "on",
+       "language": "en"
+      },
+      {
+       "word": "F",
+       "start": 14.1,
+       "end": 14.16,
+       "confidence": 0.998,
+       "punctuated_word": "F",
+       "language": "en"
+      },
+      {
+       "word": "rid",
+       "start": 14.22,
+       "end": 14.28,
+       "confidence": 1,
+       "punctuated_word": "rid",
+       "language": "en"
+      },
+      {
+       "word": "ay",
+       "start": 14.28,
+       "end": 14.28,
+       "confidence": 0.992,
+       "punctuated_word": "ay",
+       "language": "en"
+      },
+      {
+       "word": "s.",
+       "start": 14.28,
+       "end": 14.28,
+       "confidence": 0.616,
+       "punctuated_word": "s.",
+       "language": "en"
+      }
+     ]
+    },
+    "confidence": 0.8359999999999999,
+    "confidenceSource": "derived"
+   },
+   {
+    "role": "bot",
+    "message": "Thank you. Thank you for letting me know. Is there something I can help you with today?",
+    "time": 1791894942363,
+    "endTime": 1791894945903,
+    "secondsFromStart": 17.1,
+    "duration": 1620,
+    "source": "",
+    "assistantName": "p11-receptionist",
+    "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+   },
+   {
+    "role": "user",
+    "message": "What time do you close on Fridays?",
+    "time": 1791894949520,
+    "endTime": 1791894951500,
+    "secondsFromStart": 24.257,
+    "duration": 1980,
+    "metadata": {
+     "wordLevelConfidence": [
+      {
+       "word": "Wh",
+       "start": 24.18,
+       "end": 24.24,
+       "confidence": 0.999,
+       "punctuated_word": "Wh",
+       "language": "en"
+      },
+      {
+       "word": "at",
+       "start": 24.3,
+       "end": 24.36,
+       "confidence": 1,
+       "punctuated_word": "at",
+       "language": "en"
+      },
+      {
+       "word": "time",
+       "start": 24.42,
+       "end": 24.48,
+       "confidence": 1,
+       "punctuated_word": "time",
+       "language": "en"
+      },
+      {
+       "word": "do",
+       "start": 24.6,
+       "end": 24.66,
+       "confidence": 0.999,
+       "punctuated_word": "do",
+       "language": "en"
+      },
+      {
+       "word": "y",
+       "start": 24.78,
+       "end": 24.84,
+       "confidence": 1,
+       "punctuated_word": "y",
+       "language": "en"
+      },
+      {
+       "word": "ou",
+       "start": 24.84,
+       "end": 24.9,
+       "confidence": 0.998,
+       "punctuated_word": "ou",
+       "language": "en"
+      },
+      {
+       "word": "cl",
+       "start": 25.44,
+       "end": 25.5,
+       "confidence": 0.997,
+       "punctuated_word": "cl",
+       "language": "en"
+      },
+      {
+       "word": "ose",
+       "start": 25.56,
+       "end": 25.62,
+       "confidence": 1,
+       "punctuated_word": "ose",
+       "language": "en"
+      },
+      {
+       "word": "on",
+       "start": 25.74,
+       "end": 25.8,
+       "confidence": 0.998,
+       "punctuated_word": "on",
+       "language": "en"
+      },
+      {
+       "word": "F",
+       "start": 25.92,
+       "end": 25.98,
+       "confidence": 1,
+       "punctuated_word": "F",
+       "language": "en"
+      },
+      {
+       "word": "rid",
+       "start": 26.04,
+       "end": 26.1,
+       "confidence": 1,
+       "punctuated_word": "rid",
+       "language": "en"
+      },
+      {
+       "word": "ays",
+       "start": 26.1,
+       "end": 26.16,
+       "confidence": 0.965,
+       "punctuated_word": "ays",
+       "language": "en"
+      },
+      {
+       "word": "?",
+       "start": 26.16,
+       "end": 26.16,
+       "confidence": 0.993,
+       "punctuated_word": "?",
+       "language": "en"
+      }
+     ]
+    },
+    "confidence": 0.9960769230769231,
+    "confidenceSource": "derived"
+   },
+   {
+    "role": "bot",
+    "message": "This will just take a sec.",
+    "time": 1791894952563,
+    "endTime": 1791894953583,
+    "secondsFromStart": 27.3,
+    "duration": 1020,
+    "source": "",
+    "assistantName": "p11-receptionist",
+    "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+   },
+   {
+    "toolCalls": [
+     {
+      "id": "call_X0FACbuIUEBSuDnvXprCB749",
+      "type": "function",
+      "function": {
+       "name": "faq_lookup",
+       "arguments": "{\"question\": \"closing time on Fridays\"}"
+      }
+     }
+    ],
+    "role": "tool_calls",
+    "message": "",
+    "time": 1791894954082,
+    "secondsFromStart": 28.819
+   },
+   {
+    "role": "bot",
+    "message": "We are open on Fridays from 8:00 to 1:00. Is there anything else I can help you with?",
+    "time": 1791894954663,
+    "endTime": 1791894958143,
+    "secondsFromStart": 29.4,
+    "duration": 3480,
+    "source": "",
+    "assistantName": "p11-receptionist",
+    "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+   },
+   {
+    "role": "tool_call_result",
+    "time": 1791894955314,
+    "secondsFromStart": 30.051,
+    "name": "faq_lookup",
+    "result": "{\"ok\": true, \"topic\": \"hours\", \"say\": \"We are open Monday to Thursday, eight to five, and Friday, eight to one.\"}",
+    "metadata": {},
+    "toolCallId": "call_X0FACbuIUEBSuDnvXprCB749"
+   },
+   {
+    "role": "user",
+    "message": "Do you take Delta Dental?",
+    "time": 1791894960980,
+    "endTime": 1791894962660,
+    "secondsFromStart": 35.717,
+    "duration": 1680,
+    "metadata": {
+     "wordLevelConfidence": [
+      {
+       "word": "Do",
+       "start": 35.64,
+       "end": 35.7,
+       "confidence": 1,
+       "punctuated_word": "Do",
+       "language": "en"
+      },
+      {
+       "word": "y",
+       "start": 35.82,
+       "end": 35.88,
+       "confidence": 1,
+       "punctuated_word": "y",
+       "language": "en"
+      },
+      {
+       "word": "ou",
+       "start": 35.88,
+       "end": 35.94,
+       "confidence": 1,
+       "punctuated_word": "ou",
+       "language": "en"
+      },
+      {
+       "word": "tak",
+       "start": 36.12,
+       "end": 36.18,
+       "confidence": 1,
+       "punctuated_word": "tak",
+       "language": "en"
+      },
+      {
+       "word": "e",
+       "start": 36.24,
+       "end": 36.3,
+       "confidence": 1,
+       "punctuated_word": "e",
+       "language": "en"
+      },
+      {
+       "word": "Del",
+       "start": 36.6,
+       "end": 36.66,
+       "confidence": 0.724,
+       "punctuated_word": "Del",
+       "language": "en"
+      },
+      {
+       "word": "ta",
+       "start": 36.9,
+       "end": 36.96,
+       "confidence": 0.499,
+       "punctuated_word": "ta",
+       "language": "en"
+      },
+      {
+       "word": "D",
+       "start": 37.26,
+       "end": 37.32,
+       "confidence": 0.965,
+       "punctuated_word": "D",
+       "language": "en"
+      },
+      {
+       "word": "ental",
+       "start": 37.32,
+       "end": 37.32,
+       "confidence": 0.991,
+       "punctuated_word": "ental",
+       "language": "en"
+      },
+      {
+       "word": "?",
+       "start": 37.32,
+       "end": 37.32,
+       "confidence": 0.995,
+       "punctuated_word": "?",
+       "language": "en"
+      }
+     ]
+    },
+    "confidence": 0.9174,
+    "confidenceSource": "derived"
+   },
+   {
+    "role": "bot",
+    "message": "Hold on a sec.",
+    "time": 1791894963783,
+    "endTime": 1791894964143,
+    "secondsFromStart": 38.52,
+    "duration": 360,
+    "source": "",
+    "assistantName": "p11-receptionist",
+    "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+   },
+   {
+    "toolCalls": [
+     {
+      "id": "call_C3dKHZtUdZizfK2Crsaw63Rb",
+      "type": "function",
+      "function": {
+       "name": "faq_lookup",
+       "arguments": "{\"question\": \"Delta Dental insurance\"}"
+      }
+     }
+    ],
+    "role": "tool_calls",
+    "message": "",
+    "time": 1791894965238,
+    "secondsFromStart": 39.975
+   },
+   {
+    "role": "bot",
+    "message": "Yes, we accept most major plans, including Delta Dental.",
+    "time": 1791894966063,
+    "endTime": 1791894968823,
+    "secondsFromStart": 40.8,
+    "duration": 2760,
+    "source": "",
+    "assistantName": "p11-receptionist",
+    "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+   },
+   {
+    "role": "tool_call_result",
+    "time": 1791894966825,
+    "secondsFromStart": 41.562,
+    "name": "faq_lookup",
+    "result": "{\"ok\": true, \"topic\": \"insurance\", \"say\": \"Yes, we accept most major plans, including Delta Dental, Cigna and Aetna.\"}",
+    "metadata": {},
+    "toolCallId": "call_C3dKHZtUdZizfK2Crsaw63Rb"
+   },
+   {
+    "role": "bot",
+    "message": "Is there anything else I can help you with?",
+    "time": 1791894969603,
+    "endTime": 1791894970623,
+    "secondsFromStart": 44.34,
+    "duration": 1020,
+    "source": "",
+    "assistantName": "p11-receptionist",
+    "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+   },
+   {
+    "role": "user",
+    "message": "That's all. Goodbye.",
+    "time": 1791894972980,
+    "endTime": 1791894973460,
+    "secondsFromStart": 47.717,
+    "duration": 480,
+    "metadata": {
+     "wordLevelConfidence": [
+      {
+       "word": "That",
+       "start": 47.64,
+       "end": 47.7,
+       "confidence": 1,
+       "punctuated_word": "That",
+       "language": "en"
+      },
+      {
+       "word": "'s",
+       "start": 47.76,
+       "end": 47.82,
+       "confidence": 1,
+       "punctuated_word": "'s",
+       "language": "en"
+      },
+      {
+       "word": "all",
+       "start": 47.88,
+       "end": 47.94,
+       "confidence": 1,
+       "punctuated_word": "all",
+       "language": "en"
+      },
+      {
+       "word": ".",
+       "start": 48.06,
+       "end": 48.12,
+       "confidence": 0.592,
+       "punctuated_word": ".",
+       "language": "en"
+      },
+      {
+       "word": "Good",
+       "start": 48.12,
+       "end": 48.12,
+       "confidence": 0.997,
+       "punctuated_word": "Good",
+       "language": "en"
+      },
+      {
+       "word": "by",
+       "start": 48.12,
+       "end": 48.12,
+       "confidence": 0.999,
+       "punctuated_word": "by",
+       "language": "en"
+      },
+      {
+       "word": "e.",
+       "start": 48.12,
+       "end": 48.12,
+       "confidence": 0.999,
+       "punctuated_word": "e.",
+       "language": "en"
+      }
+     ]
+    },
+    "confidence": 0.941,
+    "confidenceSource": "derived"
+   },
+   {
+    "role": "bot",
+    "message": "Goodbye.",
+    "time": 1791894974643,
+    "endTime": 1791894974703,
+    "secondsFromStart": 49.38,
+    "duration": 60,
+    "source": "",
+    "assistantName": "p11-receptionist",
+    "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+   },
+   {
+    "toolCalls": [
+     {
+      "id": "call_ciFzvWkbMrw7UcySmQaa1p11",
+      "type": "function",
+      "function": {
+       "name": "endCall",
+       "arguments": "{}"
+      }
+     }
+    ],
+    "role": "tool_calls",
+    "message": "",
+    "time": 1791894976161,
+    "secondsFromStart": 50.898
+   },
+   {
+    "role": "tool_call_result",
+    "time": 1791894977497,
+    "secondsFromStart": 52.234,
+    "name": "endCall",
+    "result": "Success.",
+    "toolCallId": "call_ciFzvWkbMrw7UcySmQaa1p11"
+   }
+  ],
+  "call": {
+   "id": "01a13542-acd6-7dd6-b537-563838ab2525",
+   "createdAt": "2026-10-13T12:35:24.502Z",
+   "updatedAt": "2026-10-13T12:35:24.502Z",
+   "type": "webCall",
+   "cost": 0,
+   "transport": {
+    "conversationType": "voice",
+    "provider": "daily",
+    "videoRecordingEnabled": false,
+    "assistantVideoEnabled": false,
+    "roomDeleteOnUserLeaveEnabled": true,
+    "callUrl": "<url>"
+   },
+   "status": "queued",
+   "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+  }
+ }
+}

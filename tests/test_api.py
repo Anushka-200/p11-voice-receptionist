@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
@@ -148,3 +149,39 @@ def test_booking_flow_through_the_http_endpoint_then_a_replay_is_harmless(client
                 "DELETE FROM call_sessions WHERE vapi_call_id = 't-api-flow'",
             ):
                 conn.execute(sql)
+
+
+def test_an_end_of_call_report_is_saved_first_and_analysed_once_even_if_vapi_sends_it_twice(
+    monkeypatch, tmp_path
+):
+    """The real recorded booking report through the HTTP door; the analysis step is a spy (no LLM, no cost)."""
+    import psycopg
+
+    from app.api.main import create_app as build
+
+    monkeypatch.setenv("VAPI_WEBHOOK_SECRET", SECRET)
+    monkeypatch.setenv("SPIKE_PAYLOAD_DIR", str(tmp_path))
+    get_settings.cache_clear()
+    analysed: list[str] = []
+    c = TestClient(build(analyze=lambda conn, vid: analysed.append(vid)))
+    report = json.loads((Path(__file__).parent / "fixtures/vapi/report_booking.json").read_text())
+    vid = report["message"]["call"]["id"]
+    try:
+        first = c.post("/vapi/events", json=report, headers={"X-Vapi-Secret": SECRET}).json()
+        again = c.post("/vapi/events", json=report, headers={"X-Vapi-Secret": SECRET}).json()
+        assert first == {"ok": True, "call": vid, "stored": True} and again["stored"] is False
+        assert analysed == [vid]  # the replay did not trigger a second analysis
+        with psycopg.connect(get_settings().database_url) as conn:
+            assert (
+                conn.execute("SELECT count(*) FROM calls WHERE vapi_call_id = %s", (vid,)).fetchone()[0] == 1
+            )
+    finally:
+        with psycopg.connect(get_settings().database_url) as conn:
+            conn.execute("DELETE FROM calls WHERE vapi_call_id = %s", (vid,))
+
+
+def test_other_events_are_acknowledged_but_not_stored_as_calls(client):
+    r = client.post(
+        "/vapi/events", json={"message": {"type": "status-update"}}, headers={"X-Vapi-Secret": SECRET}
+    )
+    assert r.json() == {"ok": True}

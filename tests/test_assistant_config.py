@@ -154,3 +154,24 @@ def test_apply_updates_the_assistant_when_it_already_exists(loaded):
     vapi, calls = _fake_vapi([], [{"id": "mine", "name": built["cfg"].name}])
     apply(vapi, built, BASE, CRED)
     assert ("PATCH", "/assistant/mine") in [(m, p) for m, p, _ in calls]
+
+
+def test_check_assistant_reports_identical_or_different_prompt_from_the_api(loaded):
+    from scripts.check_assistant import check
+
+    cfg, prompt = loaded
+
+    def make(live_prompt):
+        def handler(req: httpx.Request) -> httpx.Response:
+            if req.url.path == "/assistant":
+                a = {"id": "a1", "name": cfg.name, "latestVersion": "v4", "firstMessage": cfg.first_message,
+                     "model": {"provider": "openai", "model": "gpt-4.1", "toolIds": ["t"] * 8,
+                               "messages": [{"role": "system", "content": live_prompt}]},
+                     "voice": {"p": 1}, "transcriber": {"p": 1}}  # fmt: skip
+                return httpx.Response(200, json=[a])
+            return httpx.Response(200, json={"results": [{"createdAt": "2026-10-13T12:00:00Z"}]})
+
+        return httpx.Client(transport=httpx.MockTransport(handler), base_url="https://api.vapi.ai")
+
+    assert check(make(prompt), cfg.name)["prompt_matches_local"] is True
+    assert check(make("an older prompt"), cfg.name)["prompt_matches_local"] is False

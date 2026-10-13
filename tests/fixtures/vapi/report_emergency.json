@@ -1,0 +1,626 @@
+{
+ "message": {
+  "timestamp": 1791895023328,
+  "type": "end-of-call-report",
+  "analysis": {},
+  "artifact": {
+   "messages": [
+    {
+     "role": "bot",
+     "message": "Thank you for calling BrightSmile Dental. I'm an. Assistant, and this call may be recorded. How can I help you today?",
+     "time": 1791894997084,
+     "endTime": 1791895003324,
+     "secondsFromStart": 0.72,
+     "duration": 3180,
+     "source": "",
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    },
+    {
+     "role": "user",
+     "message": "My face is swollen, and I can barely open my mouth.",
+     "time": 1791895006149,
+     "endTime": 1791895009089,
+     "secondsFromStart": 9.785,
+     "duration": 2940,
+     "metadata": {
+      "wordLevelConfidence": [
+       {
+        "word": "My",
+        "start": 9.78,
+        "end": 9.84,
+        "confidence": 1,
+        "punctuated_word": "My",
+        "language": "en"
+       },
+       {
+        "word": "face",
+        "start": 10.02,
+        "end": 10.08,
+        "confidence": 0.829,
+        "punctuated_word": "face",
+        "language": "en"
+       },
+       {
+        "word": "is",
+        "start": 10.32,
+        "end": 10.38,
+        "confidence": 0.987,
+        "punctuated_word": "is",
+        "language": "en"
+       },
+       {
+        "word": "sw",
+        "start": 10.56,
+        "end": 10.62,
+        "confidence": 0.998,
+        "punctuated_word": "sw",
+        "language": "en"
+       },
+       {
+        "word": "oll",
+        "start": 10.68,
+        "end": 10.74,
+        "confidence": 0.777,
+        "punctuated_word": "oll",
+        "language": "en"
+       },
+       {
+        "word": "en,",
+        "start": 10.8,
+        "end": 10.86,
+        "confidence": 1,
+        "punctuated_word": "en,",
+        "language": "en"
+       },
+       {
+        "word": "and",
+        "start": 10.98,
+        "end": 11.04,
+        "confidence": 1,
+        "punctuated_word": "and",
+        "language": "en"
+       },
+       {
+        "word": "I",
+        "start": 11.1,
+        "end": 11.16,
+        "confidence": 1,
+        "punctuated_word": "I",
+        "language": "en"
+       },
+       {
+        "word": "can",
+        "start": 11.22,
+        "end": 11.28,
+        "confidence": 1,
+        "punctuated_word": "can",
+        "language": "en"
+       },
+       {
+        "word": "bar",
+        "start": 11.7,
+        "end": 11.76,
+        "confidence": 0.999,
+        "punctuated_word": "bar",
+        "language": "en"
+       },
+       {
+        "word": "ely",
+        "start": 11.88,
+        "end": 11.94,
+        "confidence": 1,
+        "punctuated_word": "ely",
+        "language": "en"
+       },
+       {
+        "word": "open",
+        "start": 12.12,
+        "end": 12.18,
+        "confidence": 1,
+        "punctuated_word": "open",
+        "language": "en"
+       },
+       {
+        "word": "my",
+        "start": 12.42,
+        "end": 12.48,
+        "confidence": 1,
+        "punctuated_word": "my",
+        "language": "en"
+       },
+       {
+        "word": "mo",
+        "start": 12.66,
+        "end": 12.72,
+        "confidence": 1,
+        "punctuated_word": "mo",
+        "language": "en"
+       },
+       {
+        "word": "uth",
+        "start": 12.72,
+        "end": 12.72,
+        "confidence": 0.999,
+        "punctuated_word": "uth",
+        "language": "en"
+       },
+       {
+        "word": ".",
+        "start": 12.72,
+        "end": 12.72,
+        "confidence": 0.999,
+        "punctuated_word": ".",
+        "language": "en"
+       }
+      ]
+     },
+     "confidence": 0.9742500000000002,
+     "confidenceSource": "derived"
+    },
+    {
+     "role": "bot",
+     "message": "Connecting you to our on-call dentist now.",
+     "time": 1791895010884,
+     "endTime": 1791895012804,
+     "secondsFromStart": 14.52,
+     "duration": 1920,
+     "source": "",
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    },
+    {
+     "toolCalls": [
+      {
+       "id": "call_GZXYx5rF0DJHx7mL28CT1Iep",
+       "type": "function",
+       "function": {
+        "name": "transferCall",
+        "arguments": "{\"destination\": \"+15125550911\"}"
+       }
+      }
+     ],
+     "role": "tool_calls",
+     "message": "",
+     "time": 1791895015649,
+     "secondsFromStart": 19.285
+    },
+    {
+     "role": "tool_call_result",
+     "time": 1791895019435,
+     "secondsFromStart": 23.071,
+     "name": "transferCall",
+     "result": "Transfer initiated.",
+     "toolCallId": "call_GZXYx5rF0DJHx7mL28CT1Iep"
+    }
+   ],
+   "messagesOpenAIFormatted": [
+    {
+     "role": "assistant",
+     "content": "Thank you for calling BrightSmile Dental. I'm an. Assistant, and this call may be recorded. How can I help you today?"
+    },
+    {
+     "role": "user",
+     "content": "My face is swollen, and I can barely open my mouth."
+    },
+    {
+     "role": "assistant",
+     "content": "Connecting you to our on-call dentist now.",
+     "tool_calls": [
+      {
+       "id": "call_GZXYx5rF0DJHx7mL28CT1Iep",
+       "type": "function",
+       "function": {
+        "name": "transferCall",
+        "arguments": "{\"destination\": \"+15125550911\"}"
+       }
+      }
+     ]
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "call_GZXYx5rF0DJHx7mL28CT1Iep",
+     "content": "Transfer initiated."
+    }
+   ],
+   "transcript": "AI: Thank you for calling BrightSmile Dental. I'm an. Assistant, and this call may be recorded. How can I help you today?\nUser: My face is swollen, and I can barely open my mouth.\nAI: Connecting you to our on-call dentist now.\n",
+   "nodes": [],
+   "assistantActivations": [
+    {
+     "assistantName": "p11-receptionist",
+     "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+    }
+   ],
+   "variables": {
+    "now": "Oct 13, 2026, 12:36 PM UTC",
+    "currentDateTime": "Tuesday, October 13, 2026 at 12:36 PM UTC",
+    "date": "Oct 13, 2026 UTC",
+    "time": "12:36 PM UTC",
+    "year": "2026",
+    "month": "October",
+    "day": "13",
+    "transport": {
+     "conversationType": "voice",
+     "provider": "daily",
+     "videoRecordingEnabled": false,
+     "assistantVideoEnabled": false,
+     "roomDeleteOnUserLeaveEnabled": true,
+     "callUrl": "<url>"
+    },
+    "call": {
+     "id": "01a13543-c367-7000-9679-cf1eeee9021c",
+     "type": "webCall",
+     "status": "queued",
+     "createdAt": "2026-10-13T12:36:35.815Z",
+     "transport": {
+      "conversationType": "voice",
+      "provider": "daily",
+      "videoRecordingEnabled": false,
+      "assistantVideoEnabled": false,
+      "roomDeleteOnUserLeaveEnabled": true,
+      "callUrl": "<url>"
+     }
+    }
+   },
+   "variableValues": {
+    "now": "Oct 13, 2026, 12:36 PM UTC",
+    "currentDateTime": "Tuesday, October 13, 2026 at 12:36 PM UTC",
+    "date": "Oct 13, 2026 UTC",
+    "time": "12:36 PM UTC",
+    "year": "2026",
+    "month": "October",
+    "day": "13",
+    "transport": {
+     "conversationType": "voice",
+     "provider": "daily",
+     "videoRecordingEnabled": false,
+     "assistantVideoEnabled": false,
+     "roomDeleteOnUserLeaveEnabled": true,
+     "callUrl": "<url>"
+    },
+    "call": {
+     "id": "01a13543-c367-7000-9679-cf1eeee9021c",
+     "type": "webCall",
+     "status": "queued",
+     "createdAt": "2026-10-13T12:36:35.815Z",
+     "transport": {
+      "conversationType": "voice",
+      "provider": "daily",
+      "videoRecordingEnabled": false,
+      "assistantVideoEnabled": false,
+      "roomDeleteOnUserLeaveEnabled": true,
+      "callUrl": "<url>"
+     }
+    }
+   },
+   "performanceMetrics": {
+    "turnLatencies": [
+     {
+      "modelLatency": 454,
+      "voiceLatency": 0,
+      "transcriberLatency": 783,
+      "endpointingLatency": 6,
+      "turnLatency": 1934
+     }
+    ],
+    "modelLatencyAverage": 454,
+    "voiceLatencyAverage": 0,
+    "transcriberLatencyAverage": 783,
+    "endpointingLatencyAverage": 6,
+    "turnLatencyAverage": 1934,
+    "fromTransportLatencyAverage": 21,
+    "toTransportLatencyAverage": 46
+   },
+   "scorecards": {},
+   "transfers": [
+    {
+     "destination": {
+      "type": "number",
+      "number": "+15125550911",
+      "message": "Connecting you to our on-call dentist now.",
+      "description": "[on_call] Dental emergency: swelling, trauma, knocked-out tooth, bleeding that will not stop. Transfer to the on-call dentist."
+     },
+     "status": "failed"
+    }
+   ]
+  },
+  "startedAt": "2026-10-13T12:36:36.364Z",
+  "endedAt": "2026-10-13T12:36:59.455Z",
+  "endedReason": "call.in-progress.error-transfer-failed",
+  "cost": 0.0278,
+  "costBreakdown": {
+   "stt": 0.0017,
+   "llm": 0.0054,
+   "tts": 0.0014,
+   "vapi": 0.0192,
+   "chat": 0,
+   "transport": 0,
+   "total": 0.0278,
+   "llmPromptTokens": 2636,
+   "llmCompletionTokens": 20,
+   "llmCachedPromptTokens": 0,
+   "ttsCharacters": 96,
+   "voicemailDetectionCost": 0,
+   "knowledgeBaseCost": 0,
+   "analysisCostBreakdown": {
+    "summary": 0,
+    "summaryPromptTokens": 0,
+    "summaryCompletionTokens": 0,
+    "summaryCachedPromptTokens": 0,
+    "structuredData": 0,
+    "structuredDataPromptTokens": 0,
+    "structuredDataCompletionTokens": 0,
+    "structuredDataCachedPromptTokens": 0,
+    "successEvaluation": 0,
+    "successEvaluationPromptTokens": 0,
+    "successEvaluationCompletionTokens": 0,
+    "successEvaluationCachedPromptTokens": 0,
+    "structuredOutput": 0,
+    "structuredOutputPromptTokens": 0,
+    "structuredOutputCompletionTokens": 0,
+    "structuredOutputCachedPromptTokens": 0
+   }
+  },
+  "costs": [
+   {
+    "type": "transcriber",
+    "transcriber": {
+     "provider": "soniox",
+     "model": "stt-rt-v5"
+    },
+    "minutes": 0.3148,
+    "cost": 0.0017152333333333336
+   },
+   {
+    "type": "model",
+    "model": {
+     "provider": "openai",
+     "model": "gpt-4.1"
+    },
+    "promptTokens": 2636,
+    "completionTokens": 20,
+    "cachedPromptTokens": 0,
+    "reasoningTokens": 0,
+    "cost": 0.005432
+   },
+   {
+    "type": "voice",
+    "voice": {
+     "provider": "vapi",
+     "voiceId": "Elliot",
+     "model": "vapi-v2"
+    },
+    "characters": 96,
+    "cost": 0.00144
+   },
+   {
+    "type": "vapi",
+    "subType": "normal",
+    "minutes": 0.3849,
+    "cost": 0.019245
+   },
+   {
+    "type": "knowledge-base",
+    "model": {
+     "provider": "google",
+     "model": "gemini-2.5-flash"
+    },
+    "promptTokens": 0,
+    "completionTokens": 0,
+    "cost": 0
+   }
+  ],
+  "durationMs": 23091,
+  "durationSeconds": 23.091,
+  "durationMinutes": 0.3849,
+  "summary": "",
+  "transcript": "AI: Thank you for calling BrightSmile Dental. I'm an. Assistant, and this call may be recorded. How can I help you today?\nUser: My face is swollen, and I can barely open my mouth.\nAI: Connecting you to our on-call dentist now.\n",
+  "messages": [
+   {
+    "role": "bot",
+    "message": "Thank you for calling BrightSmile Dental. I'm an. Assistant, and this call may be recorded. How can I help you today?",
+    "time": 1791894997084,
+    "endTime": 1791895003324,
+    "secondsFromStart": 0.72,
+    "duration": 3180,
+    "source": "",
+    "assistantName": "p11-receptionist",
+    "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+   },
+   {
+    "role": "user",
+    "message": "My face is swollen, and I can barely open my mouth.",
+    "time": 1791895006149,
+    "endTime": 1791895009089,
+    "secondsFromStart": 9.785,
+    "duration": 2940,
+    "metadata": {
+     "wordLevelConfidence": [
+      {
+       "word": "My",
+       "start": 9.78,
+       "end": 9.84,
+       "confidence": 1,
+       "punctuated_word": "My",
+       "language": "en"
+      },
+      {
+       "word": "face",
+       "start": 10.02,
+       "end": 10.08,
+       "confidence": 0.829,
+       "punctuated_word": "face",
+       "language": "en"
+      },
+      {
+       "word": "is",
+       "start": 10.32,
+       "end": 10.38,
+       "confidence": 0.987,
+       "punctuated_word": "is",
+       "language": "en"
+      },
+      {
+       "word": "sw",
+       "start": 10.56,
+       "end": 10.62,
+       "confidence": 0.998,
+       "punctuated_word": "sw",
+       "language": "en"
+      },
+      {
+       "word": "oll",
+       "start": 10.68,
+       "end": 10.74,
+       "confidence": 0.777,
+       "punctuated_word": "oll",
+       "language": "en"
+      },
+      {
+       "word": "en,",
+       "start": 10.8,
+       "end": 10.86,
+       "confidence": 1,
+       "punctuated_word": "en,",
+       "language": "en"
+      },
+      {
+       "word": "and",
+       "start": 10.98,
+       "end": 11.04,
+       "confidence": 1,
+       "punctuated_word": "and",
+       "language": "en"
+      },
+      {
+       "word": "I",
+       "start": 11.1,
+       "end": 11.16,
+       "confidence": 1,
+       "punctuated_word": "I",
+       "language": "en"
+      },
+      {
+       "word": "can",
+       "start": 11.22,
+       "end": 11.28,
+       "confidence": 1,
+       "punctuated_word": "can",
+       "language": "en"
+      },
+      {
+       "word": "bar",
+       "start": 11.7,
+       "end": 11.76,
+       "confidence": 0.999,
+       "punctuated_word": "bar",
+       "language": "en"
+      },
+      {
+       "word": "ely",
+       "start": 11.88,
+       "end": 11.94,
+       "confidence": 1,
+       "punctuated_word": "ely",
+       "language": "en"
+      },
+      {
+       "word": "open",
+       "start": 12.12,
+       "end": 12.18,
+       "confidence": 1,
+       "punctuated_word": "open",
+       "language": "en"
+      },
+      {
+       "word": "my",
+       "start": 12.42,
+       "end": 12.48,
+       "confidence": 1,
+       "punctuated_word": "my",
+       "language": "en"
+      },
+      {
+       "word": "mo",
+       "start": 12.66,
+       "end": 12.72,
+       "confidence": 1,
+       "punctuated_word": "mo",
+       "language": "en"
+      },
+      {
+       "word": "uth",
+       "start": 12.72,
+       "end": 12.72,
+       "confidence": 0.999,
+       "punctuated_word": "uth",
+       "language": "en"
+      },
+      {
+       "word": ".",
+       "start": 12.72,
+       "end": 12.72,
+       "confidence": 0.999,
+       "punctuated_word": ".",
+       "language": "en"
+      }
+     ]
+    },
+    "confidence": 0.9742500000000002,
+    "confidenceSource": "derived"
+   },
+   {
+    "role": "bot",
+    "message": "Connecting you to our on-call dentist now.",
+    "time": 1791895010884,
+    "endTime": 1791895012804,
+    "secondsFromStart": 14.52,
+    "duration": 1920,
+    "source": "",
+    "assistantName": "p11-receptionist",
+    "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+   },
+   {
+    "toolCalls": [
+     {
+      "id": "call_GZXYx5rF0DJHx7mL28CT1Iep",
+      "type": "function",
+      "function": {
+       "name": "transferCall",
+       "arguments": "{\"destination\": \"+15125550911\"}"
+      }
+     }
+    ],
+    "role": "tool_calls",
+    "message": "",
+    "time": 1791895015649,
+    "secondsFromStart": 19.285
+   },
+   {
+    "role": "tool_call_result",
+    "time": 1791895019435,
+    "secondsFromStart": 23.071,
+    "name": "transferCall",
+    "result": "Transfer initiated.",
+    "toolCallId": "call_GZXYx5rF0DJHx7mL28CT1Iep"
+   }
+  ],
+  "call": {
+   "id": "01a13543-c367-7000-9679-cf1eeee9021c",
+   "createdAt": "2026-10-13T12:36:35.815Z",
+   "updatedAt": "2026-10-13T12:36:35.815Z",
+   "type": "webCall",
+   "cost": 0,
+   "transport": {
+    "conversationType": "voice",
+    "provider": "daily",
+    "videoRecordingEnabled": false,
+    "assistantVideoEnabled": false,
+    "roomDeleteOnUserLeaveEnabled": true,
+    "callUrl": "<url>"
+   },
+   "status": "queued",
+   "assistantId": "104bf1d7-80e4-4df7-9dd5-fb7962f95a48"
+  }
+ }
+}
