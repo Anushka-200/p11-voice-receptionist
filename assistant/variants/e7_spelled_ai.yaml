@@ -1,0 +1,4 @@
+# E7: say "artificial intelligence" instead of "AI". In 1 of 3 real calls the voice dropped the word AI ("I'm an.
+# Assistant"), so the disclosure was not heard. Question: does the spelled-out wording make the disclosure reliable?
+name: p11-receptionist-e7
+first_message: "Thank you for calling Bright Smile Dental. I'm an artificial intelligence assistant, and this call may be recorded. How can I help you today?"

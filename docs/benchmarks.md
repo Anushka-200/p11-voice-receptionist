@@ -33,18 +33,29 @@ GPT-4.1 through Vapi; this text eval uses a Haiku-class model as a proxy (ADR 00
   empty string silently. Now it logs and raises.
 - Voice answers read whole FAQ entries aloud (46 words): entries shortened.
 
-## 2. Live call latency and cost (pending)
-Source: Vapi end-of-call reports (`performanceMetrics`, `costBreakdown`). Spike call (2026-10-13, 30 s, default stack
-Soniox + GPT-4.1 + Vapi "Elliot", 2 turns): turn latency 1,829 ms and 1,190 ms; cost $0.0297, about $0.058 per
-minute (Vapi platform $0.0255, STT $0.0022, LLM $0.0012, TTS $0.0008). Too few turns to call it a baseline.
+## 2. Live calls: latency and cost (measured 2026-10-13, 3 calls, preliminary)
+Source: Vapi end-of-call reports through our post-call pipeline (`make bench`). Stack: Soniox STT, GPT-4.1, Vapi voice
+"Elliot", browser calls (no phone-line hop). Three calls (FAQ 52 s, emergency 23 s, booking 90 s), 15 turns, 2.75 minutes.
+Too few turns for a baseline: this table shows the shape, and the 15 scripted calls will replace it.
 
-| Metric | Target | Baseline (15 live calls) | After experiments |
+| Metric | Target | Measured (3 calls) | After experiments |
 |---|---|---|---|
-| p50 turn latency | < 800 ms | pending | pending |
-| p95 turn latency | report | pending | pending |
-| Cost per minute by stage | report | pending | pending |
-| Task success on 15 test calls | >= 13/15 | pending | n/a |
-| Emergencies transferred | 100% | pending | n/a |
+| Turn latency p50 | < 800 ms | **1,370 ms** (not met) | pending |
+| Turn latency p95 | report | **1,988 ms** | pending |
+| Stage averages | report | transcriber 441 ms, model 449 ms, voice 435 ms, endpointing 6.5 ms | pending |
+| Cost per minute, total | report | **$0.0857** | pending |
+| Cost per minute by stage | report | Vapi $0.050, LLM $0.0239, TTS $0.0076, STT $0.0042 | pending |
+| Our post-call analysis | report | about $0.0001 per call | n/a |
+| Task success on 15 scripted calls | >= 13/15 | pending (3 of 3 live calls behaved correctly, unscored) | n/a |
+| Emergencies routed to a transfer | 100% | 1/1 (transfer to the on-call number initiated; failed because a browser call cannot ring) | n/a |
+| AI + recording disclosure heard | 100% | **2/3** (the voice dropped the word "AI" once) | E7 |
+
+What the numbers say:
+- The latency is spread across three stages of roughly equal size; no single fix gets under 800 ms. Candidates: a faster
+  LLM (E1), a shorter wait before speaking (E3).
+- Vapi's own fee is 58% of the cost. In the 90 s booking call the LLM took 31% of the cost with 29,370 prompt tokens, because
+  the prompt and tool definitions are re-sent every turn (E4).
+- Web calls skip the phone network; a phone line adds roughly 100 to 200 ms (an estimate, not measured here).
 
 ## 3. Experiments (pending live calls)
 E1 faster LLM tier, E3 speaking-plan timing, E4 shorter prompt, E5 filler policy. Each gets a row here:

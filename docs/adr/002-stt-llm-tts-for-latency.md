@@ -31,3 +31,10 @@ same stages plus the Vapi platform fee. Our standard says LLM calls go through L
   should match the live one as closely as possible.
 - Tool calls still go through the tunnel to the laptop; their latency is measured separately. The v2 fix is
   hosting in a US region.
+
+## Update 2026-10-13 (measured)
+Default stack in the live calls: Soniox STT, GPT-4.1, Vapi voice "Elliot". Over 15 turns the average stage times were
+transcriber 441 ms, model 449 ms, voice 435 ms. Median turn latency was 1,370 ms against the 800 ms target, so the target
+is not met and the experiments (E1, E3, E4) are the plan. The text eval uses `claude-haiku-5-5` as a proxy for the live model
+(GPT-4.1): it tests the logic, not the voice, and its numbers are not the live model's numbers.
+Found with the text model: Claude 5 "thinks" by default and with a 200-token cap returned empty answers; thinking is now off.

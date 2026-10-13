@@ -1,0 +1,4 @@
+# E3: start speaking sooner after the caller stops (Vapi's wait before the agent starts). Question: latency saved vs
+# how often the agent cuts the caller off (false cut-offs) when they pause mid-number.
+name: p11-receptionist-e3
+speaking: {start_wait_seconds: 0.1}

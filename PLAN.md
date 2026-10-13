@@ -304,3 +304,13 @@ Facts that change the design:
   `call.in-progress.error-assistant-did-not-receive-customer-audio`, cost $0.001). The worker must handle empty transcripts.
 - The quick tunnel dropped for about 3 minutes during the session and recovered on its own. Runbook item.
 - Vapi's server messages include `transfer-destination-request` and `user-interrupted`, both useful for ADR 003 and the interruption metrics.
+
+
+## Status at 2026-10-13 (what was built, cut and is pending)
+- **Built:** phases 0 to 4, packaging, and the Phase 5 tooling (runbook, bench, experiment variants, demo).
+- **Cut from v1 (named in the cut list):** the emergency second layer (server-forced transfer), the real HubSpot adapter, the Google
+  Calendar adapter (Phase 2b), Twilio and phone calls ($0 budget), the Pipecat/Sarvam v1.5 extension.
+- **Pending the owner's live calls:** the 15 scripted calls, experiments E1, E3, E4, E5, E7, the demo video, and verification of the
+  Docker image build.
+- **Plan changes that came from measurement:** free credit is $5 at about $0.086 per minute; the live latency target is not met with the
+  default stack; the voice dropped the word "AI" once in three calls (experiment E7).

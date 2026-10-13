@@ -27,3 +27,17 @@ Weakest: Q5 (filler speech while a tool runs; retry once silently, then apologis
 3. One transaction per tool call: **no answer given**. A Vapi request can carry several tool calls. With one
    transaction per request, one failure would undo the successful calls too (such as the slots just offered),
    and locks would be held longer, widening the race window. Per call, a failure undoes only its own writes.
+
+## Phase 3 quiz (answers pending)
+See `docs/walkthrough/phase-3-assistant-as-code.md`.
+
+## Phase 4 and 5 quizzes (answers pending)
+See `docs/walkthrough/phase-4-post-call.md` and `docs/walkthrough/phase-5-packaging.md`.
+
+## Lessons from building (mine, for the next project)
+- A passing eval proves nothing until a deliberately broken agent fails it (the mutant tests did that).
+- A stub hides real bugs: the real-tool eval found the FAQ gap and the deadlock.
+- When a model returns "nothing", look at `finish_reason` before blaming the prompt (hidden thinking ate the token cap).
+- Read the transcript of a failing scenario before changing anything: most failures were my scenarios or harness, not the agent.
+- A chained shell command hides a failing test behind a pipe; gate a commit on the real exit status.
+- Real data in the dev database can break tests that assumed an empty one: give every test fresh ids.

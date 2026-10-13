@@ -8,11 +8,13 @@ spike assistant `p11-spike` and its `hello` tool are left alone.
 Usage:
   uv run python -m scripts.sync_assistant            # dry run
   uv run python -m scripts.sync_assistant --apply    # really push
+  uv run python -m scripts.sync_assistant --variant assistant/variants/e4_short_prompt.yaml --apply
 """
 
 import argparse
 import json
 import sys
+from pathlib import Path
 from typing import Any
 
 import httpx
@@ -57,8 +59,8 @@ def _tool_key(tool: dict[str, Any]) -> str | None:
     return tool.get("type")
 
 
-def build_all(base_url: str, credential_id: str) -> dict[str, Any]:
-    cfg, prompt = load_config()
+def build_all(base_url: str, credential_id: str, variant: Path | None = None) -> dict[str, Any]:
+    cfg, prompt = load_config(variant=variant)
     tools = function_tool_payloads(cfg, base_url, credential_id)
     tools["transferCall"] = transfer_tool_payload(cfg)
     tools["endCall"] = END_CALL_TOOL
@@ -88,6 +90,9 @@ def apply(vapi: Vapi, built: dict[str, Any], base_url: str, credential_id: str) 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--apply", action="store_true", help="really write to Vapi (default is a dry run)")
+    parser.add_argument(
+        "--variant", type=Path, help="an experiment file from assistant/variants/ (own assistant name)"
+    )
     args = parser.parse_args(argv)
     s = get_settings()
     base_url, credential_id = s.public_base_url, s.vapi_credential_id
@@ -96,7 +101,7 @@ def main(argv: list[str] | None = None) -> int:
     if not credential_id:
         raise SystemExit("VAPI_CREDENTIAL_ID is empty (the p11-webhook credential's id)")
 
-    built = build_all(base_url, credential_id)
+    built = build_all(base_url, credential_id, args.variant)
     tool_ids = [f"<id of {k}>" for k in built["tools"]]
     preview = assistant_payload(built["cfg"], built["prompt"], tool_ids, base_url, credential_id)
     print(f"tools to sync ({len(built['tools'])}): {', '.join(built['tools'])}")

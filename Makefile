@@ -1,4 +1,4 @@
-.PHONY: setup up down migrate test lint typecheck eval bench demo api tunnel sync-assistant sync-assistant-apply eval-live check-assistant dashboard worker
+.PHONY: setup up down migrate test lint typecheck eval bench demo api tunnel sync-assistant sync-assistant-apply eval-live check-assistant dashboard worker calls runbook
 
 setup:  ## Install dependencies
 	uv sync
@@ -37,6 +37,12 @@ eval-live:  ## Same scenarios with the real prompt + tools + a simulated caller 
 sync-assistant:  ## Dry run: show what would be pushed to Vapi (nothing is sent)
 	uv run python -m scripts.sync_assistant
 
+calls:  ## List stored calls newest first (match each test call to its scenario)
+	uv run python -m scripts.list_calls
+
+runbook:  ## Regenerate docs/TEST_CALLS.md from the scenario files
+	uv run python -m scripts.make_runbook
+
 dashboard:  ## Call analytics dashboard on http://localhost:8511 (needs the optional dashboard group)
 	uv run --group dashboard streamlit run dashboard/app.py --server.port 8511
 
@@ -53,5 +59,5 @@ sync-assistant-apply:  ## Really push the tools and assistant to your Vapi accou
 bench:  ## Latency, cost per minute and quality tables from the stored calls
 	uv run python -m app.bench
 
-demo:
-	@echo "not built yet (see PLAN.md phases)"
+demo:  ## The whole system end to end, offline and free (about ten seconds); add ARGS=--live-llm for the real model
+	uv run python -m scripts.demo $(ARGS)

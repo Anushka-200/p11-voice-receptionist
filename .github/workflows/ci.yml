@@ -38,3 +38,10 @@ jobs:
       - name: Migrate
         run: uv run python -m app.db.migrate
       - run: uv run pytest -q
+      - name: Reference eval (replays the model answers: proves the harness and grader, free)
+        run: uv run python -m evals.run --runs 3
+      - name: Assistant config dry run (nothing is sent to Vapi)
+        run: uv run python -m scripts.sync_assistant
+        env:
+          PUBLIC_BASE_URL: https://ci.example.invalid
+          VAPI_CREDENTIAL_ID: ci

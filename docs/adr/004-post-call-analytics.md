@@ -35,3 +35,11 @@ or while our server is down.
 - The same pipeline works for the v1.5 Pipecat build, because it consumes our own `calls` record.
 - Transcripts contain names and phone numbers. They are masked in logs and traces, kept in Postgres only, and
   every record is a fake patient.
+
+## Update 2026-10-13 (built)
+- **The phone log wins.** The stored outcome is derived by code from what the tools completed (and the transfer target); the
+  LLM's opinion is kept in `eval_scores.llm_outcome`, and any disagreement adds an `outcome_mismatch` flag.
+- **Silent calls** (no caller audio) skip the LLM entirely and are marked `abandoned`.
+- **Measured cost:** about $0.0001 per analysed call (a Haiku-class model, thinking off).
+- **Provider failure:** two invalid replies in a row leave the call `needs_review` with the error; it is never guessed.
+- **Not built:** the real HubSpot adapter (cut for v1); the CRM runs on a fake with the same outbox and retry behaviour.

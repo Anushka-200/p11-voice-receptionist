@@ -1,6 +1,6 @@
 # Local dev services. Ports are bound to 127.0.0.1 only and differ from P01 (5433, 8000, 8501, 5678),
 # P02 (5434, 6380, 8001, 8502) and P03 (5435, 8003, 8503). P11: Postgres 5441, API 8011, dashboard 8511.
-# Phase 0 only has `postgres`; `api`, `worker` and `dashboard` are added in the phases that create them.
+# `docker compose up` runs everything: Postgres, migrations, the tool server, the worker and the dashboard.
 services:
   postgres:
     image: postgres:16
@@ -21,6 +21,54 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+
+  migrate:                        # runs once: applies the SQL migrations as the migrator role, then exits
+    build: .
+    command: ["python", "-m", "app.db.migrate"]
+    environment: &db_env
+      MIGRATOR_DATABASE_URL: postgresql://p11_migrator:${P11_MIGRATOR_PASSWORD}@postgres:5432/p11
+      DATABASE_URL: postgresql://p11_app:${P11_APP_PASSWORD}@postgres:5432/p11
+    env_file: .env
+    depends_on:
+      postgres: {condition: service_healthy}
+    restart: "no"
+
+  api:                            # the tool server Vapi calls (reach it with `make tunnel`)
+    build: .
+    ports:
+      - "127.0.0.1:8011:8011"     # local only: no public URL without a tunnel you start yourself
+    environment: *db_env
+    env_file: .env
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:8011/health', timeout=3)"]
+      interval: 10s
+      timeout: 4s
+      retries: 6
+
+  worker:                         # analyses pending calls and delivers CRM notes, once a minute
+    build: .
+    command: ["sh", "-c", "while true; do python -m app.postcall; sleep 60; done"]
+    environment: *db_env
+    env_file: .env
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    mem_limit: 512m
+
+  dashboard:                      # http://localhost:8511
+    build:
+      context: .
+      args: {WITH_DASHBOARD: "true"}
+    command: ["streamlit", "run", "dashboard/app.py", "--server.port", "8511", "--server.address", "0.0.0.0"]
+    ports:
+      - "127.0.0.1:8511:8511"
+    environment: *db_env
+    env_file: .env
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    mem_limit: 768m
 
 volumes:
   pgdata:

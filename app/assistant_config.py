@@ -86,8 +86,26 @@ class AssistantConfig(BaseModel):
         return steps
 
 
-def load_config(directory: Path = ASSISTANT_DIR) -> tuple[AssistantConfig, str]:
-    cfg = AssistantConfig.model_validate(yaml.safe_load((directory / "receptionist.yaml").read_text()))
+REPLACE_WHOLE = {"tool_messages"}  # an override of these replaces the base value instead of merging into it
+
+
+def _merge(base: dict[str, Any], over: dict[str, Any]) -> dict[str, Any]:
+    out = dict(base)
+    for key, value in over.items():
+        if isinstance(value, dict) and isinstance(base.get(key), dict) and key not in REPLACE_WHOLE:
+            out[key] = _merge(base[key], value)
+        else:
+            out[key] = value
+    return out
+
+
+def load_config(directory: Path = ASSISTANT_DIR, variant: Path | None = None) -> tuple[AssistantConfig, str]:
+    """Load the base config. A `variant` file overrides only the keys it names (one experiment = one small diff)
+    and gets its own assistant name, so a baseline and its variants can sit side by side in Vapi."""
+    data = yaml.safe_load((directory / "receptionist.yaml").read_text())
+    if variant is not None:
+        data = _merge(data, yaml.safe_load(variant.read_text()))
+    cfg = AssistantConfig.model_validate(data)
     missing = set(TOOLS) - set(cfg.tool_descriptions)
     if missing:
         raise ValueError(f"tools without a description: {sorted(missing)}")

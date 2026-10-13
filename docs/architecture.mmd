@@ -1,0 +1,25 @@
+flowchart LR
+  CALLER[Caller<br/>browser web call] --> VP
+  subgraph VAPI[Vapi cloud: the voice pipeline]
+    VP[STT Soniox → LLM GPT-4.1 → TTS Vapi voice<br/>turn-taking, interruptions, silence ladder]
+    CFG[(Stored assistant:<br/>prompt, tools, limits)]
+  end
+  YAML[assistant/prompt.md + receptionist.yaml] -->|make sync-assistant-apply| CFG
+  VP -- "tool call (secret header, via tunnel)" --> API
+  subgraph LAPTOP[Our server: FastAPI]
+    API[/vapi/tools<br/>execute: validate, one transaction per call, audit/]
+    EVT[/vapi/events<br/>save the end-of-call report first/]
+    TOOLS[6 tools: availability · book · find · reschedule · cancel · FAQ<br/>date resolver · phone parsing · idempotency · ownership]
+    API --> TOOLS --> PG
+    EVT --> PG
+    PC[Post-call: facts from the phone log,<br/>LLM summary + checks, log wins on disagreement]
+    PG[(Postgres<br/>bookings · calls · turns · audit · outbox)]
+    PG --> PC --> PG
+    PC --> CRM[CRM outbox → fake CRM<br/>retried, never lost]
+    PG --> DASH[Streamlit dashboard + make bench]
+  end
+  TOOLS --> CAL[CalendarPort: fake calendar<br/>Google adapter not built]
+  TOOLS --> SMS[SMS outbox: dry-run only]
+  VP -- "transferCall to a fixed number" --> XFER[on-call dentist / front desk]
+  VP -- "end-of-call report" --> EVT
+  EVAL[make eval-live: same prompt + tools + real tool code,<br/>simulated caller, code grader] -.rehearsal.-> TOOLS

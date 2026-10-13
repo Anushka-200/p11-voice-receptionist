@@ -4,6 +4,7 @@ Task success is the one number that needs a human: after each test call you reco
 docs/test_calls_results.csv (columns: n, scenario_id, vapi_call_id, success, notes), and it is read here.
 """
 
+import argparse
 import csv
 import sys
 from pathlib import Path
@@ -20,7 +21,12 @@ RESULTS_CSV = Path(__file__).resolve().parents[1] / "docs" / "test_calls_results
 def task_success(path: Path = RESULTS_CSV) -> str:
     if not path.exists():
         return "pending (no results file)"
-    rows = [r for r in csv.DictReader(path.open()) if (r.get("success") or "").strip()]
+    # Only the 15 core scripted calls count toward task success; the extra calls (noise, silence, interruption) do not.
+    rows = [
+        r
+        for r in csv.DictReader(path.open())
+        if (r.get("success") or "").strip() and r.get("kind", "core") == "core"
+    ]
     if not rows:
         return "pending (no calls scored yet)"
     ok = sum(r["success"].strip().lower() in ("y", "yes", "pass", "1", "true") for r in rows)
@@ -48,8 +54,16 @@ def render(s: dict[str, Any], success: str) -> str:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--assistant",
+        default="p11-receptionist",
+        help="which assistant's calls to summarise (a variant name for an experiment)",
+    )
+    args = parser.parse_args()
     with psycopg.connect(get_settings().database_url) as conn:
-        print(render(summary(conn), task_success()))
+        print(f"assistant: {args.assistant}")
+        print(render(summary(conn, args.assistant), task_success()))
     return 0
 
 

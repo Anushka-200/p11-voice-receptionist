@@ -1,0 +1,4 @@
+# E4: a prompt about half the length. The prompt is re-sent on every turn (29,000 prompt tokens in a 90 s call), so
+# a shorter one saves LLM cost and time-to-first-token. Question: how much, and does safety behaviour hold?
+name: p11-receptionist-e4
+prompt_file: prompt_short.md

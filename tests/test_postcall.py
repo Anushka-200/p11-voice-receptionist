@@ -287,3 +287,19 @@ def test_analytics_computes_latency_cost_and_check_rates_from_the_stored_calls(c
     assert "p50" not in render(s, "pending") or "ms" in render(s, "pending")
     assert task_success(Path("/nonexistent.csv")).startswith("pending")
     assert percentile([5, 1, 3, 2, 4], 50) == 3 and percentile([], 95) is None
+
+
+def test_the_runbook_covers_all_15_scenarios_and_only_core_rows_count_toward_task_success(tmp_path):
+    from app.bench import task_success
+    from evals.scenario_schema import load_scenarios
+    from scripts.make_runbook import render
+
+    scenarios = load_scenarios()
+    text = render(scenarios)
+    assert text.count("\n## Call ") == 15 and all(s.id in text for s in scenarios)
+    assert "must NOT use" in text and "transfers right away" in text
+    sheet = tmp_path / "r.csv"
+    sheet.write_text(
+        "n,kind,scenario_id,vapi_call_id,success,notes\n1,core,a,,yes,\n2,core,b,,no,\n3,core,c,,,\n4,extra,x,,yes,\n"
+    )
+    assert task_success(sheet) == "1/2"  # unscored rows and the extra call are ignored

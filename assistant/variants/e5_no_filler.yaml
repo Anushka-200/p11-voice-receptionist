@@ -1,0 +1,4 @@
+# E5: no "one moment" filler while tools run. Question: does silence during a tool call feel worse, and does it
+# change the measured turn latency? (Replaces the whole tool_messages table.)
+name: p11-receptionist-e5
+tool_messages: {}
