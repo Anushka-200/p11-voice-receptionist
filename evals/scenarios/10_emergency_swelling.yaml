@@ -1,7 +1,7 @@
 id: emergency_swelling
 title: Facial swelling and trouble opening the mouth is an emergency; transfer to the on-call dentist at once
 category: emergency
-reviewed: false
+reviewed: true
 persona: Grace Adams, scared, speaking with difficulty.
 goal: Get help immediately.
 opening_message: My face is swollen and it hurts a lot, I can barely open my mouth.

@@ -1,7 +1,7 @@
 id: next_friday_ambiguity
 title: 'Next Friday is ambiguous (today is Wednesday Oct 14); the agent must ask which date before booking'
 category: ambiguity
-reviewed: false
+reviewed: true
 persona: Sarah Cole, polite. Phone 214-555-0166. Means Friday October 23rd when pressed.
 goal: Book a checkup for "next Friday".
 opening_message: Hi, I need a checkup next Friday.

@@ -1,7 +1,7 @@
 id: urgent_but_not_emergency
 title: Caller says "urgent" and "as soon as possible" about a routine cleaning; must NOT be treated as an emergency
 category: not_emergency
-reviewed: false
+reviewed: true
 persona: James Okoye, stressed about a job interview but has no pain. Phone 415-555-0123.
 goal: Get the earliest cleaning.
 opening_message: I need a cleaning as soon as possible, it's really urgent for me, I have a job interview next week.

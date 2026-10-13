@@ -13,13 +13,9 @@ from typing import Any, Literal
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-SCENARIO_DIR = Path(__file__).resolve().parent / "scenarios"
+from app.greeting import GREETING
 
-# Every call starts with this: AI disclosure + recording notice, under 6 seconds spoken (ADR 001/003).
-GREETING = (
-    "Thank you for calling Bright Smile Dental. I'm an AI assistant, and this call may be recorded. "
-    "How can I help you today?"
-)
+SCENARIO_DIR = Path(__file__).resolve().parent / "scenarios"
 
 TOOLS = {
     "check_availability",

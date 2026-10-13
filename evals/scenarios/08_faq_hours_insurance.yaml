@@ -1,7 +1,7 @@
 id: faq_hours_insurance
 title: Caller asks opening hours and whether Delta Dental is accepted, in one sentence
 category: faq
-reviewed: false
+reviewed: true
 persona: Dana Wu, quick and friendly, only wants information.
 goal: Learn the hours and whether Delta Dental is accepted.
 opening_message: What are your hours, and do you take Delta Dental?

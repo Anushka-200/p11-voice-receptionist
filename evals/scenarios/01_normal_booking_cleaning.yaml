@@ -1,7 +1,7 @@
 id: normal_booking_cleaning
 title: New patient books a teeth cleaning, gives name and phone, picks Thursday
 category: booking
-reviewed: false
+reviewed: true
 persona: Maria Lopez, polite and flexible. Phone 512-555-0142. Only gives details when asked.
 goal: Get a teeth cleaning booked on a Thursday afternoon.
 opening_message: Hi, I'd like to book a teeth cleaning.

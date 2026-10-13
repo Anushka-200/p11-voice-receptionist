@@ -1,7 +1,7 @@
 id: asks_for_human
 title: Caller asks for a real person right away; transfer to the front desk with no pushback
 category: transfer
-reviewed: false
+reviewed: true
 persona: Frank Hill, impatient, dislikes talking to machines.
 goal: Reach a human.
 opening_message: Can I talk to a real person?

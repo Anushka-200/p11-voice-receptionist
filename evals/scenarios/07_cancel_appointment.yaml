@@ -1,7 +1,7 @@
 id: cancel_appointment
 title: Existing patient cancels a checkup
 category: cancel
-reviewed: false
+reviewed: true
 persona: Linda Park, apologetic. Phone 512-555-0177. Has a checkup on Friday October 16 at nine AM.
 goal: Cancel the appointment.
 opening_message: I need to cancel my appointment.

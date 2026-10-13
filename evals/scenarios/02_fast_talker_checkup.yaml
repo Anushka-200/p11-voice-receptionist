@@ -1,7 +1,7 @@
 id: fast_talker_checkup
 title: Caller rushes through name, phone and day in one breath
 category: difficult
-reviewed: false
+reviewed: true
 persona: David Kim, in a hurry, talks fast, gives everything at once with filler words. Phone 737-555-0188.
 goal: Book a checkup; accept whatever slot is offered.
 opening_message: Hi um yeah I need a checkup, I'm David Kim, my number is seven three seven five five five zero one eight eight, and Tuesday morning works, whatever you have.

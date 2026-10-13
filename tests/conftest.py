@@ -30,6 +30,9 @@ def conn():
     except psycopg.OperationalError:
         pytest.skip("Postgres is not running (make up)")
     apply_migrations()
+    # Start a transaction now: on a fresh connection the first `conn.transaction()` block would be the OUTER
+    # transaction and would really commit. Inside an open one it is a savepoint, so every test rolls back.
+    c.execute("SELECT 1")
     yield c
     c.rollback()
     c.close()

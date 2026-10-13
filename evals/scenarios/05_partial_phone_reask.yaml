@@ -1,7 +1,7 @@
 id: partial_phone_reask
 title: Caller gives only eight digits of the phone number; the agent must re-ask, not guess
 category: difficult
-reviewed: false
+reviewed: true
 persona: Priya Shah, soft-spoken, trails off on the first try. Phone 972-555-0131.
 goal: Book a cleaning on Friday morning.
 opening_message: I want to book a cleaning.

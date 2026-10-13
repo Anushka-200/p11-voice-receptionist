@@ -1,7 +1,7 @@
 id: reschedule_appointment
 title: Existing patient moves a Friday checkup to Thursday afternoon
 category: reschedule
-reviewed: false
+reviewed: true
 persona: Linda Park, brisk and clear. Phone 512-555-0177. Has a checkup on Friday October 16 at nine AM.
 goal: Move the checkup to Thursday afternoon.
 opening_message: Hi, I need to move my appointment.

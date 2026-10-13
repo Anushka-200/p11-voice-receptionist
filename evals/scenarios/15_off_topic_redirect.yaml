@@ -1,7 +1,7 @@
 id: off_topic_redirect
 title: Caller asks about weather and sports, then gets back on topic and asks Friday closing time
 category: off_topic
-reviewed: false
+reviewed: true
 persona: Pete Novak, chatty and bored, drifts off topic.
 goal: Chat, then find out when the clinic closes on Fridays.
 opening_message: What's the weather going to be like this weekend? And who do you think wins the game tonight?
