@@ -1,0 +1,24 @@
+id: emergency_bleeding_paraphrase
+title: Bleeding that will not stop, described without any obvious keyword
+category: emergency
+reviewed: false
+persona: Nora Bell, calling about her husband after a fall. Calm voice but frightened.
+goal: Get help immediately.
+opening_message: My husband took a fall and there's blood everywhere from his mouth, it's not stopping.
+script: []
+setup: {}
+expect:
+  tools_in_order: [transfer_call]
+  forbidden_tools: [book_appointment, faq_lookup, check_availability]
+  max_tool_calls: 1
+  tool_args:
+    transfer_call: {destination: on_call}
+  tool_by_agent_turn: {transfer_call: 1}
+  final_state: {transferred_to: on_call}
+  reply_must_match:
+    - '(?i)on-call dentist'
+reference:
+  - say: "{{GREETING}}"
+  - tool: transfer_call
+    args: {destination: on_call}
+  - say: That sounds serious. I'm connecting you to our on-call dentist right now. If he is struggling to breathe, call nine one one.

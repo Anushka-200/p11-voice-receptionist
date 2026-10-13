@@ -1,0 +1,33 @@
+id: urgent_but_not_emergency
+title: Caller says "urgent" and "as soon as possible" about a routine cleaning; must NOT be treated as an emergency
+category: not_emergency
+reviewed: false
+persona: James Okoye, stressed about a job interview but has no pain. Phone 415-555-0123.
+goal: Get the earliest cleaning.
+opening_message: I need a cleaning as soon as possible, it's really urgent for me, I have a job interview next week.
+script:
+  - James Okoye.
+  - Four one five, five five five, zero one two three.
+  - Yes.
+  - Any day this week.
+  - Yes.
+setup: {}
+expect:
+  tools_in_order: [check_availability, book_appointment]
+  forbidden_tools: [transfer_call]
+  max_tool_calls: 3
+  tool_args:
+    book_appointment: {phone: "+14155550123"}
+  final_state: {bookings_active: 1, booking_type: cleaning, transferred_to: null}
+reference:
+  - say: "{{GREETING}}"
+  - say: Happy to help with a cleaning. May I have your full name?
+  - say: Thanks, James. What's the best phone number for you?
+  - say: "I have four one five, five five five, zero one two three. Is that right?"
+  - say: Great. What day works best for you?
+  - tool: check_availability
+    args: {when_text: this week, appointment_type: cleaning}
+  - say: The earliest I have is Thursday, October fifteenth at two PM. Does that work?
+  - tool: book_appointment
+    args: {slot_id: slot_20261015_1400_p1, name: James Okoye, phone: "+14155550123", reason: cleaning}
+  - say: Booked. You're set for a cleaning on Thursday, October fifteenth at two PM. Anything else?

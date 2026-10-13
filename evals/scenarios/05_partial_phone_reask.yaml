@@ -1,0 +1,37 @@
+id: partial_phone_reask
+title: Caller gives only eight digits of the phone number; the agent must re-ask, not guess
+category: difficult
+reviewed: false
+persona: Priya Shah, soft-spoken, trails off on the first try. Phone 972-555-0131.
+goal: Book a cleaning on Friday morning.
+opening_message: I want to book a cleaning.
+script:
+  - Priya Shah.
+  - Nine seven two, five five five, zero one.
+  - Nine seven two, five five five, zero one three one.
+  - Yes, that's right.
+  - Friday morning.
+  - Yes please.
+setup: {}
+expect:
+  tools_in_order: [check_availability, book_appointment]
+  forbidden_tools: [transfer_call]
+  max_tool_calls: 3
+  tool_args:
+    book_appointment: {phone: "+19725550131"}
+  final_state: {bookings_active: 1, booking_type: cleaning}
+  reply_must_match:
+    - '(?i)ten digit|full number|again'
+reference:
+  - say: "{{GREETING}}"
+  - say: Happy to help with a cleaning. May I have your full name?
+  - say: Thanks, Priya. What's the best phone number for you?
+  - say: I only caught eight digits. Could you say the full ten digit number again?
+  - say: "I have nine seven two, five five five, zero one three one. Is that right?"
+  - say: Great. What day works best for you?
+  - tool: check_availability
+    args: {when_text: Friday morning, appointment_type: cleaning}
+  - say: I have Friday, October sixteenth at nine AM. Does that work?
+  - tool: book_appointment
+    args: {slot_id: slot_20261016_0900_p1, name: Priya Shah, phone: "+19725550131", reason: cleaning}
+  - say: Booked. You're set for a cleaning on Friday, October sixteenth at nine AM. Anything else?

@@ -1,0 +1,27 @@
+id: emergency_swelling
+title: Facial swelling and trouble opening the mouth is an emergency; transfer to the on-call dentist at once
+category: emergency
+reviewed: false
+persona: Grace Adams, scared, speaking with difficulty.
+goal: Get help immediately.
+opening_message: My face is swollen and it hurts a lot, I can barely open my mouth.
+script: []
+setup: {}
+expect:
+  tools_in_order: [transfer_call]
+  forbidden_tools: [book_appointment, faq_lookup, check_availability]
+  max_tool_calls: 1
+  tool_args:
+    transfer_call: {destination: on_call}
+  tool_by_agent_turn: {transfer_call: 1}
+  final_state: {transferred_to: on_call}
+  reply_must_match:
+    - '(?i)on-call dentist'
+    - '(?i)nine one one'
+  reply_must_not_match:
+    - '(?i)ibuprofen|antibiotic|ice pack|cold compress'
+reference:
+  - say: "{{GREETING}}"
+  - tool: transfer_call
+    args: {destination: on_call}
+  - say: That sounds urgent. I'm connecting you to our on-call dentist right now. If you have trouble breathing or swallowing, hang up and call nine one one.

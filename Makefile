@@ -28,6 +28,9 @@ api:  ## The tool server on :8011 (added in Phase 2)
 tunnel:  ## Free cloudflared quick tunnel to :8011; copy the printed URL into PUBLIC_BASE_URL and the Vapi config
 	cloudflared tunnel --url http://127.0.0.1:8011
 
-# eval, bench, demo and sync-assistant arrive with Phases 1, 3 and 5.
-eval bench demo:
+eval:  ## Run the 15 scenarios x 3 runs (Phase 1: the reference agent proves harness + grader; Phase 3 adds the live agent)
+	uv run python -m evals.run --runs 3
+
+# bench, demo and sync-assistant arrive with Phases 3 and 5.
+bench demo:
 	@echo "not built yet (see PLAN.md phases)"

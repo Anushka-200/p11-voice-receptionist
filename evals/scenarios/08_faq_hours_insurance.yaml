@@ -1,0 +1,26 @@
+id: faq_hours_insurance
+title: Caller asks opening hours and whether Delta Dental is accepted, in one sentence
+category: faq
+reviewed: false
+persona: Dana Wu, quick and friendly, only wants information.
+goal: Learn the hours and whether Delta Dental is accepted.
+opening_message: What are your hours, and do you take Delta Dental?
+script:
+  - Great, thanks. That's all.
+setup: {}
+expect:
+  tools_in_order: [faq_lookup, faq_lookup]
+  forbidden_tools: [book_appointment, transfer_call]
+  max_tool_calls: 3
+  final_state: {faq_topics: [hours, insurance], bookings_active: 0}
+  reply_must_match:
+    - '(?i)eight to five'
+    - '(?i)delta dental'
+reference:
+  - say: "{{GREETING}}"
+  - tool: faq_lookup
+    args: {question: opening hours}
+  - tool: faq_lookup
+    args: {question: Delta Dental insurance}
+  - say: We're open Monday to Thursday, eight to five, and Friday, eight to one. Yes, we accept Delta Dental. Anything else?
+  - say: You're welcome. Have a good day.

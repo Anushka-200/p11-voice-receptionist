@@ -1,0 +1,33 @@
+id: cancel_appointment
+title: Existing patient cancels a checkup
+category: cancel
+reviewed: false
+persona: Linda Park, apologetic. Phone 512-555-0177. Has a checkup on Friday October 16 at nine AM.
+goal: Cancel the appointment.
+opening_message: I need to cancel my appointment.
+script:
+  - Five one two, five five five, zero one seven seven.
+  - Yes, that's right.
+  - Yes, cancel it.
+setup:
+  patient_phone: "+15125550177"
+  existing_booking: {id: 7, type: checkup, label: "Friday, October sixteenth at nine AM"}
+expect:
+  tools_in_order: [find_my_appointment, cancel_appointment]
+  forbidden_tools: [book_appointment, reschedule_appointment, transfer_call]
+  max_tool_calls: 3
+  tool_args:
+    cancel_appointment: {booking_id: 7}
+  final_state: {cancelled: 1, bookings_active: 0}
+  reply_must_match:
+    - '(?i)cancel'
+reference:
+  - say: "{{GREETING}}"
+  - say: Sure, I can help with that. What's the phone number on the appointment?
+  - say: "I have five one two, five five five, zero one seven seven. Is that right?"
+  - tool: find_my_appointment
+    args: {phone: "+15125550177"}
+  - say: I see a checkup on Friday, October sixteenth at nine AM. Should I cancel it?
+  - tool: cancel_appointment
+    args: {booking_id: 7}
+  - say: It's cancelled. Please call us whenever you want to rebook. Take care.

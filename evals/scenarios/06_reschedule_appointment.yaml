@@ -1,0 +1,39 @@
+id: reschedule_appointment
+title: Existing patient moves a Friday checkup to Thursday afternoon
+category: reschedule
+reviewed: false
+persona: Linda Park, brisk and clear. Phone 512-555-0177. Has a checkup on Friday October 16 at nine AM.
+goal: Move the checkup to Thursday afternoon.
+opening_message: Hi, I need to move my appointment.
+script:
+  - Five one two, five five five, zero one seven seven.
+  - Yes, that's right.
+  - Yes, that's mine.
+  - Thursday afternoon instead.
+  - Yes, move it.
+setup:
+  patient_phone: "+15125550177"
+  existing_booking: {id: 7, type: checkup, label: "Friday, October sixteenth at nine AM"}
+expect:
+  tools_in_order: [find_my_appointment, check_availability, reschedule_appointment]
+  forbidden_tools: [book_appointment, cancel_appointment, transfer_call]
+  max_tool_calls: 4
+  tool_args:
+    reschedule_appointment: {booking_id: 7, new_slot_id: slot_20261015_1400_p1}
+  final_state: {rescheduled: 1, bookings_active: 1, cancelled: 0}
+  reply_must_match:
+    - '(?i)thursday, october fifteenth at two pm'
+reference:
+  - say: "{{GREETING}}"
+  - say: Sure, I can help with that. What's the phone number on the appointment?
+  - say: "I have five one two, five five five, zero one seven seven. Is that right?"
+  - tool: find_my_appointment
+    args: {phone: "+15125550177"}
+  - say: I see a checkup on Friday, October sixteenth at nine AM. Is that the one?
+  - say: What day would you like instead?
+  - tool: check_availability
+    args: {when_text: Thursday afternoon, appointment_type: checkup}
+  - say: I have Thursday, October fifteenth at two PM. Shall I move it there?
+  - tool: reschedule_appointment
+    args: {booking_id: 7, new_slot_id: slot_20261015_1400_p1}
+  - say: Done. Your checkup is now Thursday, October fifteenth at two PM. Anything else?

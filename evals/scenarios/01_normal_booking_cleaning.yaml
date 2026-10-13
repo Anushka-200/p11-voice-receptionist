@@ -1,0 +1,36 @@
+id: normal_booking_cleaning
+title: New patient books a teeth cleaning, gives name and phone, picks Thursday
+category: booking
+reviewed: false
+persona: Maria Lopez, polite and flexible. Phone 512-555-0142. Only gives details when asked.
+goal: Get a teeth cleaning booked on a Thursday afternoon.
+opening_message: Hi, I'd like to book a teeth cleaning.
+script:
+  - Maria Lopez.
+  - Five one two, five five five, zero one four two.
+  - Yes, that's right.
+  - Thursday afternoon.
+  - Yes, please book it.
+setup: {}
+expect:
+  tools_in_order: [check_availability, book_appointment]
+  forbidden_tools: [transfer_call, cancel_appointment]
+  max_tool_calls: 3
+  tool_args:
+    book_appointment: {name: Maria Lopez, phone: "+15125550142"}
+  final_state: {bookings_active: 1, booking_type: cleaning}
+  reply_must_match:
+    - '(?i)five one two, five five five, zero one four two'
+    - '(?i)thursday, october fifteenth at two pm'
+reference:
+  - say: "{{GREETING}}"
+  - say: Happy to help with a cleaning. May I have your full name?
+  - say: Thanks, Maria. What's the best phone number for you?
+  - say: "I have five one two, five five five, zero one four two. Is that right?"
+  - say: Great. What day works best for you?
+  - tool: check_availability
+    args: {when_text: Thursday afternoon, appointment_type: cleaning}
+  - say: I have Thursday, October fifteenth at two PM. Does that work?
+  - tool: book_appointment
+    args: {slot_id: slot_20261015_1400_p1, name: Maria Lopez, phone: "+15125550142", reason: cleaning}
+  - say: You're booked for a cleaning on Thursday, October fifteenth at two PM. You'll get a text confirmation. Anything else?

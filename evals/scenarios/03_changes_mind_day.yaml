@@ -1,0 +1,39 @@
+id: changes_mind_day
+title: Caller picks Thursday, hears the offer, then asks for Friday morning instead
+category: difficult
+reviewed: false
+persona: Tom Reyes, friendly but indecisive. Phone 412-555-0119.
+goal: End up with a filling on Friday morning, not Thursday.
+opening_message: I need to get a filling done.
+script:
+  - Tom Reyes.
+  - Four one two, five five five, zero one one nine.
+  - Yes.
+  - Thursday afternoon.
+  - Actually, can I do Friday morning instead?
+  - Yes, that one.
+setup: {}
+expect:
+  tools_in_order: [check_availability, check_availability, book_appointment]
+  forbidden_tools: [transfer_call, cancel_appointment]
+  max_tool_calls: 4
+  tool_args:
+    book_appointment: {slot_id: slot_20261016_0900_p1}
+  final_state: {bookings_active: 1, booking_type: filling}
+  reply_must_match:
+    - '(?i)friday, october sixteenth at nine am'
+reference:
+  - say: "{{GREETING}}"
+  - say: Happy to help with a filling. May I have your full name?
+  - say: Thanks, Tom. What's the best phone number for you?
+  - say: "I have four one two, five five five, zero one one nine. Is that right?"
+  - say: Great. What day works best for you?
+  - tool: check_availability
+    args: {when_text: Thursday afternoon, appointment_type: filling}
+  - say: I have Thursday, October fifteenth at two PM. Does that work?
+  - tool: check_availability
+    args: {when_text: Friday morning, appointment_type: filling}
+  - say: No problem. I have Friday, October sixteenth at nine AM. Shall I book that?
+  - tool: book_appointment
+    args: {slot_id: slot_20261016_0900_p1, name: Tom Reyes, phone: "+14125550119", reason: filling}
+  - say: Booked. You're set for a filling on Friday, October sixteenth at nine AM. Anything else?

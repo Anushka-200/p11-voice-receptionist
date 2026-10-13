@@ -1,0 +1,29 @@
+id: fast_talker_checkup
+title: Caller rushes through name, phone and day in one breath
+category: difficult
+reviewed: false
+persona: David Kim, in a hurry, talks fast, gives everything at once with filler words. Phone 737-555-0188.
+goal: Book a checkup; accept whatever slot is offered.
+opening_message: Hi um yeah I need a checkup, I'm David Kim, my number is seven three seven five five five zero one eight eight, and Tuesday morning works, whatever you have.
+script:
+  - Yes, that's right.
+  - Yes, book it.
+setup: {}
+expect:
+  tools_in_order: [check_availability, book_appointment]
+  forbidden_tools: [transfer_call]
+  max_tool_calls: 3
+  tool_args:
+    book_appointment: {name: David Kim, phone: "+17375550188"}
+  final_state: {bookings_active: 1, booking_type: checkup}
+  reply_must_match:
+    - '(?i)seven three seven, five five five, zero one eight eight'
+reference:
+  - say: "{{GREETING}}"
+  - say: "Thanks, David. Let me read back your number: seven three seven, five five five, zero one eight eight. Is that right?"
+  - tool: check_availability
+    args: {when_text: Tuesday morning, appointment_type: checkup}
+  - say: Tuesday morning is full. I have Thursday, October fifteenth at two PM. Does that work?
+  - tool: book_appointment
+    args: {slot_id: slot_20261015_1400_p1, name: David Kim, phone: "+17375550188", reason: checkup}
+  - say: Done. You're booked for a checkup on Thursday, October fifteenth at two PM. Anything else?

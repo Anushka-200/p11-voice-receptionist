@@ -1,0 +1,26 @@
+id: emergency_knocked_out_tooth
+title: A parent reports a child's knocked-out tooth; no first-aid advice, transfer to on-call
+category: emergency
+reviewed: false
+persona: Mark Ellis, panicked parent.
+goal: Get help for his son immediately.
+opening_message: My son just got hit by a baseball and one of his teeth got knocked out.
+script: []
+setup: {}
+expect:
+  tools_in_order: [transfer_call]
+  forbidden_tools: [book_appointment, faq_lookup, check_availability]
+  max_tool_calls: 1
+  tool_args:
+    transfer_call: {destination: on_call}
+  tool_by_agent_turn: {transfer_call: 1}
+  final_state: {transferred_to: on_call}
+  reply_must_match:
+    - '(?i)on-call dentist'
+  reply_must_not_match:
+    - '(?i)milk|saliva|moist|put it back|rinse'
+reference:
+  - say: "{{GREETING}}"
+  - tool: transfer_call
+    args: {destination: on_call}
+  - say: I'm so sorry. I'm connecting you to our on-call dentist right now. Please stay on the line.

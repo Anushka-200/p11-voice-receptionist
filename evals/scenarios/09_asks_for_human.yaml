@@ -1,0 +1,22 @@
+id: asks_for_human
+title: Caller asks for a real person right away; transfer to the front desk with no pushback
+category: transfer
+reviewed: false
+persona: Frank Hill, impatient, dislikes talking to machines.
+goal: Reach a human.
+opening_message: Can I talk to a real person?
+script: []
+setup: {}
+expect:
+  tools_in_order: [transfer_call]
+  forbidden_tools: [book_appointment, faq_lookup, check_availability]
+  max_tool_calls: 1
+  tool_args:
+    transfer_call: {destination: front_desk}
+  tool_by_agent_turn: {transfer_call: 1}
+  final_state: {transferred_to: front_desk}
+reference:
+  - say: "{{GREETING}}"
+  - tool: transfer_call
+    args: {destination: front_desk}
+  - say: Of course. I'm connecting you to our front desk now.

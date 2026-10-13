@@ -1,0 +1,36 @@
+id: next_friday_ambiguity
+title: 'Next Friday is ambiguous (today is Wednesday Oct 14); the agent must ask which date before booking'
+category: ambiguity
+reviewed: false
+persona: Sarah Cole, polite. Phone 214-555-0166. Means Friday October 23rd when pressed.
+goal: Book a checkup for "next Friday".
+opening_message: Hi, I need a checkup next Friday.
+script:
+  - Sarah Cole.
+  - Two one four, five five five, zero one six six.
+  - Yes.
+  - The twenty-third.
+  - Yes, book it.
+setup: {}
+expect:
+  tools_in_order: [check_availability, book_appointment]
+  forbidden_tools: [transfer_call]
+  max_tool_calls: 3
+  tool_args:
+    check_availability: {when_text: 're:(?i)23|twenty.third'}
+    book_appointment: {slot_id: slot_20261023_0900_p1, phone: "+12145550166"}
+  final_state: {bookings_active: 1, booking_type: checkup}
+  reply_must_match:
+    - '(?i)october sixteenth.*october twenty-third'
+reference:
+  - say: "{{GREETING}}"
+  - say: Happy to help with a checkup. May I have your full name?
+  - say: Thanks, Sarah. What's the best phone number for you?
+  - say: "I have two one four, five five five, zero one six six. Is that right?"
+  - say: "Just to be sure, do you mean this Friday, October sixteenth, or next week's Friday, October twenty-third?"
+  - tool: check_availability
+    args: {when_text: Friday October 23, appointment_type: checkup}
+  - say: I have Friday, October twenty-third at nine AM. Does that work?
+  - tool: book_appointment
+    args: {slot_id: slot_20261023_0900_p1, name: Sarah Cole, phone: "+12145550166", reason: checkup}
+  - say: Booked. You're set for a checkup on Friday, October twenty-third at nine AM. Anything else?
