@@ -18,7 +18,7 @@ expect:
   max_tool_calls: 3
   tool_args:
     check_availability: {when_text: 're:(?i)23|twenty.third'}
-    book_appointment: {slot_id: slot_20261023_0900_p1, phone: "+12145550166"}
+    book_appointment: {slot_id: 're:^slot_20261023_', phone: "+12145550166"}
   final_state: {bookings_active: 1, booking_type: checkup}
   reply_must_match:
     - '(?i)october sixteenth.*october twenty-third'

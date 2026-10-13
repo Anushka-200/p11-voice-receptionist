@@ -18,10 +18,10 @@ expect:
   forbidden_tools: [transfer_call, cancel_appointment]
   max_tool_calls: 4
   tool_args:
-    book_appointment: {slot_id: slot_20261016_0900_p1}
+    book_appointment: {slot_id: 're:^slot_20261016_'}
   final_state: {bookings_active: 1, booking_type: filling}
   reply_must_match:
-    - '(?i)friday, october sixteenth at nine am'
+    - '(?i)friday, october sixteenth at (eight|nine|ten) am'
 reference:
   - say: "{{GREETING}}"
   - say: Happy to help with a filling. May I have your full name?

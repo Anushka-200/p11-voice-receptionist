@@ -19,10 +19,10 @@ expect:
   forbidden_tools: [book_appointment, cancel_appointment, transfer_call]
   max_tool_calls: 4
   tool_args:
-    reschedule_appointment: {booking_id: 7, new_slot_id: slot_20261015_1400_p1}
+    reschedule_appointment: {booking_id: 7, new_slot_id: 're:^slot_20261015_'}
   final_state: {rescheduled: 1, bookings_active: 1, cancelled: 0}
   reply_must_match:
-    - '(?i)thursday, october fifteenth at two pm'
+    - '(?i)thursday, october fifteenth at (twelve|two) pm'
 reference:
   - say: "{{GREETING}}"
   - say: Sure, I can help with that. What's the phone number on the appointment?

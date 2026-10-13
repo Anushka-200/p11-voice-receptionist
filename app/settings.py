@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     # --- Vapi (Phase 0 spike fills these in). The webhook secret is checked on EVERY incoming request. ---
     vapi_api_key: SecretStr = SecretStr("")  # private key: used by `make sync-assistant` only
     vapi_webhook_secret: SecretStr = SecretStr("")  # empty = every request is rejected
+    vapi_credential_id: str = (
+        ""  # the id of the "p11-webhook" credential (Integrations > Server Configuration)
+    )
     vapi_assistant_id: str = ""
     spike_payload_dir: str = "logs/vapi"  # Phase 0 only: raw Vapi payloads saved here to learn their shape
     public_base_url: str = ""  # the cloudflared tunnel URL, set by hand when you run `make tunnel`

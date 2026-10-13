@@ -1,11 +1,15 @@
 """`make eval`: run every scenario k times and print pass^k.
 
-Phase 1 runs the REFERENCE agent (the model answers in the YAML) or a deliberately broken mutant of it.
-That proves the harness and grader work. Phase 3 adds the real prompt-driven agent as `--agent live`.
+Three kinds of agent:
+  reference         replays the model answers in the YAML (proves the harness and grader; free, used in CI)
+  mutant:<name>     a deliberately broken copy of it (the grader must fail it)
+  live              the real prompt + tools through the LLM, a simulated caller, and the REAL tools on the database
+                    (rolled back after every scenario). Costs cents, so it asks first.
 
 Usage:
   uv run python -m evals.run --runs 3
   uv run python -m evals.run --agent mutant:no_disclosure
+  uv run python -m evals.run --agent live --runs 3
 """
 
 import argparse
@@ -13,9 +17,10 @@ import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from evals.grader import Grade, grade
-from evals.harness import ReferenceAgent, ScriptedCaller, run_scenario
+from evals.harness import ReferenceAgent, ScriptedCaller, SimulatedCaller, run_scenario
 from evals.mutants import MUTANTS
 from evals.scenario_schema import Scenario, load_scenarios
 
@@ -26,6 +31,7 @@ RESULTS_DIR = Path(__file__).resolve().parent / "results"
 class ScenarioResult:
     scenario: Scenario
     grades: list[Grade]
+    cost_usd: float = 0.0
 
     @property
     def passes(self) -> int:
@@ -40,19 +46,38 @@ class ScenarioResult:
         return sorted({n for g in self.grades for n in g.failed_names})
 
 
-def evaluate(scenarios: list[Scenario], agent_name: str = "reference", runs: int = 3) -> list[ScenarioResult]:
+def evaluate(
+    scenarios: list[Scenario], agent_name: str = "reference", runs: int = 3, complete_fn: Any = None
+) -> list[ScenarioResult]:
+    """`complete_fn` lets tests drive the live agent with a fake model (no network, no cost)."""
     results = []
     for scenario in scenarios:
-        steps = scenario.reference
-        if agent_name.startswith("mutant:"):
-            steps = MUTANTS[agent_name.split(":", 1)[1]](steps)
-        elif agent_name != "reference":
-            raise SystemExit(f"unknown agent {agent_name!r} (the live agent arrives in Phase 3)")
-        grades = []
+        grades: list[Grade] = []
+        cost = 0.0
         for _ in range(runs):
-            record = run_scenario(scenario, ReferenceAgent(steps), ScriptedCaller(scenario))
+            if agent_name == "live":
+                from evals.live_agent import LiveAgent
+                from evals.real_clinic import RealClinic
+
+                agent, caller, clinic = (
+                    LiveAgent(complete_fn),
+                    SimulatedCaller(scenario, complete_fn),
+                    RealClinic(scenario),
+                )
+                try:
+                    record = run_scenario(scenario, agent, caller, clinic)
+                finally:
+                    clinic.close()
+                cost += agent.cost_usd + caller.cost_usd
+            else:
+                steps = scenario.reference
+                if agent_name.startswith("mutant:"):
+                    steps = MUTANTS[agent_name.split(":", 1)[1]](steps)
+                elif agent_name != "reference":
+                    raise SystemExit(f"unknown agent {agent_name!r}")
+                record = run_scenario(scenario, ReferenceAgent(steps), ScriptedCaller(scenario))
             grades.append(grade(scenario, record))
-        results.append(ScenarioResult(scenario, grades))
+        results.append(ScenarioResult(scenario, grades, cost))
     return results
 
 
@@ -91,11 +116,28 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--agent", default="reference", help="reference | mutant:<name>")
     parser.add_argument("--runs", type=int, default=3)
     parser.add_argument("--only", help="run just this scenario id")
+    parser.add_argument("--yes", action="store_true", help="confirm a live run above the cost guard")
     args = parser.parse_args(argv)
 
     scenarios = load_scenarios()
     if args.only:
         scenarios = [s for s in scenarios if s.id == args.only]
+    if args.agent == "live":
+        from app.settings import get_settings
+
+        settings = get_settings()
+        if not settings.anthropic_api_key.get_secret_value():
+            raise SystemExit(
+                "ANTHROPIC_API_KEY is empty: create a key in its own workspace with a spend limit, put it in .env"
+            )
+        estimate = 0.006 * len(scenarios) * args.runs  # about 16 short Haiku-class calls per run
+        print(
+            f"live eval: {len(scenarios)} scenarios x {args.runs} runs, estimated cost about ${estimate:.2f}"
+        )
+        if estimate > settings.cost_confirm_above_usd and not args.yes:
+            raise SystemExit(
+                f"estimate is above ${settings.cost_confirm_above_usd:.2f}: re-run with --yes to confirm"
+            )
     results = evaluate(scenarios, args.agent, args.runs)
     print(report(results, args.agent, args.runs))
 
@@ -108,7 +150,7 @@ def main(argv: list[str] | None = None) -> int:
     (RESULTS_DIR / f"latest-{args.agent.replace(':', '-')}.json").write_text(json.dumps(out, indent=2))
     # The reference must pass everything; a mutant is SUPPOSED to fail (that proves the grader works).
     failed = any(not r.passed_all for r in results)
-    return 1 if (failed and args.agent == "reference") else 0
+    return 1 if (failed and args.agent in ("reference", "live")) else 0
 
 
 if __name__ == "__main__":

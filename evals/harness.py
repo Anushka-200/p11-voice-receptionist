@@ -98,6 +98,7 @@ class SimulatedCaller:
         self.complete_fn = complete_fn
         self.max_turns = max_turns
         self.turns = 0
+        self.cost_usd = 0.0
 
     def next_line(self, history: History) -> str | None:
         if self.turns == 0:
@@ -115,15 +116,18 @@ class SimulatedCaller:
         for h in history:  # roles flip: the agent is the "user" from the simulated caller's point of view
             role = "user" if h["role"] == "agent" else "assistant"
             messages.append({"role": role, "content": h["text"]})
-        text = self.complete_fn(messages, name="simulated-caller", max_tokens=80).text.strip()
+        res = self.complete_fn(messages, name="simulated-caller", max_tokens=80)
+        self.cost_usd += getattr(res, "cost_usd", 0) or 0.0
+        text = res.text.strip()
         if self.END in text:
             return None
         self.turns += 1
         return text
 
 
-def run_scenario(scenario: Scenario, agent: Agent, caller: Caller) -> RunRecord:
-    clinic = StubClinic(scenario.setup)
+def run_scenario(scenario: Scenario, agent: Agent, caller: Caller, clinic: Any = None) -> RunRecord:
+    """`clinic` is the backend (the stub by default; RealClinic runs the real tools)."""
+    clinic = clinic or StubClinic(scenario.setup)
     record = RunRecord(scenario_id=scenario.id)
     history: History = []
     turn = 0

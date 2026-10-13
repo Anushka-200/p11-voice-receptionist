@@ -1,4 +1,4 @@
-.PHONY: setup up down migrate test lint typecheck eval bench demo api tunnel
+.PHONY: setup up down migrate test lint typecheck eval bench demo api tunnel sync-assistant sync-assistant-apply eval-live eval-live
 
 setup:  ## Install dependencies
 	uv sync
@@ -28,9 +28,18 @@ api:  ## The tool server on :8011 (added in Phase 2)
 tunnel:  ## Free cloudflared quick tunnel to :8011; copy the printed URL into PUBLIC_BASE_URL and the Vapi config
 	cloudflared tunnel --url http://127.0.0.1:8011
 
-eval:  ## Run the 15 scenarios x 3 runs (Phase 1: the reference agent proves harness + grader; Phase 3 adds the live agent)
+eval:  ## 15 scenarios x 3 runs with the reference agent (free): proves the harness and grader
 	uv run python -m evals.run --runs 3
 
-# bench, demo and sync-assistant arrive with Phases 3 and 5.
+eval-live:  ## Same scenarios with the real prompt + tools + a simulated caller (about $0.30; needs ANTHROPIC_API_KEY)
+	uv run python -m evals.run --agent live --runs 3
+
+sync-assistant:  ## Dry run: show what would be pushed to Vapi (nothing is sent)
+	uv run python -m scripts.sync_assistant
+
+sync-assistant-apply:  ## Really push the tools and assistant to your Vapi account
+	uv run python -m scripts.sync_assistant --apply
+
+# bench and demo arrive with Phase 5.
 bench demo:
 	@echo "not built yet (see PLAN.md phases)"

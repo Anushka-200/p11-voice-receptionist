@@ -143,6 +143,18 @@ def _confirm_sms(ctx: ToolContext, patient_id: int, key: str, text: str) -> None
     ctx.messaging.send(patient_id=patient_id, body=f"Bright Smile Dental: {text}", idempotency_key=key)
 
 
+def _lock_provider_day(ctx: ToolContext, provider_id: int, start: datetime) -> None:
+    """Make callers who write the same provider's day take turns (released automatically at commit).
+
+    Without this, two simultaneous bookings of one slot each wait for the other inside the database's exclusion
+    constraint and Postgres kills one with a deadlock error. With it, the second caller simply waits, then sees
+    the slot taken and hears the normal "just taken" message.
+    """
+    ctx.conn.execute(
+        "SELECT pg_advisory_xact_lock(hashtext(%s))", (f"provider-day:{provider_id}:{start.date()}",)
+    )
+
+
 # ------------------------------------------------------------------ the tools
 class CheckArgs(BaseModel):
     model_config = ConfigDict(extra="ignore")
@@ -231,6 +243,7 @@ def book_appointment(ctx: ToolContext, call_id: str, a: BookArgs) -> dict[str, A
     t = _type(ctx, offered[a.slot_id]["type"])
     provider_id, start = parse_slot_id(a.slot_id, ctx.tz)
     end = start + timedelta(minutes=t["minutes"])
+    _lock_provider_day(ctx, provider_id, start)
     if not is_free(ctx, provider_id, start, end):
         raise ToolError("slot_taken", "Sorry, that time was just taken. Let me find another one.")
 
@@ -247,9 +260,8 @@ def book_appointment(ctx: ToolContext, call_id: str, a: BookArgs) -> dict[str, A
                 " VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id",
                 (patient[0], provider_id, t["code"], start, end, a.reason, call_id),
             ).fetchone()
-    except (
-        psycopg.errors.ExclusionViolation
-    ):  # two calls raced for the same slot; the database said no to one
+    except (psycopg.errors.ExclusionViolation, psycopg.errors.DeadlockDetected):
+        # two calls raced for the same slot; the lock above makes this rare, the database is the last referee
         raise ToolError("slot_taken", "Sorry, that time was just taken. Let me find another one.") from None
     assert booking is not None
     event_id = ctx.breaker.call(
@@ -329,6 +341,7 @@ def reschedule_appointment(ctx: ToolContext, call_id: str, a: RescheduleArgs) ->
     t = _type(ctx, row[3])
     provider_id, start = parse_slot_id(a.new_slot_id, ctx.tz)
     end = start + timedelta(minutes=t["minutes"])
+    _lock_provider_day(ctx, provider_id, start)
     if not is_free(ctx, provider_id, start, end, exclude_booking_id=a.booking_id):
         raise ToolError("slot_taken", "Sorry, that time was just taken. Let me find another one.")
     try:
@@ -337,7 +350,7 @@ def reschedule_appointment(ctx: ToolContext, call_id: str, a: RescheduleArgs) ->
                 "UPDATE bookings SET provider_id = %s, start_at = %s, end_at = %s WHERE id = %s",
                 (provider_id, start, end, a.booking_id),
             )
-    except psycopg.errors.ExclusionViolation:
+    except (psycopg.errors.ExclusionViolation, psycopg.errors.DeadlockDetected):
         raise ToolError("slot_taken", "Sorry, that time was just taken. Let me find another one.") from None
     if row[5]:
         ctx.breaker.call(lambda: ctx.calendar.delete_event(row[5]))
@@ -390,7 +403,10 @@ def faq_lookup(ctx: ToolContext, call_id: str, a: FaqArgs) -> dict[str, Any]:
     tokens = set(re.findall(r"[a-z']+", q))
     best, best_score = None, 0
     for topic, keywords, answer in ctx.conn.execute("SELECT topic, keywords, answer FROM faq"):
-        score = sum(1 for k in keywords if (k in q if len(k) >= 4 else k in tokens))
+        # Match on the first four letters of longer keywords so "closing" finds "close" and "prices" finds "price".
+        score = sum(
+            1 for k in keywords if (k[:4] in q if len(k) >= 5 else (k in q if len(k) == 4 else k in tokens))
+        )
         if score > best_score:
             best, best_score = (topic, answer), score
     if best is None:

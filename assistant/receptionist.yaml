@@ -1,0 +1,77 @@
+# The receptionist as code. `make sync-assistant` turns this + prompt.md into Vapi tools and an assistant.
+# Everything here is a knob the experiments (E1 to E5) change, so each change is a reviewable diff.
+name: p11-receptionist
+first_message: "{{GREETING}}"        # AI disclosure + recording notice (app/greeting.py)
+prompt_file: prompt.md
+
+model:
+  provider: openai                    # the Vapi default seen in the spike; E1 compares a faster tier
+  model: gpt-4.1
+  temperature: 0.3
+  max_tokens: 200                     # short spoken turns, and a cost cap per reply
+
+voice:                                # copied from the working spike assistant (read back from Vapi); E2 compares others
+  provider: vapi
+  voiceId: Elliot
+  version: "2"
+
+transcriber:                          # same: Soniox, with Vapi's automatic provider fallback ON (provider-outage plan)
+  provider: soniox
+  model: stt-rt-v5
+  language: en
+  languages: [en]
+  fallbackPlan: {autoFallback: {enabled: true}}
+
+limits:
+  max_duration_seconds: 300           # unbounded-consumption control: no call runs longer than 5 minutes
+
+speaking:                             # when to start and stop talking (E3 tunes these)
+  start_wait_seconds: 0.4
+  stop_num_words: 0
+  stop_voice_seconds: 0.2
+  stop_backoff_seconds: 1
+
+# Silence ladder. The plan wants about 4 / 8 / 15 seconds; Vapi's own examples use 10 / 30, so we start
+# from values the docs show and tighten them in Phase 5 if the API accepts it.
+silence_ladder:
+  - {after_seconds: 10, say: "Are you still there?"}
+  - {after_seconds: 20, say: "I'm still here. Take your time, or tell me how I can help."}
+  - {after_seconds: 30, say: "I'll end the call now. Please call back any time.", end_call: true}
+
+tool_descriptions:
+  check_availability: "Find open appointment times. Pass the caller's own words for the day and the appointment type. Returns up to two slots to read aloud, or a clarifying question."
+  book_appointment: "Book one of the slots just offered on this call. Only call after the phone number was read back and confirmed."
+  find_my_appointment: "Look up the caller's upcoming appointments by the phone number on the booking."
+  reschedule_appointment: "Move a found appointment to a slot just offered for the same appointment type."
+  cancel_appointment: "Cancel a found appointment."
+  faq_lookup: "Answer questions about hours, address, parking, insurance, prices, new patients and similar."
+
+tool_messages:                        # said while a tool runs, so the caller is not left in silence
+  check_availability: "One moment while I check."
+  book_appointment: "One moment while I book that."
+  find_my_appointment: "One moment while I look that up."
+  reschedule_appointment: "One moment while I move that."
+  cancel_appointment: "One moment."
+
+transfer:                             # numbers are fake placeholders; a browser call cannot ring a phone (ADR 003)
+  on_call:
+    number: "+15125550911"
+    description: "Dental emergency: swelling, trauma, knocked-out tooth, bleeding that will not stop. Transfer to the on-call dentist."
+    message: "Connecting you to our on-call dentist now."
+  front_desk:
+    number: "+15125550100"
+    description: "The caller asks for a person, or you cannot help. Transfer to the front desk."
+    message: "Connecting you to our front desk now."
+
+server_messages:
+  - conversation-update
+  - end-of-call-report
+  - function-call
+  - hang
+  - speech-update
+  - status-update
+  - tool-calls
+  - transfer-destination-request
+  - handoff-destination-request
+  - user-interrupted
+  - assistant.started

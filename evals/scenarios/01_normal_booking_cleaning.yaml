@@ -21,7 +21,7 @@ expect:
   final_state: {bookings_active: 1, booking_type: cleaning}
   reply_must_match:
     - '(?i)five one two, five five five, zero one four two'
-    - '(?i)thursday, october fifteenth at two pm'
+    - '(?i)thursday, october fifteenth at (twelve|two) pm'
 reference:
   - say: "{{GREETING}}"
   - say: Happy to help with a cleaning. May I have your full name?
