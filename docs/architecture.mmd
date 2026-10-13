@@ -15,11 +15,12 @@ flowchart LR
     PC[Post-call: facts from the phone log,<br/>LLM summary + checks, log wins on disagreement]
     PG[(Postgres<br/>bookings · calls · turns · audit · outbox)]
     PG --> PC --> PG
-    PC --> CRM[CRM outbox → fake CRM<br/>retried, never lost]
+    PC --> CRM[CRM outbox → fake CRM or HubSpot<br/>retried, never lost]
     PG --> DASH[Streamlit dashboard + make bench]
   end
-  TOOLS --> CAL[CalendarPort: fake calendar<br/>Google adapter not built]
+  TOOLS --> CAL[CalendarPort: fake calendar<br/>or Google Calendar adapter]
   TOOLS --> SMS[SMS outbox: dry-run only]
   VP -- "transferCall to a fixed number" --> XFER[on-call dentist / front desk]
+  EVT -- "layer two: emergency heard, no transfer in 4 s → transfer command" --> VP
   VP -- "end-of-call report" --> EVT
   EVAL[make eval-live: same prompt + tools + real tool code,<br/>simulated caller, code grader] -.rehearsal.-> TOOLS

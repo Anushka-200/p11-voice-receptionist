@@ -12,6 +12,8 @@ First, always: `make check-assistant` (is what Vapi holds the same as the repo?)
 | `needs_review` calls | The model failed to produce valid analysis twice | Read the transcript on the dashboard; `analysis_error` has the reason |
 | `outcome_mismatch` flag | The LLM disagreed with the phone log | The log wins and is stored; read the transcript to see which was wrong |
 | `disclosure_missing` flag | The stored transcript lacks "AI" (seen once in three calls, heard correctly by the owner: probably a transcription artifact) | Listen to the recording to confirm; if it was really missing, try variant E7 ("artificial intelligence"). It is a compliance item, so verify, do not ignore |
+| `emergency_forced_by_server` flag | The agent did not transfer an emergency within 4 s and the server did it | Read the transcript and tighten the emergency wording in the prompt: layer one failed that call |
+| Log: "emergency words heard but there is no usable Vapi control url" | The event carried no `monitor.controlUrl`, or not a vapi.ai address | Layer two cannot act on that call; check `make check-assistant` and the server messages are enabled |
 | CRM notes stuck | CRM down (fake CRM only in v1) | They stay `pending` with attempts counted; after 5 failures they are `failed` with the error |
 | Booking says "just taken" often | Two callers racing for one slot | Working as designed (per-provider lock plus a database constraint); no double bookings are possible |
 | Cost spike | Long calls or long prompts | Calls are capped at 300 s and 200 output tokens per reply; E4 shortens the prompt |

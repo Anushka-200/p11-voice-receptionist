@@ -22,7 +22,8 @@ from zoneinfo import ZoneInfo
 import psycopg
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from app.adapters.fakes import FakeCalendar, OutboxMessaging
+from app.adapters.factory import make_calendar
+from app.adapters.fakes import OutboxMessaging
 from app.adapters.ports import AdapterUnavailable, CalendarPort, MessagingPort
 from app.adapters.resilience import CircuitBreaker
 from app.availability import available_slots, choose_offers, is_free, make_slot_id, parse_slot_id
@@ -61,13 +62,11 @@ class ToolContext:
 
 def make_context(conn: psycopg.Connection, now: Callable[[], datetime] | None = None) -> ToolContext:
     settings = get_settings()
-    if settings.calendar_backend != "fake":
-        raise NotImplementedError("the Google Calendar adapter is a separate task (Phase 2b)")
     tz = ZoneInfo(settings.clinic_timezone)
     return ToolContext(
         conn=conn,
-        calendar=FakeCalendar(conn),
-        messaging=OutboxMessaging(conn, dry_run=True),
+        calendar=make_calendar(conn, settings),  # the fake unless CALENDAR_BACKEND=google
+        messaging=OutboxMessaging(conn, dry_run=True),  # v1 sends no real SMS
         settings=settings,
         now=now or (lambda: datetime.now(tz)),
     )

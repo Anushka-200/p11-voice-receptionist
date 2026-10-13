@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     dry_run: bool = True
     # HMAC key for phone numbers: a plain hash of a phone number is brute-forceable (~10 billion US numbers).
     phone_hash_key: SecretStr = SecretStr("")
+    # Emergency layer two (ADR 003): if a caller says something emergency-like and the agent has not transferred within
+    # this many seconds, the server tells Vapi to transfer the call itself.
+    emergency_watch: bool = True
+    emergency_grace_s: float = 4.0
     log_level: str = "INFO"
     clinic_timezone: str = "America/Chicago"
 

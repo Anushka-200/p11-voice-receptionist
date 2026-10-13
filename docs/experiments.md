@@ -18,6 +18,12 @@ five calls is **directional**, and says so in the table.
 | E5 | `e5_no_filler.yaml` | remove "one moment" fillers | turn latency number unchanged, perceived dead air increases | keep fillers unless silence under 1.5 s is not noticed |
 | E7 | `e7_spelled_ai.yaml` | "AI" to "artificial intelligence" in the greeting | disclosure present in every stored transcript (1 of 3 transcripts lacked "AI", though it was heard correctly; this tests whether the transcript artifact goes away) | adopt if `disclosure_said` is 5/5 |
 
+**Layer two proof (not an experiment, a safety check):** push the test-only assistant
+(`uv run python -m scripts.sync_assistant --variant assistant/variants/l2_test_no_emergency_rule.yaml --apply`), call it, say "my face is
+swollen and I can barely open my mouth". Expected: the agent does NOT transfer, and about four seconds later the server logs
+"emergency layer two forced a transfer" and the call ends with `error-transfer-failed` (a browser call cannot ring). Then
+`make worker` and check the call shows the flag `emergency_forced_by_server`.
+
 Not yet planned: E2 (a different voice: needs a voice id picked in the dashboard), a fallback live LLM, and a turn-taking
 lab (Pipecat v1.5).
 

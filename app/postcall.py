@@ -20,7 +20,8 @@ from typing import Any, Literal
 import psycopg
 from pydantic import BaseModel, Field, ValidationError
 
-from app.adapters.fakes import FakeCrm
+from app.adapters.factory import make_crm
+from app.adapters.http import AdapterRejected
 from app.adapters.ports import AdapterUnavailable, CrmPort
 from app.assistant_config import load_config
 from app.phone import to_e164
@@ -243,7 +244,15 @@ def process_call(
         return "done"
     facts = extract_facts(raw)
     derived = derive_outcome(facts)
+    forced = conn.execute(
+        "SELECT emergency_forced FROM call_sessions WHERE vapi_call_id = %s", (vapi_call_id,)
+    ).fetchone()
     flags: list[str] = []
+    if (
+        forced and forced[0]
+    ):  # layer two pressed the transfer button: the agent itself never did, so the tool log shows no transfer
+        derived = "transferred_emergency"
+        flags.append("emergency_forced_by_server")
     scores: dict[str, Any] = {"disclosure_said": disclosure_said(facts), "derived_outcome": derived}
     if not scores["disclosure_said"] and facts.first_bot_message:
         flags.append("disclosure_missing")
@@ -340,7 +349,7 @@ def process_crm_outbox(conn: psycopg.Connection, crm: CrmPort, max_attempts: int
     ).fetchall()
     for out_id, note, attempts, pid, phone, name, contact in rows:
         try:
-            contact = contact or crm.upsert_contact({"phone": phone, "name": name})
+            contact = contact or crm.upsert_contact({"id": pid, "phone": phone, "name": name})
             crm.add_call_note(contact, note)
         except AdapterUnavailable as exc:
             final = attempts + 1 >= max_attempts
@@ -349,8 +358,19 @@ def process_crm_outbox(conn: psycopg.Connection, crm: CrmPort, max_attempts: int
                 (str(exc), "failed" if final else "pending", out_id),
             )
             counts["failed" if final else "retry"] += 1
+        except (
+            AdapterRejected
+        ) as exc:  # the CRM understood and said no (a wrong token, a missing scope): retrying cannot help
+            conn.execute(
+                "UPDATE crm_outbox SET attempts = attempts + 1, last_error = %s, status = 'failed' WHERE id = %s",
+                (str(exc), out_id),
+            )
+            counts["failed"] += 1
         else:
-            conn.execute("UPDATE patients SET crm_contact_id = %s WHERE id = %s", (contact, pid))
+            if not str(contact).startswith(
+                "dryrun-"
+            ):  # a dry-run placeholder is never stored as a real contact id
+                conn.execute("UPDATE patients SET crm_contact_id = %s WHERE id = %s", (contact, pid))
             conn.execute(
                 "UPDATE crm_outbox SET status = 'done', attempts = attempts + 1 WHERE id = %s", (out_id,)
             )
@@ -371,7 +391,9 @@ def process_pending(
         status = process_call(conn, vapi_id, complete_fn)
         conn.commit()
         result["analysed" if status == "done" else "needs_review"] += 1
-    result.update({f"crm_{k}": v for k, v in process_crm_outbox(conn, crm or FakeCrm()).items()})
+    result.update(
+        {f"crm_{k}": v for k, v in process_crm_outbox(conn, crm or make_crm(get_settings())).items()}
+    )
     conn.commit()
     return result
 

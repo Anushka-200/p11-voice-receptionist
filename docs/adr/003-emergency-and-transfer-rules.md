@@ -38,8 +38,12 @@ failure this system can have. A receptionist must also never give medical advice
 ## Update 2026-10-13 (after the first live calls)
 - **Built and measured:** layer 1 only (prompt rule plus the transfer tool). The text eval handled all 9 emergency runs (3 scenarios x 3)
   in each of the last two full evals, 18 of 18; one live emergency call initiated the transfer to the on-call number.
-- **Layer 2 (the server forcing a transfer from transcript regexes) was NOT built.** It was the first item on the cut list. It
-  remains the right next step, because layer 1 depends on the model.
+- **Layer 2 was built later the same day** (`app/emergency.py`, `config/emergency.yaml`, `/vapi/events`): on every
+  `conversation-update` the server checks what the caller said against the emergency rules (with a negation guard, so "no swelling"
+  is ignored). If the agent has not called `transferCall` within `EMERGENCY_GRACE_S` (4 s), the server POSTs a `transfer` command to
+  the call's `monitor.controlUrl` (checked to be a vapi.ai address), once per call, and the call is recorded as an emergency transfer
+  with the flag `emergency_forced_by_server`. Tested against a fake Vapi endpoint; **not yet proven on a real call**. The test-only
+  assistant `p11-receptionist-l2test` (a prompt with no emergency rule) exists to prove it.
 - **How a transfer appears in Vapi's report:** a `transferCall` tool call whose argument is the dialled NUMBER (not our label),
   plus `artifact.transfers[].status`. The post-call code maps number to `on_call` / `front_desk`. On a browser call the status
   is `failed` and `endedReason` is `call.in-progress.error-transfer-failed`: expected, and flagged `transfer_failed`.

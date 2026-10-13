@@ -21,7 +21,7 @@ flowchart LR
   VP -- "tool call + secret" --> API[FastAPI tool server]
   API --> TOOLS[6 tools: availability, book, find, reschedule, cancel, FAQ]
   TOOLS --> PG[(Postgres)]
-  TOOLS --> CAL[fake calendar] & SMS[SMS outbox, dry-run]
+  TOOLS --> CAL[calendar: fake or Google] & SMS[SMS outbox, dry-run]
   VP -- transferCall --> XFER[on-call dentist / front desk]
   VP -- end-of-call report --> EVT[save first] --> PG
   PG --> PC[post-call: phone log decides outcome, LLM summarises] --> CRM[CRM outbox, retried]
@@ -79,15 +79,17 @@ unverified**: it failed at BuildKit startup on a low-memory machine before runni
 ## Limitations (what this is not)
 - Browser calls only: no phone line, so no 8 kHz audio, no real transfer, and no caller-ID. Transfers are verified by the tool
   call, not by a ring.
-- The calendar is a fake and SMS is a dry-run outbox. The Google Calendar and HubSpot adapters are not built (the ports and the
-  retrying outbox are).
+- SMS is a dry-run outbox. The Google Calendar and HubSpot adapters are built and tested against fake servers (retries, circuit
+  breaker, dry-run, idempotent event ids), but **have not yet been run against the real accounts**: that live check is yours to run
+  ([docs/SETUP_LIVE_INTEGRATIONS.md](docs/SETUP_LIVE_INTEGRATIONS.md)). The default calendar and CRM are fakes.
 - Identity is weak: an appointment is looked up by phone number alone. A real deployment needs caller-ID matching or date of birth.
 - The text eval runs a Haiku-class model as a proxy for the live GPT-4.1; it tests logic, not the voice, and varies by about one scenario between runs.
-- The emergency "second layer" (the server forcing a transfer from the transcript) is designed but not built; layer one is the prompt.
+- The emergency second layer (the server forces a transfer if the agent has not within four seconds of an emergency phrase) is built
+  and tested against a fake Vapi endpoint, but **not yet proven on a real call**: use the test-only assistant in the setup guide.
 - Latency target not met; only 3 calls measured so far.
 
 ## What I'd do next
 1. The 15 scripted live calls and experiments E1, E3, E4, E5, E7 ([docs/experiments.md](docs/experiments.md)), then update the table.
-2. Emergency layer two, and a fallback live model for provider outages.
-3. Google Calendar and HubSpot adapters with a live run; US-region hosting to cut tool round-trip time.
+2. Prove emergency layer two and the Google Calendar and HubSpot adapters on the real accounts; add a fallback live model for provider outages.
+3. US-region hosting to cut tool round-trip time.
 4. v1.5: the same flow on Pipecat with Sarvam speech for Hindi and Hinglish, and a turn-taking lab.

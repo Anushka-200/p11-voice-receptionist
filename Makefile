@@ -1,4 +1,4 @@
-.PHONY: setup up down migrate test lint typecheck eval bench demo api tunnel sync-assistant sync-assistant-apply eval-live check-assistant dashboard worker calls runbook
+.PHONY: setup up down migrate test lint typecheck eval bench demo api tunnel sync-assistant sync-assistant-apply eval-live check-assistant dashboard worker calls runbook import-p03-env live-check-calendar live-check-hubspot
 
 setup:  ## Install dependencies
 	uv sync
@@ -36,6 +36,15 @@ eval-live:  ## Same scenarios with the real prompt + tools + a simulated caller 
 
 sync-assistant:  ## Dry run: show what would be pushed to Vapi (nothing is sent)
 	uv run python -m scripts.sync_assistant
+
+import-p03-env:  ## Copy P03's Google Calendar and HubSpot settings into .env without printing any secret
+	uv run python -m scripts.import_p03_env
+
+live-check-calendar:  ## A real, labelled, self-cleaning round trip against Google Calendar (needs --confirm and DRY_RUN=false)
+	uv run python -m scripts.live_check calendar --confirm
+
+live-check-hubspot:  ## A real, labelled, self-cleaning round trip against HubSpot (needs DRY_RUN=false)
+	uv run python -m scripts.live_check hubspot --confirm
 
 calls:  ## List stored calls newest first (match each test call to its scenario)
 	uv run python -m scripts.list_calls

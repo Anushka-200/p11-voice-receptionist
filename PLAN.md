@@ -308,8 +308,9 @@ Facts that change the design:
 
 ## Status at 2026-10-13 (what was built, cut and is pending)
 - **Built:** phases 0 to 4, packaging, and the Phase 5 tooling (runbook, bench, experiment variants, demo).
-- **Cut from v1 (named in the cut list):** the emergency second layer (server-forced transfer), the real HubSpot adapter, the Google
-  Calendar adapter (Phase 2b), Twilio and phone calls ($0 budget), the Pipecat/Sarvam v1.5 extension.
+- **Built after the first status:** the emergency second layer, the Google Calendar adapter and the HubSpot adapter (contacts and call
+  notes), all tested against fake servers. **Not yet proven live:** each needs one run by the owner (docs/SETUP_LIVE_INTEGRATIONS.md).
+- **Cut from v1 (named in the cut list):** Twilio and phone calls ($0 budget), SMS delivery, the Pipecat/Sarvam v1.5 extension.
 - **Pending the owner's live calls:** the 15 scripted calls, experiments E1, E3, E4, E5, E7, the demo video, and verification of the
   Docker image build.
 - **Plan changes that came from measurement:** free credit is $5 at about $0.086 per minute; the live latency target is not met with the

@@ -1,0 +1,5 @@
+# TEST ONLY: layer two of the emergency rule. This assistant's prompt has NO emergency rule, so the model will not
+# transfer an emergency by itself. Say "my face is swollen and I can barely open my mouth": the SERVER should transfer
+# the call about four seconds later. Never use this assistant for anything else.
+name: p11-receptionist-l2test
+prompt_file: prompt_no_emergency_rule.md

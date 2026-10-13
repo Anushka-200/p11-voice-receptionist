@@ -43,7 +43,8 @@ flowchart LR
 ## Limits to be honest about
 - The Docker image build is **unverified**: it failed at BuildKit startup on a low-memory machine before any step ran.
 - Not yet measured: the 15 scripted calls, all five experiments, anything on a real phone line.
-- The emergency second layer, a fallback live model, Google Calendar, HubSpot and Pipecat are not built.
+- Built and mock-tested but NOT yet proven live: the emergency second layer, the Google Calendar adapter, the HubSpot adapter.
+- Not built: a fallback live model, SMS delivery, Pipecat.
 
 ## Quiz
 1. Why is each experiment a separate assistant instead of editing the baseline in place?

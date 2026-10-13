@@ -1,0 +1,34 @@
+# Dental emergencies the SERVER watches for (layer two, ADR 003). The model is layer one; this catches a miss.
+# A match decides alone. When in doubt we transfer: a false alarm costs a staff minute, a miss can cost much more.
+# Patterns run on what the caller SAID (speech-to-text), so they allow for sloppy phrasing.
+rules:
+  - id: facial_swelling
+    patterns:
+      - '\b(face|jaw|cheek|mouth|gum|neck|lip)\b.{0,30}\b(swollen|swelling|swelled|puffed up)\b'
+      - '\b(swollen|swelling|swelled)\b.{0,30}\b(face|jaw|cheek|mouth|gum|neck|lip)\b'
+      - '\bfacial swelling\b'
+  - id: breathing_or_swallowing
+    patterns:
+      - 'trouble (breathing|swallowing)'
+      - 'difficulty (breathing|swallowing)'
+      - 'can.?t (breathe|swallow)|hard to (breathe|swallow)'
+  - id: knocked_out_tooth
+    patterns:
+      - 'knocked (out|loose)'
+      - 'tooth (came|fell|popped|got knocked) out'
+      - 'lost a tooth|tooth is out'
+  - id: trauma
+    patterns:
+      - '(hit|punched|kicked|fell|fall|accident|injur(y|ed)|crash).{0,40}\b(jaw|mouth|teeth|tooth|face)\b'
+      - '\b(broken|fractured) jaw\b|\bjaw (injury|is broken)\b'
+  - id: bleeding
+    patterns:
+      - '(bleed(ing)?|blood).{0,40}(won.?t|will not|not|doesn.?t|can.?t) (stop|stopping)'
+      - '(won.?t|not) stop(ping)? bleeding'
+      - 'bleeding (a lot|heavily|badly)|blood (everywhere|pouring)'
+  - id: fever_with_tooth_pain
+    patterns:
+      - '\bfever\b.{0,40}\btooth\b'
+      - '\btooth\b.{0,40}\bfever\b'
+negations: '\b(no|not|without|never|isn.?t|aren.?t|don.?t have|doesn.?t)\b'  # "no swelling in my face" is not an emergency
+negation_window_chars: 25

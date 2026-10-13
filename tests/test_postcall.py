@@ -305,3 +305,39 @@ def test_the_runbook_covers_all_15_scenarios_and_only_core_rows_count_toward_tas
         "n,kind,scenario_id,vapi_call_id,success,notes\n1,core,a,,yes,\n2,core,b,,no,\n3,core,c,,,\n4,extra,x,,yes,\n"
     )
     assert task_success(sheet) == "1/2"  # unscored rows and the extra call are ignored
+
+
+def test_a_crm_that_refuses_the_note_fails_it_at_once_instead_of_retrying_forever(conn):
+    from app.adapters.http import AdapterRejected
+
+    class Refusing:
+        def upsert_contact(self, patient):
+            return "c1"
+
+        def add_call_note(self, contact, note):
+            raise AdapterRejected("hubspot: HTTP 403")  # for example a token without the notes scope
+
+    cid = stored(conn, "report_booking")
+    pid = conn.execute(
+        "INSERT INTO patients (phone, name) VALUES ('+19995550131', 'X') RETURNING id"
+    ).fetchone()[0]
+    pk = conn.execute("SELECT id FROM calls WHERE vapi_call_id = %s", (cid,)).fetchone()[0]
+    conn.execute("INSERT INTO crm_outbox (call_id, patient_id, note) VALUES (%s, %s, 'n')", (pk, pid))
+    assert process_crm_outbox(conn, Refusing()) == {"done": 0, "retry": 0, "failed": 1}
+    assert conn.execute("SELECT status, last_error FROM crm_outbox WHERE call_id = %s", (pk,)).fetchone() == (
+        "failed",
+        "hubspot: HTTP 403",
+    )
+
+
+def test_a_dry_run_contact_id_is_never_stored_as_the_real_one(conn):
+    from app.adapters.hubspot import HubSpotCrm
+
+    cid = stored(conn, "report_booking")
+    pid = conn.execute(
+        "INSERT INTO patients (phone, name) VALUES ('+19995550132', 'X') RETURNING id"
+    ).fetchone()[0]
+    pk = conn.execute("SELECT id FROM calls WHERE vapi_call_id = %s", (cid,)).fetchone()[0]
+    conn.execute("INSERT INTO crm_outbox (call_id, patient_id, note) VALUES (%s, %s, 'n')", (pk, pid))
+    assert process_crm_outbox(conn, HubSpotCrm("tok", dry_run=True)) == {"done": 1, "retry": 0, "failed": 0}
+    assert conn.execute("SELECT crm_contact_id FROM patients WHERE id = %s", (pid,)).fetchone()[0] is None
