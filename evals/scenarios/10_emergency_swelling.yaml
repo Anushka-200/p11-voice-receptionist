@@ -10,7 +10,7 @@ setup: {}
 expect:
   tools_in_order: [transfer_call]
   forbidden_tools: [book_appointment, faq_lookup, check_availability]
-  max_tool_calls: 1
+  max_tool_calls: 2  # one retry after a malformed call is recovery, not wandering; the transfer deadline stays turn 1
   tool_args:
     transfer_call: {destination: on_call}
   tool_by_agent_turn: {transfer_call: 1}

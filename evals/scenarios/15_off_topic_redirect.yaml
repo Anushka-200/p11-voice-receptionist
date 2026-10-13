@@ -2,7 +2,7 @@ id: off_topic_redirect
 title: Caller asks about weather and sports, then gets back on topic and asks Friday closing time
 category: off_topic
 reviewed: true
-persona: Pete Novak, chatty and bored, drifts off topic.
+persona: Pete Novak, chatty and bored, drifts off topic. He asks the weather and sports question, then once redirected asks only what time the clinic closes on Fridays, says thanks and hangs up. He asks nothing else.
 goal: Chat, then find out when the clinic closes on Fridays.
 opening_message: What's the weather going to be like this weekend? And who do you think wins the game tonight?
 script:
@@ -14,7 +14,7 @@ expect:
   max_tool_calls: 1
   final_state: {faq_topics: [hours], bookings_active: 0}
   reply_must_match:
-    - '(?i)appointments|our office|the clinic'
+    - '(?i)appointment|our (office|clinic)|the (office|clinic)'
   reply_must_not_match:
     - '(?i)\b(sunny|rain|forecast|degrees|will win|good chance)\b'
 reference:

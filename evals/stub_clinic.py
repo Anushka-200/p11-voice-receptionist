@@ -38,6 +38,7 @@ class StubClinic:
         self.cancelled = 0
         self.rescheduled = 0
         self.transferred_to: str | None = None
+        self.ended = False  # set by a transfer or end_call
         self.faq_topics: list[str] = []
         self._last_type: str | None = None  # what check_availability was last asked for
         eb = setup.existing_booking
@@ -61,6 +62,7 @@ class StubClinic:
         return {
             "bookings_active": len([b for b in self.bookings if b["active"]]),
             "booking_type": active[-1]["type"] if active else None,
+            "booked_phone": active[-1].get("phone") if active else None,
             "cancelled": self.cancelled,
             "rescheduled": self.rescheduled,
             "transferred_to": self.transferred_to,
@@ -91,6 +93,7 @@ class StubClinic:
             "type": self._last_type or "checkup",
             "slot_id": slot_id,
             "label": SLOTS[slot_id],
+            "phone": phone,
             "active": True,
         }
         self.bookings.append(booking)
@@ -141,7 +144,9 @@ class StubClinic:
         if destination not in DESTINATIONS:
             return _err("bad_destination", "destination must be on_call or front_desk")
         self.transferred_to = destination
+        self.ended = True
         return {"ok": True}
 
     def _tool_end_call(self) -> dict[str, Any]:
+        self.ended = True
         return {"ok": True}

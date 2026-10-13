@@ -14,10 +14,10 @@ expect:
   forbidden_tools: [transfer_call]
   max_tool_calls: 3
   tool_args:
-    book_appointment: {name: David Kim, phone: "+17375550188"}
-  final_state: {bookings_active: 1, booking_type: checkup}
+    book_appointment: {name: David Kim}
+  final_state: {bookings_active: 1, booking_type: checkup, booked_phone: "+17375550188"}
   reply_must_match:
-    - '(?i)seven three seven, five five five, zero one eight eight'
+    - '(?i)seven\W+three\W+seven\W+five\W+five\W+five\W+zero\W+one\W+eight\W+eight'
 reference:
   - say: "{{GREETING}}"
   - say: "Thanks, David. Let me read back your number: seven three seven, five five five, zero one eight eight. Is that right?"

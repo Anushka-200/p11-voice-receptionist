@@ -2,7 +2,7 @@ id: changes_mind_day
 title: Caller picks Thursday, hears the offer, then asks for Friday morning instead
 category: difficult
 reviewed: true
-persona: Tom Reyes, friendly but indecisive. Phone 412-555-0119.
+persona: Tom Reyes, friendly but indecisive. Phone 412-555-0119. He first asks for Thursday afternoon. After hearing the offered Thursday times he changes his mind and asks for Friday morning instead, then accepts the first Friday time.
 goal: End up with a filling on Friday morning, not Thursday.
 opening_message: I need to get a filling done.
 script:

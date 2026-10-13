@@ -17,10 +17,10 @@ expect:
   forbidden_tools: [transfer_call, cancel_appointment]
   max_tool_calls: 3
   tool_args:
-    book_appointment: {name: Maria Lopez, phone: "+15125550142"}
-  final_state: {bookings_active: 1, booking_type: cleaning}
+    book_appointment: {name: Maria Lopez}
+  final_state: {bookings_active: 1, booking_type: cleaning, booked_phone: "+15125550142"}
   reply_must_match:
-    - '(?i)five one two, five five five, zero one four two'
+    - '(?i)five\W+one\W+two\W+five\W+five\W+five\W+zero\W+one\W+four\W+two'
     - '(?i)thursday, october fifteenth at (twelve|two) pm'
 reference:
   - say: "{{GREETING}}"

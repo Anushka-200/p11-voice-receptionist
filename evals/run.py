@@ -15,6 +15,8 @@ Usage:
 import argparse
 import json
 import sys
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -46,38 +48,100 @@ class ScenarioResult:
         return sorted({n for g in self.grades for n in g.failed_names})
 
 
-def evaluate(
-    scenarios: list[Scenario], agent_name: str = "reference", runs: int = 3, complete_fn: Any = None
-) -> list[ScenarioResult]:
-    """`complete_fn` lets tests drive the live agent with a fake model (no network, no cost)."""
-    results = []
-    for scenario in scenarios:
-        grades: list[Grade] = []
-        cost = 0.0
-        for _ in range(runs):
-            if agent_name == "live":
-                from evals.live_agent import LiveAgent
-                from evals.real_clinic import RealClinic
+def _show(scenario: Scenario, record: Any, g: Grade) -> None:
+    print(f"\n--- {scenario.id}: {'PASS' if g.passed else 'FAIL ' + str(g.failed_names)}", file=sys.stderr)
+    for c in g.checks:
+        if not c.passed:
+            print(f"    check {c.name}: {c.detail}", file=sys.stderr)
+    for i, reply in enumerate(record.replies):
+        calls = [
+            f"{t.name}({json.dumps(t.args)[:70]}) -> ok={t.ok}"
+            for t in record.tool_calls
+            if t.agent_turn == i
+        ]
+        line = record.caller_lines[i - 1] if i else "(call starts)"
+        print(f"  caller: {line}\n  agent : {reply!r}", file=sys.stderr)
+        for tool_line in calls:
+            print(f"      tool: {tool_line}", file=sys.stderr)
+    print(file=sys.stderr, flush=True)
 
-                agent, caller, clinic = (
-                    LiveAgent(complete_fn),
-                    SimulatedCaller(scenario, complete_fn),
-                    RealClinic(scenario),
-                )
-                try:
-                    record = run_scenario(scenario, agent, caller, clinic)
-                finally:
-                    clinic.close()
-                cost += agent.cost_usd + caller.cost_usd
-            else:
-                steps = scenario.reference
-                if agent_name.startswith("mutant:"):
-                    steps = MUTANTS[agent_name.split(":", 1)[1]](steps)
-                elif agent_name != "reference":
-                    raise SystemExit(f"unknown agent {agent_name!r}")
-                record = run_scenario(scenario, ReferenceAgent(steps), ScriptedCaller(scenario))
-            grades.append(grade(scenario, record))
-        results.append(ScenarioResult(scenario, grades, cost))
+
+def _one_run(
+    scenario: Scenario, agent_name: str, complete_fn: Any, verbose: bool = False
+) -> tuple[Grade, float]:
+    """One scenario run -> (grade, cost). Self-contained, so runs can go in parallel (own DB connection)."""
+    if agent_name == "live":
+        from app.llm import LLMError
+        from evals.grader import Check
+        from evals.live_agent import LiveAgent
+        from evals.real_clinic import RealClinic
+
+        agent, caller, clinic = (
+            LiveAgent(complete_fn),
+            SimulatedCaller(scenario, complete_fn),
+            RealClinic(scenario),
+        )
+        try:
+            record = run_scenario(scenario, agent, caller, clinic)
+        except LLMError as exc:  # a failed model call is a failed run with a clear reason, not a crashed eval
+            return Grade(scenario.id, [Check("llm_error", False, str(exc))]), agent.cost_usd + caller.cost_usd
+        finally:
+            clinic.close()
+        g = grade(scenario, record)
+        if verbose and not g.passed:
+            _show(scenario, record, g)
+        return g, agent.cost_usd + caller.cost_usd
+    steps = scenario.reference
+    if agent_name.startswith("mutant:"):
+        steps = MUTANTS[agent_name.split(":", 1)[1]](steps)
+    elif agent_name != "reference":
+        raise SystemExit(f"unknown agent {agent_name!r}")
+    return grade(scenario, run_scenario(scenario, ReferenceAgent(steps), ScriptedCaller(scenario))), 0.0
+
+
+def evaluate(
+    scenarios: list[Scenario],
+    agent_name: str = "reference",
+    runs: int = 3,
+    complete_fn: Any = None,
+    workers: int = 1,
+    progress: bool = False,
+    verbose: bool = False,
+) -> list[ScenarioResult]:
+    """`complete_fn` lets tests drive the live agent with a fake model (no network, no cost).
+
+    `workers` > 1 runs (scenario, run) pairs in parallel threads: live runs spend their time waiting on the
+    network, so four at once is about four times faster. Progress goes to stderr so a long run is never silent.
+    """
+    jobs = [(i, scenario) for i, scenario in enumerate(scenarios) for _ in range(runs)]
+    done: list[tuple[int, Grade, float]] = []
+    started = time.monotonic()
+
+    def work(job: tuple[int, Scenario]) -> tuple[int, Grade, float]:
+        i, scenario = job
+        g, cost = _one_run(scenario, agent_name, complete_fn, verbose)
+        if progress:
+            print(
+                f"[{len(done) + 1}/{len(jobs)}] {'PASS' if g.passed else 'FAIL'} {scenario.id} "
+                f"({time.monotonic() - started:.0f}s elapsed)"
+                + ("" if g.passed else f" failed: {g.failed_names}"),
+                file=sys.stderr,
+                flush=True,
+            )
+        return i, g, cost
+
+    if workers > 1:
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            for fut in as_completed([pool.submit(work, j) for j in jobs]):
+                done.append(fut.result())
+    else:
+        for j in jobs:
+            done.append(work(j))
+
+    results = []
+    for i, scenario in enumerate(scenarios):
+        mine = [(g, c) for k, g, c in done if k == i]
+        results.append(ScenarioResult(scenario, [g for g, _ in mine], sum(c for _, c in mine)))
     return results
 
 
@@ -108,6 +172,12 @@ def report(results: list[ScenarioResult], agent_name: str, runs: int) -> str:
         lines.append(
             "note: the reference agent replays the model answers, so this proves the harness and grader, not a model"
         )
+    if agent_name == "live":
+        total = sum(r.cost_usd for r in results)
+        lines.append(
+            f"cost: ${total:.4f} total, ${total / max(1, n * runs):.4f} per run "
+            "(text model; the live voice call costs more)"
+        )
     return "\n".join(lines)
 
 
@@ -116,6 +186,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--agent", default="reference", help="reference | mutant:<name>")
     parser.add_argument("--runs", type=int, default=3)
     parser.add_argument("--only", help="run just this scenario id")
+    parser.add_argument(
+        "--workers", type=int, default=1, help="run this many scenario runs in parallel (live: try 4)"
+    )
+    parser.add_argument(
+        "--verbose", action="store_true", help="print the transcript and tool calls of failing runs"
+    )
     parser.add_argument("--yes", action="store_true", help="confirm a live run above the cost guard")
     args = parser.parse_args(argv)
 
@@ -138,7 +214,14 @@ def main(argv: list[str] | None = None) -> int:
             raise SystemExit(
                 f"estimate is above ${settings.cost_confirm_above_usd:.2f}: re-run with --yes to confirm"
             )
-    results = evaluate(scenarios, args.agent, args.runs)
+    results = evaluate(
+        scenarios,
+        args.agent,
+        args.runs,
+        workers=args.workers,
+        progress=args.agent == "live",
+        verbose=args.verbose,
+    )
     print(report(results, args.agent, args.runs))
 
     RESULTS_DIR.mkdir(exist_ok=True)

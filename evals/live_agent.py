@@ -19,7 +19,7 @@ _TRANSFER = {
     "type": "function",
     "function": {
         "name": "transfer_call",
-        "description": "Transfer the call to a person. destination on_call = the on-call dentist for dental "
+        "description": "Transfer the call to a person. ALWAYS pass destination. on_call = the on-call dentist for dental "
         "emergencies; front_desk = the caller asks for a person or you cannot help.",
         "parameters": {
             "type": "object",
@@ -56,6 +56,7 @@ class LiveAgent:
         self.complete_fn = complete_fn
         cfg, prompt = load_config()
         self.max_tokens = cfg.model.max_tokens
+        self.transfer_messages = {label: d.message for label, d in cfg.transfer.items()}
         self.tools = tool_schemas()
         self.messages: list[dict[str, Any]] = [{"role": "system", "content": prompt}]
         self.cost_usd = 0.0
@@ -68,6 +69,7 @@ class LiveAgent:
         # Keep our own full message list (tool calls and results included): `history` has only spoken text,
         # and the model must remember the slot ids it was just given.
         self.messages.append({"role": "user", "content": history[-1]["text"]})
+        spoken: list[str] = []
         for _ in range(MAX_STEPS):
             res = self.complete_fn(
                 self.messages, name="live-agent", max_tokens=self.max_tokens, tools=self.tools
@@ -75,12 +77,23 @@ class LiveAgent:
             self.llm_calls += 1
             self.cost_usd += res.cost_usd or 0.0
             self.messages.append(res.message or {"role": "assistant", "content": res.text})
+            # Text the model writes ALONGSIDE a tool call is spoken aloud too (Vapi plays it as it calls the tool):
+            # the prompt asks for exactly that in an emergency ("say one short sentence and transfer").
+            if res.text and res.text.strip():
+                spoken.append(res.text.strip())
             if not res.tool_calls:
-                return res.text.strip()
+                return " ".join(spoken)
             for call in res.tool_calls:
                 args = json.loads(call["arguments"] or "{}")
                 result = call_tool(call["name"], args)
                 self.messages.append(
                     {"role": "tool", "tool_call_id": call["id"], "content": json.dumps(result)}
                 )
+            for call in res.tool_calls:
+                if call["name"] == "transfer_call":  # Vapi's transfer tool announces the handover itself
+                    dest = json.loads(call["arguments"] or "{}").get("destination")
+                    if dest in self.transfer_messages:
+                        spoken.append(self.transfer_messages[dest])
+            if any(c["name"] in ("end_call", "transfer_call") for c in res.tool_calls):
+                return " ".join(spoken)  # on Vapi the call ends or is handed over here: no more model turns
         return "I'm sorry, let me connect you with the front desk."  # too many steps: fail safe, never silent

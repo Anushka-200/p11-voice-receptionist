@@ -49,6 +49,7 @@ class LLMResult:
     attempts: int
     cached_input_tokens: int = 0  # part of the input served from the prompt cache
     used_fallback: bool = False
+    truncated: bool = False  # the model hit max_tokens (finish_reason == "length")
     # Tool use (agent): what the model asked to run, and the assistant message to append to history.
     tool_calls: list[dict[str, Any]] | None = None  # [{"id", "name", "arguments": json string}]
     message: dict[str, Any] | None = None
@@ -160,6 +161,8 @@ def _call_with_retries(
             extra: dict[str, Any] = {} if temperature is None else {"temperature": temperature}
             if tools:
                 extra["tools"] = tools
+            if model.startswith("claude") and not s.llm_thinking:
+                extra["thinking"] = {"type": "disabled"}
             if s.llm_prompt_caching:
                 # One cache breakpoint after the system message; Anthropic's prefix order (tools, system)
                 # means the tool schemas are cached with it. Only pays off above the model's minimum size (E2).
@@ -198,6 +201,7 @@ def _call_with_retries(
         logger.warning("no price known for model", extra={"model": model})
 
     msg = response.choices[0].message
+    truncated = response.choices[0].finish_reason == "length"
     calls = [
         {"id": c.id, "name": c.function.name, "arguments": c.function.arguments or "{}"}
         for c in (getattr(msg, "tool_calls", None) or [])
@@ -213,7 +217,18 @@ def _call_with_retries(
         cached_input_tokens=_cached_tokens(response.usage),
         tool_calls=calls or None,
         message=_assistant_message(msg.content, calls),
+        truncated=truncated,
     )
+    if truncated:
+        logger.warning(
+            "model output was cut off at max_tokens",
+            extra={"model": model, "max_tokens": max_tokens, "output_tokens": result.output_tokens},
+        )
+        if not result.text and not calls:  # nothing usable came back: never hand an empty string to a caller
+            raise LLMError(
+                f"{model} used all {max_tokens} output tokens and produced no text: "
+                "raise max_tokens or turn thinking off (LLM_THINKING=false)"
+            )
     logger.info(
         "llm call",
         extra={

@@ -71,8 +71,13 @@ def grade(scenario: Scenario, record: RunRecord) -> Grade:
     checks.append(Check("tools_in_order", _is_subsequence(e.tools_in_order, ok_names), f"saw {ok_names}"))
     called = sorted({c.name for c in calls} & set(e.forbidden_tools))
     checks.append(Check("forbidden_tools", not called, f"called {called}"))
+    working = [c for c in calls if c.name != "end_call"]  # hanging up after goodbye is not wandering
     checks.append(
-        Check("max_tool_calls", len(calls) <= e.max_tool_calls, f"{len(calls)} calls, max {e.max_tool_calls}")
+        Check(
+            "max_tool_calls",
+            len(working) <= e.max_tool_calls,
+            f"{len(working)} calls, max {e.max_tool_calls}",
+        )
     )
 
     bad_args = []

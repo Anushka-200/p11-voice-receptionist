@@ -128,3 +128,39 @@ def test_the_faq_tool_now_finds_hours_from_the_word_closing():
 def test_the_reference_agent_still_passes_everything_on_the_stub():
     assert all(r.passed_all for r in evaluate(list(BY_ID.values()), "reference", runs=1))
     assert StubClinic  # the stub remains the CI backend
+
+
+def test_text_spoken_alongside_a_tool_call_counts_as_spoken():
+    # The emergency prompt asks for "one short sentence AND the transfer" in the same turn.
+    fake = scripted_model(
+        reply(
+            "That sounds urgent. Connecting you now.",
+            calls=[{"id": "t", "name": "transfer_call", "arguments": json.dumps({"destination": "on_call"})}],
+        ),
+        reply(""),
+    )
+    agent = LiveAgent(fake)
+    agent.turn([], lambda n, a: {"ok": True})
+    out = agent.turn([{"role": "caller", "text": "my face is swollen"}], lambda n, a: {"ok": True})
+    # the model's own sentence, then the transfer tool's announcement from the config (as Vapi plays it)
+    assert out == "That sounds urgent. Connecting you now. Connecting you to our on-call dentist now."
+
+
+def test_the_call_is_over_after_a_transfer_so_the_caller_cannot_keep_talking():
+    scn = BY_ID["emergency_swelling"]
+    scn = scn.model_copy(update={"script": ["Please help me.", "Are you still there?"]})  # extra caller lines
+    from evals.harness import ReferenceAgent
+
+    record = run_scenario(scn, ReferenceAgent(scn.reference), ScriptedCaller(scn), StubClinic(scn.setup))
+    assert len(record.caller_lines) == 1 and record.final_state["transferred_to"] == "on_call"
+
+
+def test_hanging_up_is_not_counted_as_wandering_and_the_stored_phone_is_checked():
+    from evals.grader import grade
+
+    scn = BY_ID["normal_booking_cleaning"]
+    from evals.harness import ReferenceAgent, ToolCallRecord
+
+    record = run_scenario(scn, ReferenceAgent(scn.reference), ScriptedCaller(scn), StubClinic(scn.setup))
+    record.tool_calls += [ToolCallRecord("end_call", {}, {"ok": True}, 7)] * 5
+    assert grade(scn, record).passed and record.final_state["booked_phone"] == "+15125550142"

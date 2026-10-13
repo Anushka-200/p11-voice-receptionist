@@ -33,6 +33,7 @@ class RealClinic:
         )
         self.call_id = f"eval-{scenario.id}"
         self.transferred_to: str | None = None
+        self.ended = False
         self.faq_topics: list[str] = []
         self.rescheduled = 0
         self._seed(scenario)
@@ -65,8 +66,10 @@ class RealClinic:
                     "message": "destination must be on_call or front_desk",
                 }
             self.transferred_to = args["destination"]
+            self.ended = True
             return {"ok": True}
         if name == "end_call":
+            self.ended = True
             return {"ok": True}
         result = execute(self.ctx, self.call_id, name, args, commit=False)
         if result.get("ok") and name == "faq_lookup" and result.get("topic"):
@@ -89,9 +92,15 @@ class RealClinic:
             f"SELECT type_code FROM bookings WHERE status = 'booked' AND {ours} ORDER BY id DESC LIMIT 1",
             (self.call_id,),
         ).fetchone()
+        phone = self.conn.execute(
+            "SELECT p.phone FROM bookings b JOIN patients p ON p.id = b.patient_id"
+            f" WHERE b.status = 'booked' AND {ours.replace('source_call_id', 'b.source_call_id')} ORDER BY b.id DESC LIMIT 1",
+            (self.call_id,),
+        ).fetchone()
         return {
             "bookings_active": count("booked"),
             "booking_type": last[0] if last else None,
+            "booked_phone": phone[0] if phone else None,
             "cancelled": count("cancelled"),
             "rescheduled": self.rescheduled,
             "transferred_to": self.transferred_to,

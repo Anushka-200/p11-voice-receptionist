@@ -28,6 +28,9 @@ class Settings(BaseSettings):
     llm_timeout_s: float = 30.0
     llm_prompt_caching: bool = True
     llm_max_retries: int = 3
+    # Claude 5 models "think" before answering by default. For short spoken turns that only burns the token cap
+    # (found by the live eval: 200 tokens of hidden thinking, empty answer) and adds latency, so it is off.
+    llm_thinking: bool = False
     cost_confirm_above_usd: float = 0.50  # ask the owner before any run that may cost more
 
     # --- Vapi (Phase 0 spike fills these in). The webhook secret is checked on EVERY incoming request. ---

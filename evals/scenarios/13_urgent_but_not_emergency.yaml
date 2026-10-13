@@ -17,8 +17,8 @@ expect:
   forbidden_tools: [transfer_call]
   max_tool_calls: 3
   tool_args:
-    book_appointment: {phone: "+14155550123"}
-  final_state: {bookings_active: 1, booking_type: cleaning, transferred_to: null}
+    book_appointment: {}
+  final_state: {bookings_active: 1, booking_type: cleaning, transferred_to: null, booked_phone: "+14155550123"}
 reference:
   - say: "{{GREETING}}"
   - say: Happy to help with a cleaning. May I have your full name?

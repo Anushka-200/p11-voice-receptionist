@@ -32,7 +32,7 @@ eval:  ## 15 scenarios x 3 runs with the reference agent (free): proves the harn
 	uv run python -m evals.run --runs 3
 
 eval-live:  ## Same scenarios with the real prompt + tools + a simulated caller (about $0.30; needs ANTHROPIC_API_KEY)
-	uv run python -m evals.run --agent live --runs 3
+	uv run python -m evals.run --agent live --runs 3 --workers 4
 
 sync-assistant:  ## Dry run: show what would be pushed to Vapi (nothing is sent)
 	uv run python -m scripts.sync_assistant

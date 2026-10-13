@@ -148,6 +148,10 @@ def run_scenario(scenario: Scenario, agent: Agent, caller: Caller, clinic: Any =
         history.append({"role": "caller", "text": line})
         record.caller_lines.append(line)
         agent_speaks()
+        if getattr(
+            clinic, "ended", False
+        ):  # transferred or hung up: the call is over, the caller cannot talk on
+            break
 
     record.final_state = clinic.final_state()
     return record
