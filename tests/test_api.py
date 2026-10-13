@@ -1,4 +1,5 @@
 import json
+import uuid
 from pathlib import Path
 
 import pytest
@@ -165,7 +166,7 @@ def test_an_end_of_call_report_is_saved_first_and_analysed_once_even_if_vapi_sen
     analysed: list[str] = []
     c = TestClient(build(analyze=lambda conn, vid: analysed.append(vid)))
     report = json.loads((Path(__file__).parent / "fixtures/vapi/report_booking.json").read_text())
-    vid = report["message"]["call"]["id"]
+    vid = report["message"]["call"]["id"] = "t-api-report-" + uuid.uuid4().hex[:8]  # never a real call id
     try:
         first = c.post("/vapi/events", json=report, headers={"X-Vapi-Secret": SECRET}).json()
         again = c.post("/vapi/events", json=report, headers={"X-Vapi-Secret": SECRET}).json()

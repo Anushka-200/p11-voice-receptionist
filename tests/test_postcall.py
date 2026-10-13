@@ -1,6 +1,7 @@
 """The post-call pipeline, tested on the three REAL recorded calls (FAQ, emergency transfer, booking)."""
 
 import json
+import uuid
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -22,7 +23,18 @@ FIX = Path(__file__).parent / "fixtures/vapi"
 
 
 def load(name):
-    return json.loads((FIX / f"{name}.json").read_text())
+    """A recorded real report with a FRESH call id, so tests never collide with real calls in the dev database."""
+    report = json.loads((FIX / f"{name}.json").read_text())
+    report["message"]["call"]["id"] = f"t-{name}-{uuid.uuid4().hex[:8]}"
+    return report
+
+
+def outbox_status(conn, vapi_call_id):
+    row = conn.execute(
+        "SELECT o.status FROM crm_outbox o JOIN calls c ON c.id = o.call_id WHERE c.vapi_call_id = %s",
+        (vapi_call_id,),
+    ).fetchone()
+    return row[0] if row else None
 
 
 def call_id(report):
@@ -217,7 +229,7 @@ def test_a_booking_call_queues_a_note_for_its_patient_and_survives_a_crm_outage(
         {**json.loads(GOOD), "outcome": "booked", "phone_read_back": True, "date_read_back": True}
     )
     process_call(conn, cid, fake_llm(booked))
-    assert conn.execute("SELECT status FROM crm_outbox").fetchone()[0] == "pending"
+    assert outbox_status(conn, cid) == "pending"
 
     crm = FakeCrm()
     crm.fail = True
@@ -242,15 +254,13 @@ def test_a_note_is_given_up_on_after_five_failed_attempts(conn):
     crm = FakeCrm()
     crm.fail = True
     results = [process_crm_outbox(conn, crm) for _ in range(5)]
-    assert (
-        results[-1]["failed"] == 1 and conn.execute("SELECT status FROM crm_outbox").fetchone()[0] == "failed"
-    )
+    assert results[-1]["failed"] == 1 and outbox_status(conn, cid) == "failed"
 
 
 def test_an_anonymous_call_has_no_crm_note(conn):
     cid = stored(conn, "report_faq")
     process_call(conn, cid, fake_llm(GOOD))
-    assert conn.execute("SELECT count(*) FROM crm_outbox").fetchone()[0] == 0
+    assert outbox_status(conn, cid) is None
 
 
 # ------------------------------------------------------------------ analytics and bench
